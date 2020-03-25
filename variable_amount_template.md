@@ -130,7 +130,6 @@ Note: replace `<api-key>` with the api key you generated in [the third step](#3-
 - ## Body Params
 
 	{
-
 		"amount_piasters": 100,
 
 		"billing_data": {
@@ -148,7 +147,6 @@ Note: replace `<api-key>` with the api key you generated in [the third step](#3-
 		"community_id": 1,
 
 		"pay_using": "card"
-
 	}
 
 
