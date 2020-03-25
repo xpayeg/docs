@@ -18,7 +18,7 @@ POST
 
 
 - ## Body Params
-    	{  "amount_piasters": 100,  "community_id": 1}
+	{  "amount_piasters": 100,  "community_id": 1}
 
 Notes:
 
@@ -110,13 +110,13 @@ This endpoint will take required payment info and pass them to our Core Payment 
 
 - ## URL
 
-      		https://develop.xpay.app/api/payments/pay/
+	https://develop.xpay.app/api/payments/pay/
 
 ​
 
 - ## Method
 
-      		POST
+	POST
 
 ​
 
@@ -124,32 +124,35 @@ This endpoint will take required payment info and pass them to our Core Payment 
 
 Note: replace `<api-key>` with the api key you generated in [the third step](#3-api-key)
 
-      		x-api-key : <api-key>
+	x-api-key : <api-key>
 ​
 
 - ## Body Params
 
-    	{
+	{
 
-    			"amount_piasters": 100,
+		"amount_piasters": 100,
 
-    			"billing_data": {
+		"billing_data": {
 
-    			"name": "Test Name ",
+		"name": "Test Name ",
 
-    			"email": "test_name@email.host",
+		"email": "test_name@email.host",
 
-    			"phone_number": "+20100111111"
+		"phone_number": "+20100111111"
 
-    			},
+		},
 
-				"variable_amount_id": 2,
+		"variable_amount_id": 2,
 
-				"community_id": 1,
+		"community_id": 1,
 
-				"pay_using": "card"
+		"pay_using": "card"
 
-    	}
+	}
+
+
+
 Notes:
 
 
@@ -171,34 +174,32 @@ Notes:
 
 If the POST request was successful, it will return an iframe url along with the transactionn id like in this example that the user can proceed with the payment process at.
 
-    	{
+	{
+		"status": {
 
-    	"status": {
+			"code": 200,
 
-    		"code": 200,
+			"message": "success",
 
-    		"message": "success",
+			"errors": []
 
-    		"errors": []
+			},
 
-    		},
+		"data": {
 
-    	"data": {
+			"transaction_id": "null",
 
-    		"transaction_id": "null",
-
-    		"iframe_url": "https://dev-payment.xpay.app/weaccept/sandbox/af43e79a-2c1b-42eb-a247-0e36b5c2c671/",
+			"iframe_url": "https://dev-payment.xpay.app/core/payment_iframe/2733/",
 
 			"transaction_uuid": "79685f71-f089-42d5-9159-7feb7966c590"
 
-    		},
+			},
 
-    	"count": null,
+		"count": null,
 
-    	"next": null,
+		"next": null,
 
-    	"previous": null
-
-    	}
+		"previous": null
+	}
 
 
