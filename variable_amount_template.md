@@ -70,7 +70,7 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 		},
 
 		"data": {
-			"total_amount_piasters": 101.14
+			"total_amount_piasters": 101
 		},
 		"count": null,
 		"next": null,
@@ -108,21 +108,23 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
   
 
-6. uncheck **Require member id**.
+6. if you want your payments to  require a `<member_id>` field, check  ** Require member id**, this id will not be validated, it will just be an internal info in your business, if you don't need it.. uncheck it.
 
-  
+7. if you want the payment iframe to redirect to a specific page after payment is done,  fill in the url to redirect to in ** Redirect url** field. In the redirected url you will have the status of the transaction, the transaction id, and the member id if provided.
 
-7. click **Save**.
+9. If you want the payment server to send a POST request to another server with transaction status, and details, after payment is done,  fill in ** Callback url** field. The POST request body will have the status of the transaction, the transaction id, and the member id if provided.
+
+10. click **Save**.
 
 ![Add a variable amount template form](./add_variable_amount_template.png)
 
   
 
-8. you will be redirected back to **variable amount templates**, the new created template will appear.
+9. you will be redirected back to **variable amount templates**, the new created template will appear.
 
   
 
-9. save the value in the **ID** column for later.
+10. save the value in the **ID** column for later.
 
   
 
@@ -289,3 +291,9 @@ If the POST request was successful, it will return an iframe url along with the 
 		"next": null,
 		"previous": null
 	}
+
+# 5. Invoices
+
+XPay dashboard also provides you with invoices of each payment made to your community, navigate to Variable Amount Template Invoices, in invoices section, you will see there the status of every payment, it's transaction id, and other payment and customer details.
+
+  
