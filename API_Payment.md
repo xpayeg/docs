@@ -79,19 +79,18 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 		  
   
 
-# 2. Variable amount template
-
+# 2. API Payment
   
 
 1. Navigate to XPay community admin dashboard and login with the url and credentials that your community recieved later.
 
   
 
-2. Navigate to **variable amount templates** under **payments** section in the side menu.
+2. Navigate to **API Payment** under **payments** section in the side menu.
 
   
 
-![Variable amount templates section](./variable_amount_templates.png)
+![API Payment section](./assets/api_payment.png)
 
   
   
@@ -108,7 +107,7 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
   
 
-6. if you want your payments to  require a `<member_id>` field, check  ** Require member id**, this id will not be validated, it will just be an internal info in your business, if you don't need it.. uncheck it.
+6. if you want your payments to require a `<member_id>` field, check  ** Require member id**, this id will not be validated, it will just be an internal info in your business, if you don't need it.. uncheck it.
 
 7. if you want the payment iframe to redirect to a specific page after payment is done,  fill in the url to redirect to in ** Redirect url** field. In the redirected url you will have the status of the transaction, the transaction id, and the member id if provided.
 
@@ -116,11 +115,11 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
 10. click **Save**.
 
-![Add a variable amount template form](./add_variable_amount_template.png)
+![Add an API Payment form](./assets/api_payment_form.png)
 
   
 
-9. you will be redirected back to **variable amount templates**, the new created template will appear.
+9. you will be redirected back to **API Payment**, the new created template will appear.
 
   
 
@@ -128,7 +127,7 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
   
 
-![new variable amount template created](./variable_templates.png)
+![new API Payment created](./assets/api_payment_list.png)
 
   
   
@@ -140,7 +139,7 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
   
 
-![API keys section](./api_keys.png)
+![API keys section](./assets/api_keys.png)
 
   
 
@@ -150,7 +149,7 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
 3. Fill in the name.
 
-![Add API key](./add_api_key.png)
+![Add API key](./assets/add_api_key.png)
 
   
   
@@ -163,7 +162,7 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
   
 
-![API key](./new_api_key.png)
+![API key](./assets/new_api_key.png)
 
   
   
@@ -185,7 +184,7 @@ This endpoint will take required payment info and pass them to our Core Payment 
 
   
 
-<!-- After the payment cycle ends, the user will be redirected to the url filled while creating the variable amount template and will return member id and transaction id as query paramaters. -->
+<!-- After the payment cycle ends, the user will be redirected to the url filled while creating the API Payment and will return member id and transaction id as query paramaters. -->
 
   
   
@@ -256,7 +255,7 @@ Notes:
 
   
 
--  `<variable_amount_id>`, is an ID that references to the variable amount template you created in [variable amount template step](#2-variable-amount-template).
+-  `<variable_amount_id>`, is an ID that references to the API Payment you created in [API Payment step](#2-variable-amount-template).
 
   
 
@@ -294,6 +293,6 @@ If the POST request was successful, it will return an iframe url along with the 
 
 # 5. Invoices
 
-XPay dashboard also provides you with invoices of each payment made to your community, navigate to Variable Amount Template Invoices, in invoices section, you will see there the status of every payment, it's transaction id, and other payment and customer details.
+XPay dashboard also provides you with invoices of each payment made to your community, navigate to API Payment Invoices, in invoices section, you will see there the status of every payment, it's transaction id, and other payment and customer details.
 
   
