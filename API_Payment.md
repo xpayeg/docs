@@ -282,9 +282,10 @@ If the POST request was successful, it will return an iframe url along with the 
 			"errors": []
 		},
 		"data": {
-			"transaction_id": "null",
 			"iframe_url": "https://dev-payment.xpay.app/core/payment_iframe/2733/",
-			"transaction_uuid": "79685f71-f089-42d5-9159-7feb7966c590"
+			transaction_id: 3220,
+			transaction_status: "SUCCESSFUL",
+			transaction_uuid: "94fdb93f-c7f0-4b4d-8c8f-1c463c931344"
 		},
 		"count": null,
 		"next": null,
