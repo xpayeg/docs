@@ -230,8 +230,18 @@ Note: replace `<api-key>` with the api key you generated in [the third step](#3-
   
 
 -  ## Body Params
+		{
+			"billing_data": {
+				"name": "Islam Rostom",
+				"email": "islam.rostom93@gmail.com",
+				"phone_number": "+201119045759"
+			},
+			"amount_piasters": 5000,
+			"variable_amount_id": 4,
+			"community_id": 1,
+			"pay_using": "card"
+		}
 
-  
 
 	
   
