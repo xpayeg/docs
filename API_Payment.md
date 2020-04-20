@@ -187,11 +187,6 @@ This endpoint will take required payment info and pass them to our Core Payment 
 <!-- After the payment cycle ends, the user will be redirected to the url filled while creating the API Payment and will return member id and transaction id as query paramaters. -->
 
   
-  
-
-​
-
-  
 
 -  ## URL
 
@@ -227,6 +222,9 @@ This endpoint will take required payment info and pass them to our Core Payment 
 Note: replace `<api-key>` with the api key you generated in [the third step](#3-api-key)
 
 
+there are two payment options available at the moment; card and cash collection  
+
+​to use payment using card option, you supply the request with this payload:
   
 
 -  ## Body Params
@@ -243,14 +241,33 @@ Note: replace `<api-key>` with the api key you generated in [the third step](#3-
 		}
 
 
-	
+​to use payment using cash collection option, you supply the request with this payload:
+- ## Body Params
+		{
+			"billing_data": {
+				"name":"Islam Rostom",
+				"email":"islam.rostom93@gmail.com",
+				"phone_number":"+201119045759",
+				"country":"EG",
+				"state":"Al Meniya",
+				"city":"Mghagha",
+				"street":"street name",
+				"building":"5",
+				"apartment":"5",
+				"floor":"5"
+				},
+				"amount_piasters":5000,
+				"variable_amount_id": 4,
+				"community_id":1,
+				"pay_using":"cash"
+		}
   
   
   
 
 Notes:
 
-  
+ - for the pay using cash option, you will find all state-city combinations in this [JSON file](state-city.json). 
   
 
 -  `<amount_piasters>`, is the amount that will be debited from your community's member in **piasters**, if your community fees is included in bill then use the value returned from [prepare amount step](#1-prepare-amount) , otherwise use the amount you want to charge the member directly in **piasters**.
@@ -283,24 +300,44 @@ Notes:
 
 If the POST request was successful, it will return an iframe url along with the transactionn id like in this example that the user can proceed with the payment process at.
 
+- Response for payment using card option:
 
+		{
+			"status": {
+				"code": 200,
+				"message": "success",
+				"errors": []
+			},
+			"data": {
+				"iframe_url": "https://dev-payment.xpay.app/core/payment_iframe/2733/",
+				transaction_id: 3220,
+				transaction_status: "SUCCESSFUL",
+				transaction_uuid: "94fdb93f-c7f0-4b4d-8c8f-1c463c931344"
+			},
+			"count": null,
+			"next": null,
+			"previous": null
+		}
 
-	{
-		"status": {
-			"code": 200,
-			"message": "success",
-			"errors": []
-		},
-		"data": {
-			"iframe_url": "https://dev-payment.xpay.app/core/payment_iframe/2733/",
-			transaction_id: 3220,
-			transaction_status: "SUCCESSFUL",
-			transaction_uuid: "94fdb93f-c7f0-4b4d-8c8f-1c463c931344"
-		},
-		"count": null,
-		"next": null,
-		"previous": null
-	}
+- Response for payment using cash collection option:
+
+		{
+			"status": {
+				"code":200,
+				"message":"success",
+				"errors":[]
+			},
+			"data": {
+				"iframe_url":null,
+				"transaction_id":3273,
+				"transaction_status":"PENDING",
+				"transaction_uuid":"411889e5-fc8f-4db3-810d-c1beddb5a2a4",
+				"message":"Our representative will go to the address you provided to collect the cash from you"
+			},
+			"count":null,
+			"next":null,
+			"previous":null
+		}
 
 # 5. Invoices
 
