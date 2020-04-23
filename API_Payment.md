@@ -86,7 +86,7 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
   
 
-2. Navigate to **API Payment** under **payments** section in the side menu.
+2. Navigate to **API Payment** under **API Integrations** section in the side menu.
 
   
 
@@ -97,6 +97,8 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
 3. Click on **add variable amount** button in the top right corner.
 
+
+![Add an API Payment form](./assets/api_payment_form.png)
   
 
 4. Fill in the name and description that describe your payment type.
@@ -115,7 +117,6 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
 10. click **Save**.
 
-![Add an API Payment form](./assets/api_payment_form.png)
 
   
 
@@ -135,7 +136,7 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
 # 3. API key
 
-1. Navigate to **API keys** under **payments** communities in the side menu.
+1. Navigate to **Community api keys** under **API Integrations** in the side menu.
 
   
 
