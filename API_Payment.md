@@ -175,12 +175,6 @@ If the POST request was successful, it will return `<totaL_amount_piasters>` whi
 
 # Description
 
-  
-
-​
-
-  
-
 This endpoint will take required payment info and pass them to our Core Payment API and return the resultant response.
 
   
@@ -223,7 +217,7 @@ This endpoint will take required payment info and pass them to our Core Payment 
 Note: replace `<api-key>` with the api key you generated in [the third step](#3-api-key)
 
 
-there are two payment options available at the moment; card and cash collection  
+there are three payment options available at the moment; card, cash collection and kiosk (aman / masary)  
 
 ​to use payment using card option, you supply the request with this payload:
   
@@ -239,6 +233,22 @@ there are two payment options available at the moment; card and cash collection
 			"variable_amount_id": 4,
 			"community_id": 1,
 			"pay_using": "card"
+		}
+
+to use payment using card option, you supply the request with this payload:
+  
+
+-  ## Body Params
+		{
+			"billing_data": {
+				"name": "Islam Rostom",
+				"email": "islam.rostom93@gmail.com",
+				"phone_number": "+201119045759"
+			},
+			"amount_piasters": 5000,
+			"variable_amount_id": 4,
+			"community_id": 1,
+			"pay_using": "kiosk"
 		}
 
 
@@ -297,8 +307,6 @@ Notes:
 
 -  ## Response body
 
-  
-
 If the POST request was successful, it will return an iframe url along with the transactionn id like in this example that the user can proceed with the payment process at.
 
 - Response for payment using card option:
@@ -319,6 +327,30 @@ If the POST request was successful, it will return an iframe url along with the 
 			"next": null,
 			"previous": null
 		}
+
+
+- Response for payment using kiosk option:
+
+		{
+			"status": {
+				"code": 200,
+				"message": "success",
+				"errors": []
+			},
+			"data": {
+				"iframe_url": null,
+				transaction_id: 3220,
+				transaction_status: "PENDING",
+				transaction_uuid: "94fdb93f-c7f0-4b4d-8c8f-1c463c931344"
+				message: "Go to the nearest kiosk that has Masary/Aman payment machines and ask the seller to pay for(Madfouaat Mutanouea Accept مدفوعات متنوعة اكسبت) and give them that number 4424",
+       			 "bill_reference": 4424
+			},
+			"count": null,
+			"next": null,
+			"previous": null
+		}
+
+
 
 - Response for payment using cash collection option:
 
