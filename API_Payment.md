@@ -21,9 +21,13 @@ and calculates the service fees added to the amount.
 
 -  ## URL
 
-  
+	if you are on testing server:
 
-		https://develop.xpay.app/api/payments/prepare-amount/
+		https://staging.xpay.app/api/payments/prepare-amount/
+
+	if you are on production server(Live):
+
+		https://community.xpay.app/api/payments/prepare-amount/
 
   
 
@@ -185,10 +189,13 @@ This endpoint will take required payment info and pass them to our Core Payment 
 
 -  ## URL
 
-  
+	if you are on testing server:
 
-		https://develop.xpay.app/api/payments/pay/variable-amount
+		https://staging.xpay.app/api/payments/pay/variable-amount
 
+	if you are on production server(Live):
+	
+		https://community.xpay.app/api/payments/pay/variable-amount
   
 
 ​
