@@ -337,47 +337,128 @@ If the POST request was successful, it will return an iframe url along with the 
 
 
 - Response for payment using kiosk option:
-
-		{
-			"status": {
-				"code": 200,
-				"message": "success",
-				"errors": []
-			},
-			"data": {
-				"iframe_url": null,
-				transaction_id: 3220,
-				transaction_status: "PENDING",
-				transaction_uuid: "94fdb93f-c7f0-4b4d-8c8f-1c463c931344"
-				message: "Go to the nearest kiosk that has Masary/Aman payment machines and ask the seller to pay for(Madfouaat Mutanouea Accept مدفوعات متنوعة اكسبت) and give them that number 4424",
-       			 "bill_reference": 4424
-			},
-			"count": null,
-			"next": null,
-			"previous": null
-		}
-
+```
+{
+	"status": {
+		"code": 200,
+		"message": "success",
+		"errors": []
+	},
+	"data": {
+		"iframe_url": null,
+		transaction_id: 3220,
+		transaction_status: "PENDING",
+		transaction_uuid: "94fdb93f-c7f0-4b4d-8c8f-1c463c931344"
+		message: "Go to the nearest kiosk that has Masary/Aman payment machines and ask the seller to pay for(Madfouaat Mutanouea Accept مدفوعات متنوعة اكسبت) and give them that number 4424",
+			"bill_reference": 4424
+	},
+	"count": null,
+	"next": null,
+	"previous": null
+}
+```
 
 
 - Response for payment using cash collection option:
+```
+{
+	"status": {
+		"code":200,
+		"message":"success",
+		"errors":[]
+	},
+	"data": {
+		"iframe_url":null,
+		"transaction_id":3273,
+		"transaction_status":"PENDING",
+		"transaction_uuid":"411889e5-fc8f-4db3-810d-c1beddb5a2a4",
+		"message":"Our representative will go to the address you provided to collect the cash from you"
+	},
+	"count":null,
+	"next":null,
+	"previous":null
+}
+```
 
-		{
-			"status": {
-				"code":200,
-				"message":"success",
-				"errors":[]
-			},
-			"data": {
-				"iframe_url":null,
-				"transaction_id":3273,
-				"transaction_status":"PENDING",
-				"transaction_uuid":"411889e5-fc8f-4db3-810d-c1beddb5a2a4",
-				"message":"Our representative will go to the address you provided to collect the cash from you"
-			},
-			"count":null,
-			"next":null,
-			"previous":null
+# 6. Transactions endpoint
+## Description 
+
+this endpoint takes an amount in `<transaction_uuid>` and a community id `<community_id>`, and calculates the service fees added to the amount.
+
+After getting a response from Pay endpoint you can use this endpoint to fetch informations about the transaction such as status, transaction id , total amount paid, ETC...
+  
+
+## REQUEST
+
+### testing server:
+
+`GET https://staging.xpay.app/api/communities/{community_id}/transactions/{transaction_uuid}/`
+
+### production(Live) server:
+
+`GET https://community.xpay.app/api/communities/{community_id}/transactions/{transaction_uuid}/`
+
+
+## Parameters
+### Path parameters
+
+`community_id`
+
+
+an ID that references prefrences to your community, it must always be present and of value that your community recieved from XPay.
+
+`transaction_uuid`
+
+UUID of the transaction to be fetched, you usually have this value from the response of PAY endpoint.
+
+## Request body
+
+	Do not supply a request body.
+  
+## Response body
+If successful, this method returns a response body with the following structure example:
+
+```
+{
+	"status": {
+		"code": 200,
+		"message": "success",
+		"errors": []
+	},
+	"data": {
+		"created": "2020-05-10T14:20:11.855539+02:00",
+		"id": 3517,
+		"uuid": "452ecb4d-3b6e-4a94-af82-f3ffd21c7e0f",
+		"member_id": null,
+		"total_amount_piasters": 5000,
+		"payment_for": "VARIABLE_AMOUNT",
+		"quantity": null,
+		"status": "SUCCESSFUL",
+		"community": {
+			"id": 1,
+			"name": "Test Community 1",
+			"logo": "https://staging-cdn.xpay.app/community/logo/Alexandria_Sporting_Club_logo.png",
+			"app_modules_to_see": [
+				"Academy",
+				"Event",
+				"Bill",
+				"Service"
+			],
+			"payment_methods": [
+				"Card",
+				"Kiosk",
+				"Cash"
+			],
+			"address": null,
+			"login_process": "OTP_MEMBER_ID",
+			"cc_fees_piasters": 5000
 		}
+	},
+	"count": null,
+	"next": null,
+	"previous": null
+}
+```
 
 # 5. Invoices
 
