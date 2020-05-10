@@ -383,7 +383,7 @@ If the POST request was successful, it will return an iframe url along with the 
 # 6. Transactions endpoint
 ## Description 
 
-this endpoint takes an amount in `<transaction_uuid>` and a community id `<community_id>`, and calculates the service fees added to the amount.
+this endpoint takes an amount in `<transaction_uuid>` and a community id `<community_id>` and returns transaction info.
 
 After getting a response from Pay endpoint you can use this endpoint to fetch informations about the transaction such as status, transaction id , total amount paid, ETC...
   
