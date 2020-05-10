@@ -1,0 +1,6 @@
+{
+  "docs": {
+    "API endpoints": ["prepare-amount", "pay", "transactions"],
+    "Dashboard Guides": ["api-key", "api-payments"]
+  }
+}

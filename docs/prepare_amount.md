@@ -1,0 +1,88 @@
+---
+id: prepare-amount
+title: Prepare Amount endpoint
+---
+
+this endpoint takes an amount in piasters, calculates the service fees and returns the total amount.
+
+Note: depending on the agreement with XPay, if your community's service fees are **included in bill**, you do not need to use this endpoint. [skip to next step](pay.md)
+
+## REQUEST
+
+### Testing server:
+
+`POST https://staging.xpay.app/api/payments/prepare-amount/`
+
+### Production(Live) server:
+
+`POST https://community.xpay.app/api/payments/prepare-amount/`
+
+## Parameters
+
+    Do not supply any parameters.
+
+## Request body
+
+### Required Properties
+
+| Property name   | Value   | Description                                                  | Notes                             |
+| --------------- | ------- | ------------------------------------------------------------ | --------------------------------- |
+| community_id    | string  | ID that is uniques to your community                         |
+| amount_piasters | integer | amount that represents the service cost without service fees | must be supplied in **piasters**. |
+
+## Response
+
+If successful, this method returns a response body with the following structure:
+
+```
+{
+	"status": {
+		"code": integer,
+		"message": string,
+		"errors": []
+	},
+
+	"data": {
+		"total_amount_piasters": integer
+	},
+	"count": integer,
+	"next": string,
+	"previous": string
+}
+```
+
+| Property name         | Value   | Description                             | Notes                                                                          |
+| --------------------- | ------- | --------------------------------------- | ------------------------------------------------------------------------------ |
+| totaL_amount_piasters | integer | service cost with service fees included | save the value returned in `<total_amount_piasters>` as you will use it later. |
+
+## Example
+
+<!--DOCUSAURUS_CODE_TABS-->
+<!--Request body-->
+
+```json
+{
+  "amount_piasters": 100,
+  "community_id": "1"
+}
+```
+
+<!--Request body-->
+
+```json
+{
+  "status": {
+    "code": 200,
+    "message": "success",
+    "errors": []
+  },
+  "data": {
+    "total_amount_piasters": 103
+  },
+  "count": null,
+  "next": null,
+  "previous": null
+}
+```
+
+<!--END_DOCUSAURUS_CODE_TABS-->
