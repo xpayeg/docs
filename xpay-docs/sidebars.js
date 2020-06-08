@@ -2,8 +2,8 @@ module.exports = {
   docs: [
     {
       type: "category",
-      label: "Guides",
-      items: ["api-key", "api-payments", "promo-code"],
+      label: "Dashboard Guides",
+      items: ["api-key", "api-payments", "custom-fields", "promo-code"],
     },
     {
       type: "category",

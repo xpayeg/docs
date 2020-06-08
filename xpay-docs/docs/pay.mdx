@@ -346,3 +346,42 @@ If successful, this method returns a response body with the following structure 
 
 </TabItem>
 </Tabs>
+
+## Custom Fields
+
+If your API payment template conatins [custom fields](custom_fields.mdx),
+you need to send the values of the custom fields value within the request body inside a new `custom_fields` parameter which takes an array of the following structure:
+
+```json
+{
+  "field_label": "custom field label value",
+  "field_value": "custom field input value"
+}
+```
+Notes: 
+- The `field_value` parameter can be string, number OR boolean depending on the custom field type.
+ for more info, refer to the [custom fields guide](custom_fields.mdx)
+- if any of the custom fields are required, you will get an error if you don't send it's value inside the request body.
+
+### Example
+
+### Request body
+```json
+{
+  ...
+  "custom_fields": [
+    {
+      "field_label": "test label1",
+      "field_value": "test one"
+    },
+    {
+      "field_label": "test label3",
+      "field_value": false
+    },
+    {
+      "field_label": "test label2",
+      "field_value": 25
+    }
+  ]
+}
+```
