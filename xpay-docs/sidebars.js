@@ -3,7 +3,7 @@ module.exports = {
     {
       type: 'category',
       label: 'Guides',
-      items: ['api-key', 'api-payments'],
+      items: ['api-key', 'api-payments', 'promo-code'],
     },
     {
       type: 'category',
