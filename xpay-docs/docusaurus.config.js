@@ -21,7 +21,7 @@ module.exports = {
           position: "left",
         },
         {
-          to: "prepare-amount",
+          to: "introduction",
           activeBasePath: "docs",
           label: "API Refrence",
           position: "left",

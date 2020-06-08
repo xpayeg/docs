@@ -6,7 +6,7 @@ title: Prepare Amount endpoint
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 
-this endpoint takes an amount in piasters, calculates the service fees and returns the total amount.
+This endpoint takes an amount in piasters, calculates the service fees and returns the total amount.
 
 Note: depending on the agreement with XPay, if your community's service fees are **included in bill**, you do not need to use this endpoint. [skip to next step](pay.md)
 
@@ -14,11 +14,15 @@ Note: depending on the agreement with XPay, if your community's service fees are
 
 ### Testing server:
 
-`POST https://staging.xpay.app/api/payments/prepare-amount/`
+```
+POST https://staging.xpay.app/api/payments/prepare-amount/
+```
 
 ### Production(Live) server:
 
-`POST https://community.xpay.app/api/payments/prepare-amount/`
+```
+POST https://community.xpay.app/api/payments/prepare-amount/
+```
 
 ## Parameters
 
