@@ -23,7 +23,7 @@ module.exports = {
         {
           to: "introduction",
           activeBasePath: "docs",
-          label: "API Refrence",
+          label: "API Reference",
           position: "left",
         },
         // {

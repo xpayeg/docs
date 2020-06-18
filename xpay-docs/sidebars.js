@@ -7,7 +7,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "API Refrence",
+      label: "API Reference",
       items: [
         "introduction",
         "authentication",
