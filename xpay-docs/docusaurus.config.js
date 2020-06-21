@@ -10,7 +10,7 @@ module.exports = {
     navbar: {
       title: "Xpay Docs",
       logo: {
-        alt: "My Site Logo",
+        alt: "XPay Logo",
         src: "img/xpay_large.ico",
       },
       links: [
