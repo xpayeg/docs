@@ -26,11 +26,11 @@ module.exports = {
           label: "API Reference",
           position: "left",
         },
-        // {
-        //   href: "https://github.com/facebook/docusaurus",
-        //   label: "GitHub",
-        //   position: "right",
-        // },
+        {
+          href: "http://localhost:3000/api-docs/0/introduction",
+          label: "V0",
+          position: "left",
+        },
       ],
     },
     footer: {
