@@ -14,13 +14,13 @@ After getting a response from Pay endpoint you can use this endpoint to fetch in
 ### testing server:
 
 ```http
-GET https://staging.xpay.app/api/v1/communities/{community_id}/transactions/{transaction_uuid}/
+GET https://staging.xpay.app/api/communities/{community_id}/transactions/{transaction_uuid}/
 ```
 
 ### production(Live) server:
 
 ```http
-GET https://community.xpay.app/api/v1/communities/{community_id}/transactions/{transaction_uuid}/
+GET https://community.xpay.app/api/communities/{community_id}/transactions/{transaction_uuid}/
 ```
 
 ## Parameters
@@ -53,8 +53,7 @@ If successful, this method returns a response body with the following structure:
     "created": string,
     "id": integer,
     "uuid": string,
-    "total_amount": string,
-    "total_amount_currency": string,
+    "total_amount_piasters": integer,
     "status": string
   },
   "count": integer,
@@ -91,8 +90,7 @@ If successful, this method returns a response body with the following structure:
     "created": "2020-05-10T14:20:11.855539+02:00",
     "id": 3517,
     "uuid": "452ecb4d-3b6e-4a94-af82-f3ffd21c7e0f",
-    "total_amount": "50.00",
-    "total_amount_currency": "EGP",
+    "total_amount_piasters": 5000,
     "status": "SUCCESSFUL"
   },
   "count": null,

@@ -15,13 +15,13 @@ This endpoint will take the required payment info and pass them to our Core Paym
 ### testing server:
 
 ```
-POST https://staging.xpay.app/api/v1/payments/pay/variable-amount
+POST https://staging.xpay.app/api/payments/pay/variable-amount
 ```
 
 ### production(Live) server:
 
 ```
-POST https://community.xpay.app/api/v1/payments/pay/variable-amount
+POST https://community.xpay.app/api/payments/pay/variable-amount
 ```
 
 ## Parameters
@@ -46,16 +46,15 @@ This method requires authorization, supply the header with a key value pair with
 
 ### Required Properties
 
-| Property name             | Value   | Description                                       | Notes                                                                                                                                                                                     |
-| ------------------------- | ------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| community_id              | string  | ID that is uniques to your community              |                                                                                                                                                                                           |
-| amount                    | integer | represents the amount you want to charge the user | if your community fees is included in bill then use the value returned from [prepare amount endpoint](prepare_amount.md) , otherwise use the amount you want to charge the user directly. |
-| currency                  | string  | Currency type                                     | only 'EGP' is supported currently                                                                                                                                                         |
-| variable_amount_id        | integer | ID that refrences an **API Payment**              | [create/view your api payments](api_payments.md)                                                                                                                                          |
-| pay_using                 | string  | user payment method                               | [see payment available payment methods](#payment-options)                                                                                                                                 |
-| billing_data.name         | string  | user first and last name                          | must contain first and last name in **english letters** with space between them.                                                                                                          |
-| billing_data.email        | string  | user email                                        |                                                                                                                                                                                           |
-| billing_data.phone_number | string  | user phone number                                 | **must contain country code** prefixed                                                                                                                                                    |
+| Property name             | Value   | Description                                       | Notes                                                                                                                                                                                                     |
+| ------------------------- | ------- | ------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| community_id              | string  | ID that is uniques to your community              |                                                                                                                                                                                                           |
+| amount_piasters           | integer | represents the amount you want to charge the user | if your community fees is included in bill then use the value returned from [prepare amount endpoint](prepare_amount.md) , otherwise use the amount you want to charge the user directly in **piasters**. |
+| variable_amount_id        | integer | ID that refrences an **API Payment**              | [create/view your api payments](api_payments.md)                                                                                                                                                          |
+| pay_using                 | string  | user payment method                               | [see payment available payment methods](#payment-options)                                                                                                                                                 |
+| billing_data.name         | string  | user first and last name                          | must contain first and last name in **english letters** with space between them.                                                                                                                          |
+| billing_data.email        | string  | user email                                        |                                                                                                                                                                                                           |
+| billing_data.phone_number | string  | user phone number                                 | **must contain country code** prefixed                                                                                                                                                                    |
 
 ## Response
 
@@ -359,17 +358,14 @@ you need to send the values of the custom fields value within the request body i
   "field_value": "custom field input value"
 }
 ```
-
-Notes:
-
+Notes: 
 - The `field_value` parameter can be string, number OR boolean depending on the custom field type.
-  for more info, refer to the [custom fields guide](custom_fields.mdx)
+ for more info, refer to the [custom fields guide](custom_fields.mdx)
 - if any of the custom fields are required, you will get an error if you don't send it's value inside the request body.
 
 ### Example
 
 ### Request body
-
 ```json
 {
   ...

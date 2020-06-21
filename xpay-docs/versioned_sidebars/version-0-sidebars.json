@@ -1,0 +1,56 @@
+{
+  "version-0/docs": [
+    {
+      "type": "category",
+      "label": "Dashboard Guides",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-0/api-key"
+        },
+        {
+          "type": "doc",
+          "id": "version-0/api-payments"
+        },
+        {
+          "type": "doc",
+          "id": "version-0/custom-fields"
+        },
+        {
+          "type": "doc",
+          "id": "version-0/promo-code"
+        },
+        {
+          "type": "doc",
+          "id": "version-0/direct-order"
+        }
+      ]
+    },
+    {
+      "type": "category",
+      "label": "API Reference",
+      "items": [
+        {
+          "type": "doc",
+          "id": "version-0/introduction"
+        },
+        {
+          "type": "doc",
+          "id": "version-0/authentication"
+        },
+        {
+          "type": "doc",
+          "id": "version-0/prepare-amount"
+        },
+        {
+          "type": "doc",
+          "id": "version-0/pay"
+        },
+        {
+          "type": "doc",
+          "id": "version-0/transactions"
+        }
+      ]
+    }
+  ]
+}
