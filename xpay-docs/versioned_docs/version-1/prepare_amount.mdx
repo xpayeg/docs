@@ -15,13 +15,13 @@ Note: depending on the agreement with XPay, if your community's service fees are
 ### Testing server:
 
 ```
-POST https://staging.xpay.app/api/payments/prepare-amount/
+POST https://staging.xpay.app/api/v1/payments/prepare-amount/
 ```
 
 ### Production(Live) server:
 
 ```
-POST https://community.xpay.app/api/payments/prepare-amount/
+POST https://community.xpay.app/api/v1/payments/prepare-amount/
 ```
 
 ## Parameters
@@ -32,10 +32,10 @@ POST https://community.xpay.app/api/payments/prepare-amount/
 
 ### Required Properties
 
-| Property name   | Value   | Description                                                  | Notes                             |
-| --------------- | ------- | ------------------------------------------------------------ | --------------------------------- |
-| community_id    | string  | ID that is uniques to your community                         |
-| amount_piasters | integer | amount that represents the service cost without service fees | must be supplied in **piasters**. |
+| Property name | Value  | Description                                                  | Notes |
+| ------------- | ------ | ------------------------------------------------------------ | ----- |
+| community_id  | string | ID that is uniques to your community                         |
+| amount        | float  | amount that represents the service cost without service fees |       |
 
 ## Response
 
@@ -50,7 +50,8 @@ If successful, this method returns a response body with the following structure:
 	},
 
 	"data": {
-		"total_amount_piasters": integer
+		"total_amount": float
+		"total_amount_currency": string
 	},
 	"count": integer,
 	"next": string,
@@ -58,9 +59,10 @@ If successful, this method returns a response body with the following structure:
 }
 ```
 
-| Property name         | Value   | Description                             | Notes                                                                          |
-| --------------------- | ------- | --------------------------------------- | ------------------------------------------------------------------------------ |
-| totaL_amount_piasters | integer | service cost with service fees included | save the value returned in `<total_amount_piasters>` as you will use it later. |
+| Property name         | Value  | Description                             | Notes                                                                 |
+| --------------------- | ------ | --------------------------------------- | --------------------------------------------------------------------- |
+| total_amount          | float  | service cost with service fees included | save the value returned in `<total_amount>` as you will use it later. |
+| total_amount_currency | string | currency                                |                                                                       |
 
 ## Example
 
@@ -74,8 +76,8 @@ If successful, this method returns a response body with the following structure:
 
 ```json
 {
-  "amount_piasters": 100,
-  "community_id": "1"
+  "amount": 50,
+  "community_id": "zogDmQW"
 }
 ```
 
@@ -90,7 +92,8 @@ If successful, this method returns a response body with the following structure:
     "errors": []
   },
   "data": {
-    "total_amount_piasters": 103
+    "total_amount": 50.5,
+    "total_amount_currency": "EGP"
   },
   "count": null,
   "next": null,
