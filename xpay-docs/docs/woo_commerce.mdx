@@ -1,0 +1,32 @@
+---
+id: woo-commerce
+title: Woo-Commerce XPay Plugin
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+this is woocommerce based plugin to add xpay payment as payment option for any wordpress website
+
+These instructions will guide you on how to integrate Payment using XPay services with your Woocommerce driven website. 
+   We have setup a testing environment for you to test and play around the integration process.
+
+## Pre-requisite
+- woocommerce plugin installed on your wordpress website
+- Your integration settings from XPAY ( community ID, payment API key, API payment ID ). please contact Xpay to get this info.
+
+
+## Installation
+1. clone the contents of this repository.
+
+2. Copy the folder "woocommerce-xpay-plugin", then go to your wordpress site root folder and paste it in the "plugins" folder.
+   This is typically located in {your-wordpress-site-folder}\wp-content\plugins.
+
+   <img
+     alt="direct order form"
+     src={useBaseUrl("img/woocommerce/1.png")}
+   />
+
+3. Open your wordpress site's admin page and navigate to Plugins > Installed Plugins. Then find WooCommerce XPAY Gateway and click on Activate
+
+4. From the admin site, go to Woocommerce > Settings and select the Checkout tab. Then click on Xpay from the list of available payment methods at the top of the page.
+   If you don't see it here, make sure you have activated the Xpay payment plugin as mentioned in Step 3 above.
