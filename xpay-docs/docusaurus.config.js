@@ -27,9 +27,19 @@ module.exports = {
           position: "left",
         },
         {
-          href: "http://localhost:3000/api-docs/0/introduction",
-          label: "V0",
+          // href: "http://localhost:3000/api-docs/0/introduction",
+          label: "Docs version",
           position: "left",
+          items: [
+            {
+              label: 'v0',
+              href: "/api-docs/0/introduction"
+            },
+            {
+              label: 'v1',
+              href: "/api-docs/introduction"
+            }
+          ]
         },
       ],
     },
