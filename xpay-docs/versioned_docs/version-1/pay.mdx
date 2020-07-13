@@ -36,8 +36,8 @@ This method requires authorization, supply the header with a key value pair with
 
 #### Required Properties
 
-| Property name | Value  | Description                      | Notes                          |
-| ------------- | ------ | -------------------------------- | ------------------------------ |
+| Property name | Value  | Description                      | Notes                       |
+| ------------- | ------ | -------------------------------- | --------------------------- |
 | x-api-key     | string | API key linked to your community | [generate API key](api-key) |
 
 ​
@@ -46,21 +46,26 @@ This method requires authorization, supply the header with a key value pair with
 
 ### Required Properties
 
-| Property name             | Value   | Description                                       | Notes                                                                                                                                                                                     |
-| ------------------------- | ------- | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| community_id              | string  | ID that is uniques to your community              |                                                                                                                                                                                           |
+| Property name             | Value   | Description                                       | Notes                                                                                                                                                                                  |
+| ------------------------- | ------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| community_id              | string  | ID that is uniques to your community              |                                                                                                                                                                                        |
 | amount                    | float   | represents the amount you want to charge the user | if your community fees is included in bill then use the value returned from [prepare amount endpoint](prepare-amount) , otherwise use the amount you want to charge the user directly. |
-| currency                  | string  | Currency                                          | only 'EGP' is supported currently                                                                                                                                                         |
+| currency                  | string  | Currency                                          | only 'EGP' is supported currently                                                                                                                                                      |
 | variable_amount_id        | integer | ID that refrences an **API Payment**              | [create/view your api payments](api-payments)                                                                                                                                          |
-| pay_using                 | string  | user payment method                               | [see payment available payment methods](#payment-options)                                                                                                                                 |
-| billing_data.name         | string  | user first and last name                          | must contain first and last name in **english letters** with space between them.                                                                                                          |
-| billing_data.email        | string  | user email                                        |                                                                                                                                                                                           |
-| billing_data.phone_number | string  | user phone number                                 | **must contain country code** prefixed                                                                                                                                                    |
-
+| pay_using                 | string  | user payment method                               | [see payment available payment methods](#payment-options)                                                                                                                              |
+| billing_data.name         | string  | user first and last name                          | must contain first and last name in **english letters** with space between them.                                                                                                       |
+| billing_data.email        | string  | user email                                        |                                                                                                                                                                                        |
+| billing_data.phone_number | string  | user phone number                                 | **must contain country code** prefixed                                                                                                                                                 |
 
 :::danger
 Hardcoding the billing data in the production version of your app will raise a risk in the payment processor and the transaction will be declined
 :::
+
+### Optional Properties
+
+| Property name | Value  | Description                                    | Notes                                                           |
+| ------------- | ------ | ---------------------------------------------- | --------------------------------------------------------------- |
+| membership_id | string | ID of your community member making the payment | Needed if your [API Payment](api-payments) requires a member id |
 
 ## Response
 
@@ -89,7 +94,7 @@ If successful, this method returns a response body with the following structure:
 | ------------------ | ------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | iframe_url         | string  | iframe url                      | you can either embed that url in your website or redirect your user it so he/she can proceed with the payment process at. |
 | transaction_id     | integer | transaction ID in XPay system   |                                                                                                                           |
-| transaction_uuid   | string  | transaction UUID in XPay system | you can use this value to retrieve transaction info in your app. [see available payment methods](#payment-options)              |
+| transaction_uuid   | string  | transaction UUID in XPay system | you can use this value to retrieve transaction info in your app. [see available payment methods](#payment-options)        |
 | transaction_status | string  | transaction status              |                                                                                                                           |
 
 ## Example
