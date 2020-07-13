@@ -27,6 +27,10 @@ This guide explains how to use the dashboard to create an API Payment that you n
 
 8. If you want the payment server to send a POST request to another server with transaction status, and details, after payment is done, fill in ** Callback url** field. The POST request body will have the status of the transaction, the transaction id, and the member id if provided.
 
+:::info
+The callback URL is only called when the transaction is accepted by our system, meaning the user completed the payment and received a response indicating the transaction was successful for a card payment or pending for kiosk / cash collection
+:::
+
 9. click **Save**.
 
 10. you will be redirected back to **API Payment**, the new created template will appear.
