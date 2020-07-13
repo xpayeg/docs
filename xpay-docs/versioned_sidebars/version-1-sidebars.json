@@ -49,6 +49,10 @@
         {
           "type": "doc",
           "id": "version-1/transactions"
+        },
+        {
+          "type": "doc",
+          "id": "version-1/postman"
         }
       ]
     },
