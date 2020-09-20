@@ -107,6 +107,7 @@ values={[
 }>
 <TabItem value="request">
 
+
 ```json
 {
   "billing_data": {
@@ -124,6 +125,7 @@ values={[
 
 </TabItem>
 <TabItem value="response">
+
 
 ```json
 {
@@ -146,6 +148,7 @@ values={[
 
 </TabItem>
 </Tabs>
+
 
 ## Payment Options
 
@@ -206,6 +209,7 @@ If successful, this method returns a response body with the following structure 
 }>
 <TabItem value="request">
 
+
 ```json {10}
 {
   "billing_data": {
@@ -222,6 +226,7 @@ If successful, this method returns a response body with the following structure 
 
 </TabItem>
 <TabItem value="response">
+
 
 ```json
 {
@@ -246,6 +251,7 @@ If successful, this method returns a response body with the following structure 
 
 </TabItem>
 </Tabs>
+
 
 ### Pay using cash collection
 
@@ -312,6 +318,7 @@ If successful, this method returns a response body with the following structure 
 }>
 <TabItem value="request">
 
+
 ```json
 {
   "billing_data": {
@@ -336,6 +343,7 @@ If successful, this method returns a response body with the following structure 
 </TabItem>
 <TabItem value="response">
 
+
 ```json
 {
   "status": {
@@ -359,10 +367,10 @@ If successful, this method returns a response body with the following structure 
 </TabItem>
 </Tabs>
 
+
 ## Custom Fields
 
-If your API payment template conatins [custom fields](custom_fields.mdx),
-you need to send the values of the custom fields value within the request body inside a new `custom_fields` parameter which takes an array of the following structure:
+If you wish to save extra data with the invoice data, you can send this data within the request body inside a new `custom_fields` parameter which takes an array of the following structure:
 
 ```json
 {
@@ -371,12 +379,9 @@ you need to send the values of the custom fields value within the request body i
 }
 ```
 
-Notes:
-
-- The `field_value` parameter can be string, number OR boolean depending on the custom field type.
-  for more info, refer to the [custom fields guide](custom_fields.mdx)
-- if any of the custom fields are required, you will get an error if you don't send it's value inside the request body.
-
+:::note
+The `field_value` parameter can be string, number OR boolean.
+:::
 ### Example
 
 ### Request body
