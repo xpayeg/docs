@@ -13,7 +13,7 @@ module.exports = {
         alt: "XPay Logo",
         src: "img/xpay_large.ico",
       },
-      links: [
+      items: [
         {
           to: "api-key",
           activeBasePath: "docs",

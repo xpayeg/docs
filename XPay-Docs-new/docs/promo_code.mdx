@@ -1,0 +1,32 @@
+---
+id: promo-code
+title: Promocode
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+1. Navigate to **Promocodes** under **Promocodes** in the side menu.
+
+<img alt="API keys section" src={useBaseUrl("guides/add_promo_code.png")} />
+
+2. Click on **Add promocode** button in the top right corner.
+
+3. Fill in the promocode form.
+
+<img alt="Add API key" src={useBaseUrl("guides/promo_code_form_new.png")} />
+
+| Property name         | Value     | Description                                          | Notes |
+| --------------------- | --------- | ---------------------------------------------------- | ----- |
+| Name                  | string    | unique name to identify the promocode                |
+| Expiration time       | date/time | when will it expire?                                 |       |
+| Discount amount       | integer   | fixed amount to be deducted                          |       |
+| Discount percentage   | integer   | percentage of the total amount to be deducted        |       |
+| Amount trigger        | integer   | Minimum amount so that the promocode takes effect    |       |
+| All user occurrences: | integer   | How many users can use this promocode?               |       |
+| User occurrences:     | integer   | How many times a single user can use this promocode? |       |
+
+4. click **Save**, you will be redirected back to **Promocodes**.
+
+<img alt="API key" src={useBaseUrl("guides/promo_code_created.png")} />
+
+5. your new promocode is ready.

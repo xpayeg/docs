@@ -1,0 +1,91 @@
+---
+id: direct-order
+title: Direct Order
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+This guide is meant to help you understand how to use XPay community admin dashboard to create a Direct Order
+and view invoices of transactions that were processed through our services to your community for Direct Orders.
+
+Direct order payment type is used for one time payments that are addressed to a certain customer/company.
+
+## Create Direct Order
+
+1. Click on the Direct orders option under the Direct Orders section on the left menu.
+
+   <img
+     alt="direct order form"
+     src={useBaseUrl("guides/add_direct_order.png")}
+   />
+
+2. Click on the Add direct order button on the top right corner, this will navigate you to the Direct Order creation form.
+
+   <img
+     alt="direct order form"
+     src={useBaseUrl("guides/direct_order_form.png")}
+   />
+
+3. Fill in the Name (required).
+
+   Note: try to give your direct order a meaningful title, to help you find transactions related to this payment easier and to help your customer understand what they are paying for.
+
+4. Fill in the direct order’s amount in the Amount field (required).
+
+   Note: most of the below fields are optional and you don't need to fill all of them just fill what you need according to your business needs.
+
+5. Fill in the Address (optional).
+
+6. Fill in the Order description (optional).
+
+7. Fill in the Customer title (optional).
+
+8. Fill in the Customer name (optional).
+
+9. Fill in the Customer mobile (optional).
+
+10. Fill in the Customer email (optional).
+
+11. Fill in the direct order’s discount in the Discount field (required, zero if none).
+
+    Notes:
+
+    1. Discount Value gets subtracted from the Amount value
+    2. Fill this field if you want to show your customer that you offered him a discount
+
+12. Fill in the direct order’s VAT in the VAT field (required, zero if none).
+
+    Notes:
+
+    1. VAT Value gets added to the Amount value
+    2. Fill this field if you want to show your customer a VAT field in the Amount breakdown.
+
+13. Click on the Save button in the bottom right corner.
+
+After saving, you will be redirected to the direct order list where you can find the new direct order you created.
+You can share the PAYMENT URL with your customer/s.
+
+here is how direct orders usually appear to the users
+
+<img
+  alt="direct order view in user's screen"
+  src={useBaseUrl("guides/direct-order-user.png")}
+/>
+
+## Direct Order invoices
+
+Those types of invoices show the transactions for the Direct Order payment type.
+To view this type of payment invoice, Navigate to the invoices under Invoices on the left menu.
+choose Direct order in By payment for dropdown menu.
+
+In this compact view, you will find some information about each transaction like:
+
+| Property name  | Description                                                 | Notes |
+| -------------- | ----------------------------------------------------------- | ----- |
+| ID             | Invoice id in XPay system.                                  |       |
+| STATUS         | transaction status                                          |       |
+| NAME           | direct order name                                           |       |
+| TOTAL AMOUNT   | total amount paid in this transaction                       |       |
+| PAYMENT DATE   | the date and time when the transaction occured              |       |
+| PAYMENT METHOD | the method which the user used to pay for your direct order |       |
+

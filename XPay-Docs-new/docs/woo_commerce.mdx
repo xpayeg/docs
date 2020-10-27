@@ -1,0 +1,84 @@
+---
+id: woo-commerce
+title: Woo-Commerce XPay Plugin
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+
+These instructions will guide you on how to integrate Payment using XPay services with your Woocommerce driven website. 
+   We have setup a testing environment for you to test and play around the integration process.
+
+## Pre-requisite
+- woocommerce plugin installed on your wordpress website.
+- Your community ID. please contact [Xpay](https://xpay.app/) to get this value.
+- [API key](api-key)
+- [API payment id](api-payments)
+
+
+## Installation
+1. clone the contents of this [repository](https://github.com/xpayeg/woocommerce-xpay-plugin).
+
+2. Copy the folder "woocommerce-xpay-plugin", then go to your wordpress site root folder and paste it in the "plugins" folder.
+   This is typically located in {your-wordpress-site-folder}\wp-content\plugins.
+
+<img
+   alt="direct order form"
+   src={useBaseUrl("woocommerce/1.png")}
+/>
+
+3. Open your wordpress site's admin page and navigate to Plugins > Installed Plugins. Then find WooCommerce XPAY Gateway and click on Activate
+
+<img
+   alt="direct order form"
+   src={useBaseUrl("woocommerce/2.png")}
+/>
+
+4. From the admin site, go to Woocommerce > Settings and select the Checkout tab. Then click on Xpay from the list of available payment methods at the top of the page.
+   If you don't see it here, make sure you have activated the Xpay payment plugin as mentioned in Step 3 above.
+
+<img
+   alt="direct order form"
+   src={useBaseUrl("woocommerce/4.png")}
+/>
+
+5. Once on the Xpay Payment Gateway settings page, fill in the Xpay settings data:
+   - Community ID in **Community ID**
+   - Community API key in **XPAY payment API key**
+   - API payment ID in **Variable Amount Template ID**
+
+<img
+   alt="direct order form"
+   src={useBaseUrl("woocommerce/3.png")}
+/>
+
+
+:::tip
+You have an option to use our plugin in development mode ( by choosing development in the environment dropdown menu ) application which allows you to test out the integration before going live. 
+   
+   while working in development mode, card information are prefilled with dummy data.
+
+   We highly recommend using this feature when testing the integration.
+:::
+
+6. copy the url inside **callback URL**
+<img
+   alt="direct order form"
+   src={useBaseUrl("woocommerce/5.png")}
+/>
+
+7. Go to API payments section in the dashboard
+
+   - [testing dashboard](https://staging.xpay.app/admin/api_integrations/apipayment/).
+   - [production dashboard](https://community.xpay.app/admin/api_integrations/apipayment/).
+
+8. Click on the ID of api payment you linked in the plugin settings
+
+9. paste the value you copied in step 6 inside the **callback url**
+
+<img
+   alt="direct order form"
+   src={useBaseUrl("woocommerce/6.png")}
+/>
+
+10. **SAVE**

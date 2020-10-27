@@ -1,0 +1,105 @@
+---
+id: prepare-amount
+title: Prepare Amount endpoint
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+This endpoint takes an amount in piasters, calculates the service fees and returns the total amount.
+
+Note: depending on the agreement with XPay, if your community's service fees are **included in bill**, you do not need to use this endpoint. [skip to next step](pay)
+
+## REQUEST
+
+### Testing server:
+
+```
+POST https://staging.xpay.app/api/v1/payments/prepare-amount/
+```
+
+### Production(Live) server:
+
+```
+POST https://community.xpay.app/api/v1/payments/prepare-amount/
+```
+
+## Parameters
+
+    Do not supply any parameters.
+
+## Request body
+
+### Required Properties
+
+| Property name | Value  | Description                                                  | Notes |
+| ------------- | ------ | ------------------------------------------------------------ | ----- |
+| community_id  | string | ID that is uniques to your community                         |
+| amount        | float  | amount that represents the service cost without service fees |       |
+
+## Response
+
+If successful, this method returns a response body with the following structure:
+
+```
+{
+	"status": {
+		"code": integer,
+		"message": string,
+		"errors": []
+	},
+
+	"data": {
+		"total_amount": float
+		"total_amount_currency": string
+	},
+	"count": integer,
+	"next": string,
+	"previous": string
+}
+```
+
+| Property name         | Value  | Description                             | Notes                                                                 |
+| --------------------- | ------ | --------------------------------------- | --------------------------------------------------------------------- |
+| total_amount          | float  | service cost with service fees included | save the value returned in `<total_amount>` as you will use it later. |
+| total_amount_currency | string | currency                                |                                                                       |
+
+## Example
+
+<Tabs
+  defaultValue="request"
+  values={[
+    { label: 'Request Body', value: 'request', },
+    { label: 'Response Body', value: 'response', }  ]
+}>
+<TabItem value="request">
+
+```json
+{
+  "amount": 50,
+  "community_id": "zogDmQW"
+}
+```
+
+</TabItem>
+<TabItem value="response">
+
+```json
+{
+  "status": {
+    "code": 200,
+    "message": "success",
+    "errors": []
+  },
+  "data": {
+    "total_amount": 50.5,
+    "total_amount_currency": "EGP"
+  },
+  "count": null,
+  "next": null,
+  "previous": null
+}
+```
+
+</TabItem>
+</Tabs>
