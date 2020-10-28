@@ -1,0 +1,442 @@
+---
+id: subscription
+title: Subscription
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+One of the available payment tools that XPay offers is Recurring payments or Subscriptions.
+
+If your service includes subscription based payments or any other form of recurring payments,
+you can use our endpoints to create Recurring payments that can be used to charge your user a fixed amount every set period of time with optional end date
+
+## How it works
+
+When you create a subscription payment it starts generating bills for each period from the start date depending on the current date and an optional end date.
+
+For example, if you create a subscription with the start date of the current date and specify a subscription period of 30 days,
+it will generate a subscription bill with the current date as the due date and will generate another bill automatically every 30 days.
+
+:::note
+First subscription bill payment have to be requested manually,
+afterwards the user will be charged automatically every subscription period.
+:::
+
+To create a subscription payment and start billing your user follow the following steps:
+
+1. [Create Subscription](#create-subscription)
+2. [Log Subscription bills](#log-subscription-bills)
+3. [Pay Subscription bill](#pay-a-subscription-bill)
+
+## Create Subscription
+
+### URLs
+
+#### Testing server:
+
+```jsx
+POST https://staging.xpay.app/api/subscriptions/
+```
+
+#### Live server:
+
+```jsx
+POST https://community.xpay.app/api/subscriptions/
+```
+
+### Parameters
+
+Do not supply any parameters.
+
+### Authentication
+
+Supply your API key in the request header
+
+```jsx
+"x-api-key" : string
+```
+
+### Request body
+
+#### Properties
+
+| Property name | Type   | Required | Description                                                                            | Notes                                                                                  |
+| ------------- | ------ | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| name          | string | True     | your recurring payment name                                                            |                                                                                        |
+| amount        | float  | True     | Fixed service/bill cost                                                                |                                                                                        |
+| start_date    | string | True     | When do you want to start billing your user?                                           | ex: "2020-9-1"                                                                         |
+| period        | number | True     | The interval of which you bill your user in days                                       | ex: 10                                                                                 |
+| member_id     | string | Optional | Membership ID of your user                                                             | if you choose to to not supply an ID, one will be generated and sent with the response |
+| community_id  | string | True     | ID that is unique to your community                                                    |                                                                                        |
+| end_date      | string | Optional | If you want to stop billing your user on on a certain date, you can supply an end date | ex: "2021-9-1"                                                                         |
+
+### Example
+
+The following example and the next ones Requires Axios which is a Promise based HTTP client for the browser and node.js
+
+<a target="_blank" href="https://github.com/axios/axios">
+  Axios Github repo
+</a>
+
+#### installing
+
+Using npm:
+
+```
+$ npm install axios
+```
+
+Using jsDelivr CDN:
+
+```
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+```
+
+Create a new subscription
+
+```jsx
+const createSubscriptionUrl = "https://new-dev.xpay.app/api/subscriptions/";
+
+axios({
+  method: "post",
+  url: createSubscriptionUrl,
+  data: {
+    name: "VIP Membership",
+    amount: 1500,
+    start_date: "2020-9-1",
+    period: 30,
+    member_id: "11204268",
+    community_id: "zogDmQW",
+    end_date: "2021-9-30",
+  },
+  headers: {
+    "x-api-key": "RiYBZNHU.PVTJB5GnLHF4Gu11UIty0V6D4QwtZvFO",
+  },
+})
+  .then((data) => {
+    console.log(data.data.data);
+  })
+  .catch((e) => {
+    console.log(e.response.data.status);
+  });
+```
+
+log output
+
+```json
+{
+  "amount": "1500.00",
+  "community_id": "zogDmQW",
+  "end_date": "2021-09-30",
+  "id": 1332,
+  "member_id": "11204268",
+  "name": "VIP Membership",
+  "period": 30,
+  "start_date": "2020-09-01"
+}
+```
+
+<!-- Cancel a subscription -->
+
+## Cancel Subscription
+
+### URLs
+
+#### Testing server:
+
+```jsx
+POST https://staging.xpay.app/api/subscriptions/{{member_id}}/cancel
+```
+
+#### Production(Live) server:
+
+```jsx
+POST https://community.xpay.app/api/subscriptions/{{member_id}}/cancel
+```
+
+### Parameters
+
+Do not supply any parameters.
+
+### Authentication
+
+Supply your API key in the request header
+
+```jsx
+"x-api-key" : string
+```
+
+### Request body
+
+#### Properties
+
+| Property name | Type   | Required | Description                         | Notes |
+| ------------- | ------ | -------- | ----------------------------------- | ----- |
+| community_id  | string | True     | ID that is unique to your community |       |
+
+### Example
+
+Create a new subscription
+
+```jsx
+const cancelSubscriptionUrl =
+  "https://new-dev.xpay.app/api/subscriptions/1327/cancel/";
+
+axios({
+  method: "post",
+  url: cancelSubscriptionUrl,
+  data: {
+    community_id: "zogDmQW",
+  },
+  headers: {
+    "x-api-key": "RiYBZNHU.PVTJB5GnLHF4Gu11UIty0V6D4QwtZvFO",
+  },
+})
+  .then((data) => {
+    if (data.status == 200) console.log("Subscription Canceled!");
+  })
+  .catch((e) => {
+    console.log(e.response.data.status);
+  });
+```
+
+log output
+
+```json
+"Subscription Canceled!"
+```
+
+<!-- Log Subscription bills -->
+
+## Log Subscription bills
+
+This endpoint returns all the bills generated for a subscription in the form of an array of [bills object](#bill)
+
+### URLs
+
+#### Testing server:
+
+```jsx
+POST https://staging.xpay.app/api/subscriptions/bills
+```
+
+#### Production(Live) server:
+
+```jsx
+POST https://community.xpay.app/api/subscriptions/bills
+```
+
+### Parameters
+
+#### Query parameters
+
+| Property name | Type   | Required | Description                                           | Notes                                                                                                          |
+| ------------- | ------ | -------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
+| member_id     | string | True     | Membership ID of your user                            | it is the same id you supplied while creating a subscription or the one that was created automatically for you |
+| community_id  | string | True     | ID that is unique to your community                   |                                                                                                                |
+| paid          | string | Optional | Filter the result by paid / unpaid subscription bills | Takes values of False, false, True, true, 1, 0, yes, no                                                        |
+
+### Authentication
+
+Supply your API key in the request header
+
+```jsx
+"x-api-key" : string
+```
+
+### bill object
+
+| Property name                     | Type    | Description                                       | Notes |
+| --------------------------------- | ------- | ------------------------------------------------- | ----- |
+| amount                            | string  | Fixed service/bill cost                           |       |
+| created                           | string  | DateTime stamp of the bill creation date and time |       |
+| due_date                          | string  | Subscription bill due date                        |       |
+| end_date                          | string  | End date of the subscription bill period          |       |
+| id                                | number  | Subscription bill ID                              |       |
+| name                              | string  | Subscription bill name                            |       |
+| paid                              | boolean | Bill Payment status                               |       |
+| start_date                        | string  | Start billing date of the subscription bill       |       |
+| total.grand_total_amount          | number  | The total amount of bill including fess (if any)  |       |
+| total.grand_total_amount_currency | string  | Bill amount currency                              |       |
+
+### Example
+
+Log all generated bills for a subscription
+
+```jsx
+const logSubscriptionBillsUrl =
+  "https://new-dev.xpay.app/api/subscriptions/bills?member_id=11204268w43sss3&community_id=zogDmQW";
+
+axios({
+  method: "get",
+  url: logSubscriptionBillsUrl,
+  headers: {
+    "x-api-key": "RiYBZNHU.PVTJB5GnLHF4Gu11UIty0V6D4QwtZvFO",
+  },
+})
+  .then((data) => {
+    console.log(data.data.data);
+  })
+  .catch((e) => {
+    console.log(e.response.data.status);
+  });
+```
+
+log output
+
+```json
+[
+  {
+    "amount": "1500.00",
+    "created": "2020-10-28T15:58:58.040460+02:00",
+    "due_date": "2021-09-26",
+    "end_date": "2021-10-26",
+    "id": 1690,
+    "name": "VIP Membership - 2021-09-26",
+    "paid": false,
+    "start_date": "2021-09-26",
+    "subscription": {
+      "amount": "1500.00",
+      "community_id": "zogDmQW",
+      "end_date": "2021-09-30",
+      "id": 1332,
+      "member_id": "11204268w43sss3",
+      "name": "VIP Membership",
+      "period": 30,
+      "start_date": "2020-09-01"
+    },
+    "total": {
+      "grand_total_amount": 1502,
+      "grand_total_amount_currency": "EGP"
+    }
+  },
+  {
+    "amount": "1500.00",
+    "created": "2020-10-28T15:58:58.032506+02:00",
+    "due_date": "2021-08-27",
+    "end_date": "2021-09-26",
+    "id": 1689,
+    "name": "VIP Membership - 2021-08-27",
+    "paid": false,
+    "start_date": "2021-08-27",
+    "subscription": {
+      "amount": "1500.00",
+      "community_id": "zogDmQW",
+      "end_date": "2021-09-30",
+      "id": 1332,
+      "member_id": "11204268w43sss3",
+      "name": "VIP Membership",
+      "period": 30,
+      "start_date": "2020-09-01"
+    },
+    "total": {
+      "grand_total_amount": 1502,
+      "grand_total_amount_currency": "EGP"
+    }
+  },
+  ...
+]
+```
+
+<!-- Payment -->
+
+## Pay a Subscription bill
+
+### URLs
+
+#### Testing server:
+
+```jsx
+POST https://staging.xpay.app/api/v1/payments/pay/bills
+```
+
+#### Production(Live) server:
+
+```jsx
+POST https://community.xpay.app/api/v1/payments/pay/bills
+```
+
+### Parameters
+
+Do not supply any parameters.
+
+### Authentication
+
+Supply your API key in the request header
+
+```jsx
+"x-api-key" : string
+```
+
+### Request body
+
+#### Properties
+
+| Property name             | Value          | Description                          | Notes                                                                                                          |
+| ------------------------- | -------------- | ------------------------------------ | -------------------------------------------------------------------------------------------------------------- |
+| community_id              | string         | ID that is uniques to your community |                                                                                                                |
+| currency                  | string         | Currency                             | Only 'EGP' is supported currently                                                                              |
+| pay_using                 | string         | user payment method                  | Only card payments are supported                                                                               |
+| billing_data.name         | string         | user first and last name             | Must contain first and last name in **english letters** with space between them.                               |
+| billing_data.email        | string         | user email                           |                                                                                                                |
+| billing_data.phone_number | string         | user phone number                    | **must contain country code** prefixed                                                                         |
+| amount                    | float          | Total Amount of bills to pay         | Make sure to calculate the sum of the grand_total_amount value of the bills supplied in the ids parameter      |
+| ids                       | string[number] | Ids of the bills to pay              | You can supply only one id in case of first payment                                                            |
+| membership_id             |                | Membership ID of your user           | It is the same id you supplied while creating a subscription or the one that was created automatically for you |
+
+### Example
+
+Pay a subscription bill
+
+```jsx
+const paySubscriptionBill =
+  "https://new-dev.xpay.app/api/v1/payments/pay/bills";
+
+axios({
+  method: "post",
+  url: paySubscriptionBill,
+  data: {
+    billing_data: {
+      name: "John doe",
+      email: "j.doe@tes.com",
+      phone_number: "+201111111111",
+    },
+    amount: 1502,
+    currency: "EGP",
+    community_id: "zogDmQW",
+    pay_using: "card",
+    ids: ["1689"],
+    membership_id: "1332",
+  },
+  headers: {
+    "x-api-key": "RiYBZNHU.PVTJB5GnLHF4Gu11UIty0V6D4QwtZvFO",
+  },
+})
+  .then((data) => {
+    console.log(data.data.data);
+    const iframeUrl = data.data.data.iframe_url;
+  })
+  .catch((e) => {
+    console.log(e.response.data.status);
+  });
+```
+
+log output
+
+```json
+{
+  "iframe_url": "https://dev-payment.xpay.app/core/payment_iframe/5717/",
+  "transaction_id": 5366,
+  "transaction_status": "PENDING",
+  "transaction_uuid": "14e4da8c-3c7a-47c7-bb47-9081c99e0add",
+  "message": null,
+  "bill_reference": null,
+  "bm_session": null
+}
+```
+
+:::info
+you can either redirect your user to the link returned inside the `iframe_url` or embed it in your app
+this url contains the credit card form in which the user enters his credit card information
+:::

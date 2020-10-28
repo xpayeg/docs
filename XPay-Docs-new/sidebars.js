@@ -1,11 +1,8 @@
 module.exports = {
-  docs: [
-    {
+  docs: [{
       type: "category",
-      label: "Dashboard Guides",
+      label: "Standalone checkout tools",
       items: [
-        "api-key",
-        "api-payments",
         "custom-fields",
         "promo-code",
         "direct-order"
@@ -13,15 +10,24 @@ module.exports = {
     },
     {
       type: "category",
-      label: "API Reference",
+      label: "Payments API Reference",
       items: [
         "introduction",
         "authentication",
         "prepare-amount",
         "pay",
         "transactions",
+        "subscription",
         "postman",
         "woo-commerce"
+      ],
+    },
+    {
+      type: "category",
+      label: "Dashboard guides",
+      items: [
+        "api-key",
+        "api-payments",
       ],
     },
   ],

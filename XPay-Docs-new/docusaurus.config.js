@@ -8,6 +8,7 @@ module.exports = {
   organizationName: "xpayeg", // Usually your GitHub org/user name.
   projectName: "api-docs", // Usually your repo name.
   themeConfig: {
+    sidebarCollapsible: true,
     navbar: {
       title: "Xpay Docs",
       logo: {
