@@ -75,18 +75,20 @@ Payment types that accepts Promocodes: Direct Order, Event, Training, Product, S
 
 The payment ID of the payment that you wish this promocode to only work with.
 
+:::caution
+Payment for and Payment instance id must be set together.
+:::
+
 :::note
 Payment ID can be found next to the payment you created in the prespective list view.
+
+For example, in the event list view
 
 <img
   alt="API keys section"
   src={useBaseUrl("guides/promo_code_payment_ids.png")}
 />
 
-:::
-
-:::caution
-Payment for and Payment instance id must be set together.
 :::
 
 ## Steps to create promocode
@@ -100,7 +102,6 @@ Payment for and Payment instance id must be set together.
 3. Fill in the promocode form.
 
 <img alt="Add API key" src={useBaseUrl("guides/promo_code_form_new.png")} />
-
 
 4. click **Save**, you will be redirected back to **Promocodes**.
 
