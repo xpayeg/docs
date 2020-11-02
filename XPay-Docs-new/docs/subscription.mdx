@@ -9,11 +9,20 @@ import TabItem from "@theme/TabItem";
 One of the available payment tools that XPay offers is Recurring payments or Subscriptions.
 
 If your service includes subscription based payments or any other form of recurring payments,
-you can use our endpoints to create Recurring payments that can be used to charge your user a fixed amount every set period of time with optional end date
+you can use our endpoints to create Recurring payments that can be used to charge your user
+a fixed amount every set period of time with optional end date and the ability to cancel a subscription at anytime.
+
+XPay Subscription endpoints allows you to:
+
+1. Create a recurring payment (subscription)
+2. Log all subscription bills with option to filter paid and unpaid bills
+3. Pay for subscribtion bill/s
+4. Cancel subscription
 
 ## How it works
 
-When you create a subscription payment it starts generating bills for each period from the start date depending on the current date and an optional end date.
+When you create a subscription payment it starts generating bills for each period from the start date depending on the current date
+and an optional end date.
 
 For example, if you create a subscription with the start date of the current date and specify a subscription period of 30 days,
 it will generate a subscription bill with the current date as the due date and will generate another bill automatically every 30 days.
@@ -65,15 +74,15 @@ Supply your API key in the request header
 | ------------- | ------ | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
 | name          | string | True     | your recurring payment name                                                            |                                                                                        |
 | amount        | float  | True     | Fixed service/bill cost                                                                |                                                                                        |
-| start_date    | string | True     | When do you want to start billing your user?                                           | ex: "2020-9-1"                                                                         |
-| period        | number | True     | The interval of which you bill your user in days                                       | ex: 10                                                                                 |
+| start_date    | string | True     | When do you want to start billing your user?                                           | Format: "year-month-day", ex: "2020-9-1"                                               |
+| period        | number | True     | The interval of which you bill your user **in days**                                   | ex: 10                                                                                 |
 | member_id     | string | Optional | Membership ID of your user                                                             | if you choose to to not supply an ID, one will be generated and sent with the response |
 | community_id  | string | True     | ID that is unique to your community                                                    |                                                                                        |
 | end_date      | string | Optional | If you want to stop billing your user on on a certain date, you can supply an end date | ex: "2021-9-1"                                                                         |
 
 ### Example
 
-The following example and the next ones Requires Axios which is a Promise based HTTP client for the browser and node.js
+The following example uses Axios which is a Promise based HTTP client for the browser and node.js
 
 <a target="_blank" href="https://github.com/axios/axios">
   Axios Github repo
@@ -137,94 +146,24 @@ log output
 }
 ```
 
-<!-- Cancel a subscription -->
-
-## Cancel Subscription
-
-### URLs
-
-#### Testing server:
-
-```jsx
-POST https://staging.xpay.app/api/subscriptions/{{member_id}}/cancel
-```
-
-#### Production(Live) server:
-
-```jsx
-POST https://community.xpay.app/api/subscriptions/{{member_id}}/cancel
-```
-
-### Parameters
-
-Do not supply any parameters.
-
-### Authentication
-
-Supply your API key in the request header
-
-```jsx
-"x-api-key" : string
-```
-
-### Request body
-
-#### Properties
-
-| Property name | Type   | Required | Description                         | Notes |
-| ------------- | ------ | -------- | ----------------------------------- | ----- |
-| community_id  | string | True     | ID that is unique to your community |       |
-
-### Example
-
-Create a new subscription
-
-```jsx
-const cancelSubscriptionUrl =
-  "https://new-dev.xpay.app/api/subscriptions/1327/cancel/";
-
-axios({
-  method: "post",
-  url: cancelSubscriptionUrl,
-  data: {
-    community_id: "zogDmQW",
-  },
-  headers: {
-    "x-api-key": "RiYBZNHU.PVTJB5GnLHF4Gu11UIty0V6D4QwtZvFO",
-  },
-})
-  .then((data) => {
-    if (data.status == 200) console.log("Subscription Canceled!");
-  })
-  .catch((e) => {
-    console.log(e.response.data.status);
-  });
-```
-
-log output
-
-```json
-"Subscription Canceled!"
-```
-
 <!-- Log Subscription bills -->
 
 ## Log Subscription bills
 
-This endpoint returns all the bills generated for a subscription in the form of an array of [bills object](#bill)
+This endpoint returns all the bills generated for a subscription in the form of an array of [bill object](#bill-object)
 
 ### URLs
 
 #### Testing server:
 
 ```jsx
-POST https://staging.xpay.app/api/subscriptions/bills
+GET https://staging.xpay.app/api/subscriptions/bills
 ```
 
 #### Production(Live) server:
 
 ```jsx
-POST https://community.xpay.app/api/subscriptions/bills
+GET https://community.xpay.app/api/subscriptions/bills
 ```
 
 ### Parameters
@@ -245,22 +184,27 @@ Supply your API key in the request header
 "x-api-key" : string
 ```
 
-### bill object
-
-| Property name                     | Type    | Description                                       | Notes |
-| --------------------------------- | ------- | ------------------------------------------------- | ----- |
-| amount                            | string  | Fixed service/bill cost                           |       |
-| created                           | string  | DateTime stamp of the bill creation date and time |       |
-| due_date                          | string  | Subscription bill due date                        |       |
-| end_date                          | string  | End date of the subscription bill period          |       |
-| id                                | number  | Subscription bill ID                              |       |
-| name                              | string  | Subscription bill name                            |       |
-| paid                              | boolean | Bill Payment status                               |       |
-| start_date                        | string  | Start billing date of the subscription bill       |       |
-| total.grand_total_amount          | number  | The total amount of bill including fess (if any)  |       |
-| total.grand_total_amount_currency | string  | Bill amount currency                              |       |
-
 ### Example
+
+The following example uses Axios which is a Promise based HTTP client for the browser and node.js
+
+<a target="_blank" href="https://github.com/axios/axios">
+  Axios Github repo
+</a>
+
+#### installing
+
+Using npm:
+
+```
+$ npm install axios
+```
+
+Using jsDelivr CDN:
+
+```
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+```
 
 Log all generated bills for a subscription
 
@@ -311,33 +255,26 @@ log output
       "grand_total_amount_currency": "EGP"
     }
   },
-  {
-    "amount": "1500.00",
-    "created": "2020-10-28T15:58:58.032506+02:00",
-    "due_date": "2021-08-27",
-    "end_date": "2021-09-26",
-    "id": 1689,
-    "name": "VIP Membership - 2021-08-27",
-    "paid": false,
-    "start_date": "2021-08-27",
-    "subscription": {
-      "amount": "1500.00",
-      "community_id": "zogDmQW",
-      "end_date": "2021-09-30",
-      "id": 1332,
-      "member_id": "11204268w43sss3",
-      "name": "VIP Membership",
-      "period": 30,
-      "start_date": "2020-09-01"
-    },
-    "total": {
-      "grand_total_amount": 1502,
-      "grand_total_amount_currency": "EGP"
-    }
-  },
   ...
 ]
 ```
+
+## Subscription bill
+
+A subscription bill is represented by the following attributes:
+
+| Property name                     | Type    | Description                                       | Notes |
+| --------------------------------- | ------- | ------------------------------------------------- | ----- |
+| amount                            | string  | Fixed service/bill cost                           |       |
+| created                           | string  | DateTime stamp of the bill creation date and time |       |
+| due_date                          | string  | Subscription bill due date                        |       |
+| end_date                          | string  | End date of the subscription bill period          |       |
+| id                                | number  | Subscription bill ID                              |       |
+| name                              | string  | Subscription bill name                            |       |
+| paid                              | boolean | Bill Payment status                               |       |
+| start_date                        | string  | Start billing date of the subscription bill       |       |
+| total.grand_total_amount          | number  | The total amount of bill including fess (if any)  |       |
+| total.grand_total_amount_currency | string  | Bill amount currency                              |       |
 
 <!-- Payment -->
 
@@ -386,6 +323,26 @@ Supply your API key in the request header
 | membership_id             |                | Membership ID of your user           | It is the same id you supplied while creating a subscription or the one that was created automatically for you |
 
 ### Example
+
+the following example uses Axios which is a Promise based HTTP client for the browser and node.js
+
+<a target="_blank" href="https://github.com/axios/axios">
+  Axios Github repo
+</a>
+
+#### installing
+
+Using npm:
+
+```
+$ npm install axios
+```
+
+Using jsDelivr CDN:
+
+```
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+```
 
 Pay a subscription bill
 
@@ -437,6 +394,102 @@ log output
 ```
 
 :::info
-you can either redirect your user to the link returned inside the `iframe_url` or embed it in your app
-this url contains the credit card form in which the user enters his credit card information
+you can either redirect your user to the link returned inside the `iframe_url` or embed it in your app.
+This url contains the credit card form in which the user enters his credit card information
 :::
+
+<!-- Cancel a subscription -->
+
+## Cancel Subscription
+
+Wether you want to stop billing the user or the user wishes to end his subscription to your services,
+you can easily cancel a subscription using cancel subscription endpoint
+
+When you cancel a subscription, Xpay system will stop generating new bills for this subscription
+and stop billing the user for any future bills that may have been already generated.
+
+### URLs
+
+#### Testing server:
+
+```jsx
+POST https://staging.xpay.app/api/subscriptions/{{member_id}}/cancel
+```
+
+#### Production(Live) server:
+
+```jsx
+POST https://community.xpay.app/api/subscriptions/{{member_id}}/cancel
+```
+
+### Parameters
+
+Do not supply any parameters.
+
+### Authentication
+
+Supply your API key in the request header
+
+```jsx
+"x-api-key" : string
+```
+
+### Request body
+
+#### Properties
+
+| Property name | Type   | Required | Description                         | Notes |
+| ------------- | ------ | -------- | ----------------------------------- | ----- |
+| community_id  | string | True     | ID that is unique to your community |       |
+
+### Example
+
+The following example uses Axios which is a Promise based HTTP client for the browser and node.js
+
+<a target="_blank" href="https://github.com/axios/axios">
+  Axios Github repo
+</a>
+
+#### installing
+
+Using npm:
+
+```
+$ npm install axios
+```
+
+Using jsDelivr CDN:
+
+```
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+```
+
+Create a new subscription
+
+```jsx
+const cancelSubscriptionUrl =
+  "https://new-dev.xpay.app/api/subscriptions/1327/cancel/";
+
+axios({
+  method: "post",
+  url: cancelSubscriptionUrl,
+  data: {
+    community_id: "zogDmQW",
+  },
+  headers: {
+    "x-api-key": "RiYBZNHU.PVTJB5GnLHF4Gu11UIty0V6D4QwtZvFO",
+  },
+})
+  .then((data) => {
+    if (data.status == 200) console.log("Subscription Canceled!");
+  })
+  .catch((e) => {
+    console.log(e.response.data.status);
+  });
+```
+
+log output
+
+```json
+"Subscription Canceled!"
+```

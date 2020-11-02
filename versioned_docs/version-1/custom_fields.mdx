@@ -1,0 +1,36 @@
+---
+id: custom-fields
+title: Custom Fields
+---
+
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+Custom fields is a way to add extra fields (parameters) to any of your API payments template to fit your needs.
+so, it can allow you to submit extra information during the payment process which can be retrieved later using our API.
+
+custom fields can:
+
+- take a value type of string, number or boolean.
+- be required so it blocks the payment process if the value is not submitted during the payment process.
+
+to add custom fields to your API payment template follow the same steps in [create API payment](api-payment.mdx) or navigate to your api payment template then :
+
+1. Navigate to the end of the form, you will find the **custom fields** section
+
+   <img
+     alt="custom fields section"
+     src={useBaseUrl("img/guides/custom_fields.png")}
+   />
+
+2. Fill in the value of the **FIELD LABEL**
+3. Choose the **FIELD TYPE** from the drop down menu
+   - Checkbox ( boolean ) 
+   - Text
+   - Number
+4. Check the **REQUIRED** checkbox to make this field required to be submitted with a value during the payment process.
+5. Click on **Add another custom field** if you wish to add more custom field.
+   <img
+     alt="add another custom fields"
+     src={useBaseUrl("img/guides/another-custom-field.png")}
+   />
+6. **SAVE** 

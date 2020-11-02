@@ -5,6 +5,92 @@ title: Promocode
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
+One of the standalone checkout tools that xpay offers is Promocode.
+Promocode allows you to give your users discounts on their payments.
+you can customize each promocode to fit your needs, read more below to know more.
+
+## Name
+
+**Required**
+
+Promocode Unique name, This the value you share with your users.
+
+## Expiration time
+
+**Required**
+
+The time where the promocode expires. this value takes date and time.
+
+## Discount amount
+
+** Required if Discount Percentage not set**
+
+This value represents the Discount amount in Egyptian pounds. use this if you want a fixed discount amount.
+
+## Discount percentage
+
+** Required if Discount amount not set**
+
+This value represents the Discount percentage from the total payment value.
+
+Ex: if you set the Discount percentage to 30 and the user uses it with a payment of 1000,
+it will give him a discount of 300 and he will pay 700 only.
+
+:::caution
+Discount amount and Discount percentage can not be set together.
+if you set one of them, make sure to leave the other value equals to zero.
+:::
+
+## Amount trigger
+
+**Optional**
+
+Minimum amount so that the promocode takes effect.
+
+Use this if you wish the promocode to take effect only for payments which it's amount is equal to or bigger a certain amount.
+
+## All user occurrences
+
+**Optional**
+
+Maximum total number of uses for this promocode.
+
+## User occurrences
+
+**Optional**
+
+Maximum total number of uses for this promocode **for a single user**.
+
+## Payment for
+
+**Optional**
+
+Set this promocode to work for a certain type of payments only.
+
+Payment types that accepts Promocodes: Direct Order, Event, Training, Product, Service, and Sports academy.
+
+## Payment instance id
+
+**Optional**
+
+The payment ID of the payment that you wish this promocode to only work with.
+
+:::note
+Payment ID can be found next to the payment you created in the prespective list view.
+
+<img
+  alt="API keys section"
+  src={useBaseUrl("guides/promo_code_payment_ids.png")}
+/>
+
+:::
+
+:::caution
+Payment for and Payment instance id must be set together.
+:::
+
+## Steps to create promocode
+
 1. Navigate to **Promocodes** under **Promocodes** in the side menu.
 
 <img alt="API keys section" src={useBaseUrl("guides/add_promo_code.png")} />
@@ -15,15 +101,6 @@ import useBaseUrl from "@docusaurus/useBaseUrl";
 
 <img alt="Add API key" src={useBaseUrl("guides/promo_code_form_new.png")} />
 
-| Property name         | Value     | Description                                          | Notes |
-| --------------------- | --------- | ---------------------------------------------------- | ----- |
-| Name                  | string    | unique name to identify the promocode                |
-| Expiration time       | date/time | when will it expire?                                 |       |
-| Discount amount       | integer   | fixed amount to be deducted                          |       |
-| Discount percentage   | integer   | percentage of the total amount to be deducted        |       |
-| Amount trigger        | integer   | Minimum amount so that the promocode takes effect    |       |
-| All user occurrences: | integer   | How many users can use this promocode?               |       |
-| User occurrences:     | integer   | How many times a single user can use this promocode? |       |
 
 4. click **Save**, you will be redirected back to **Promocodes**.
 

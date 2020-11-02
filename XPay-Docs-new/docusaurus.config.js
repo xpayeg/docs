@@ -2,11 +2,11 @@ module.exports = {
   title: "XPAY",
   tagline: "XPAY Docs",
   url: "https://xpayeg.github.io",
-  baseUrl: '/',
+  baseUrl: "/docs/",
   onBrokenLinks: 'log',
   favicon: "img/favicon.ico",
   organizationName: "xpayeg", // Usually your GitHub org/user name.
-  projectName: "api-docs", // Usually your repo name.
+  projectName: "docs", // Usually your repo name.
   themeConfig: {
     sidebarCollapsible: true,
     navbar: {
