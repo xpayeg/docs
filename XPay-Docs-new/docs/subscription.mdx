@@ -105,26 +105,24 @@ Using jsDelivr CDN:
 Create a new subscription
 
 ```jsx
-const createSubscriptionUrl = "https://new-dev.xpay.app/api/subscriptions/";
-
 axios({
   method: "post",
-  url: createSubscriptionUrl,
+  url: "https://staging.xpay.app/api/subscriptions/",
   data: {
     name: "VIP Membership",
     amount: 1500,
-    start_date: "2020-9-1",
-    period: 30,
-    member_id: "11204268",
-    community_id: "zogDmQW",
-    end_date: "2021-9-30",
+    start_date: "2020-11-1",
+    period: 1,
+    member_id: "69",
+    community_id: "m2J7eBK",
+    end_date: "2020-11-30",
   },
   headers: {
-    "x-api-key": "RiYBZNHU.PVTJB5GnLHF4Gu11UIty0V6D4QwtZvFO",
+    "x-api-key": "Cce74Y3B.J0P4tItq7hGu2ddhCB0WF5ND1eTubkpT",
   },
 })
-  .then((data) => {
-    console.log(data.data.data);
+  .then((response) => {
+    console.log(response.data.data);
   })
   .catch((e) => {
     console.log(e.response.data.status);
@@ -135,16 +133,23 @@ log output
 
 ```json
 {
-  "amount": "1500.00",
-  "community_id": "zogDmQW",
-  "end_date": "2021-09-30",
-  "id": 1332,
-  "member_id": "11204268",
+  "id": 1593,
   "name": "VIP Membership",
-  "period": 30,
-  "start_date": "2020-09-01"
+  "amount": "1500.00",
+  "start_date": "2020-11-01",
+  "end_date": "2020-11-30",
+  "period": 1,
+  "community_id": "m2J7eBK",
+  "member_id": "69"
 }
 ```
+
+:::note
+If you try to run the above code in your client you will get an error saying that the member id is used before,
+this is because subscriptions are linked to membership ids and the same community can't have duplicate membership ids.
+
+Try changing the value of the member_id randomly till it work.
+:::
 
 <!-- Log Subscription bills -->
 
@@ -209,18 +214,16 @@ Using jsDelivr CDN:
 Log all generated bills for a subscription
 
 ```jsx
-const logSubscriptionBillsUrl =
-  "https://new-dev.xpay.app/api/subscriptions/bills?member_id=11204268w43sss3&community_id=zogDmQW";
-
 axios({
   method: "get",
-  url: logSubscriptionBillsUrl,
+  url:
+    "https://staging.xpay.app/api/subscriptions/bills?member_id=69&community_id=m2J7eBK",
   headers: {
-    "x-api-key": "RiYBZNHU.PVTJB5GnLHF4Gu11UIty0V6D4QwtZvFO",
+    "x-api-key": "Cce74Y3B.J0P4tItq7hGu2ddhCB0WF5ND1eTubkpT",
   },
 })
-  .then((data) => {
-    console.log(data.data.data);
+  .then((response) => {
+    console.log(response.data.data);
   })
   .catch((e) => {
     console.log(e.response.data.status);
@@ -230,36 +233,35 @@ axios({
 log output
 
 ```json
-[
-  {
-    "amount": "1500.00",
-    "created": "2020-10-28T15:58:58.040460+02:00",
-    "due_date": "2021-09-26",
-    "end_date": "2021-10-26",
-    "id": 1690,
-    "name": "VIP Membership - 2021-09-26",
-    "paid": false,
-    "start_date": "2021-09-26",
-    "subscription": {
-      "amount": "1500.00",
-      "community_id": "zogDmQW",
-      "end_date": "2021-09-30",
-      "id": 1332,
-      "member_id": "11204268w43sss3",
-      "name": "VIP Membership",
-      "period": 30,
-      "start_date": "2020-09-01"
-    },
-    "total": {
-      "grand_total_amount": 1502,
-      "grand_total_amount_currency": "EGP"
-    }
+[{
+  amount: "1500.00",
+  created: "2020-11-03T11:12:46.183655+02:00",
+  due_date: "2020-11-30",
+  end_date: "2020-12-01",
+  id: 1795,
+  name: "VIP Membership - 2020-11-30",
+  paid: false,
+  start_date: "2020-11-30",
+  subscription: {
+    amount: "1500.00",
+    community_id: "m2J7eBK",
+    end_date: "2020-11-30",
+    id: 1593,
+    member_id: "69",
+    name: "VIP Membership",
+    period: 1,
+    start_date: "2020-11-01"
   },
-  ...
+  total: {
+    grand_total_amount: 1500,
+    grand_total_amount_currency: "EGP"
+  }
+},
+...
 ]
 ```
 
-## Subscription bill
+## Subscription bill object
 
 A subscription bill is represented by the following attributes:
 
@@ -275,6 +277,21 @@ A subscription bill is represented by the following attributes:
 | start_date                        | string  | Start billing date of the subscription bill       |       |
 | total.grand_total_amount          | number  | The total amount of bill including fess (if any)  |       |
 | total.grand_total_amount_currency | string  | Bill amount currency                              |       |
+
+## Subscription object
+
+A subscription is represented by the following attributes:
+
+| Property name | Type   | Description                                          | Notes  |
+| ------------- | ------ | ---------------------------------------------------- | ------ |
+| amount        | string | Fixed service/bill cost                              |        |
+| community_id  | string | ID that is uniques to your community                 |        |
+| end_date      | string | End date of the subscription bill period             |        |
+| id            | number | Subscription ID                                      |        |
+| member_id     | string | Membership ID of your user                           |        |
+| name          | string | Subscription name                                    |        |
+| period        | number | The interval of which you bill your user **in days** | ex: 10 |
+| start_date    | string | Start billing date of the subscription bill          |        |
 
 <!-- Payment -->
 
@@ -347,27 +364,24 @@ Using jsDelivr CDN:
 Pay a subscription bill
 
 ```jsx
-const paySubscriptionBill =
-  "https://new-dev.xpay.app/api/v1/payments/pay/bills";
-
 axios({
   method: "post",
-  url: paySubscriptionBill,
+  url: "https://staging.xpay.app/api/v1/payments/pay/bills",
   data: {
     billing_data: {
       name: "John doe",
-      email: "j.doe@tes.com",
+      email: "j.doe@test.com",
       phone_number: "+201111111111",
     },
-    amount: 1502,
+    amount: 1500,
     currency: "EGP",
-    community_id: "zogDmQW",
+    community_id: "m2J7eBK",
     pay_using: "card",
-    ids: ["1689"],
-    membership_id: "1332",
+    ids: [1766],
+    membership_id: "69",
   },
   headers: {
-    "x-api-key": "RiYBZNHU.PVTJB5GnLHF4Gu11UIty0V6D4QwtZvFO",
+    "x-api-key": "Cce74Y3B.J0P4tItq7hGu2ddhCB0WF5ND1eTubkpT",
   },
 })
   .then((data) => {
@@ -383,15 +397,22 @@ log output
 
 ```json
 {
-  "iframe_url": "https://dev-payment.xpay.app/core/payment_iframe/5717/",
-  "transaction_id": 5366,
+  "iframe_url": "https://staging-payment.xpay.app/core/payment_iframe/2344/",
+  "transaction_id": 4294,
   "transaction_status": "PENDING",
-  "transaction_uuid": "14e4da8c-3c7a-47c7-bb47-9081c99e0add",
+  "transaction_uuid": "4a2e4975-be42-497e-a3c5-49b04abc830b",
   "message": null,
   "bill_reference": null,
   "bm_session": null
 }
 ```
+
+:::note
+If you try to follow the link in the log ouput example it will show you a successful operation message
+because it have already been paid.
+
+You can change the values of the request body, for example, supply another bill ids based on the previous examples.
+:::
 
 :::info
 you can either redirect your user to the link returned inside the `iframe_url` or embed it in your app.
@@ -424,7 +445,9 @@ POST https://community.xpay.app/api/subscriptions/{{member_id}}/cancel
 
 ### Parameters
 
-Do not supply any parameters.
+| Property name   | Value  | Description                             | Notes |
+| --------------- | ------ | --------------------------------------- | ----- |
+| subscription_id | string | Subscription ID that you wish to cancel |       |
 
 ### Authentication
 
@@ -467,21 +490,21 @@ Using jsDelivr CDN:
 Create a new subscription
 
 ```jsx
-const cancelSubscriptionUrl =
-  "https://new-dev.xpay.app/api/subscriptions/1327/cancel/";
-
+const subscription_id = "put your subscription id here";
 axios({
   method: "post",
-  url: cancelSubscriptionUrl,
+  url: `https://staging.xpay.app/api/subscriptions/${subscription_id}/cancel/`,
   data: {
-    community_id: "zogDmQW",
+    community_id: "m2J7eBK",
   },
   headers: {
-    "x-api-key": "RiYBZNHU.PVTJB5GnLHF4Gu11UIty0V6D4QwtZvFO",
+    "x-api-key": "Cce74Y3B.J0P4tItq7hGu2ddhCB0WF5ND1eTubkpT",
   },
 })
-  .then((data) => {
-    if (data.status == 200) console.log("Subscription Canceled!");
+  .then((response) => {
+    if (response.status == 200) {
+      console.log("Subscription Canceled!");
+    }
   })
   .catch((e) => {
     console.log(e.response.data.status);
