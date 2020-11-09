@@ -1,6 +1,6 @@
 ---
 id: transactions
-title: Transactions
+title: Transaction endpoint
 ---
 
 import useBaseUrl from "@docusaurus/useBaseUrl";
@@ -9,18 +9,26 @@ import TabItem from "@theme/TabItem";
 
 After getting a response from Pay endpoint you can use this endpoint to fetch informations about the transaction such as status, transaction id , total amount paid, ETC...
 
-## REQUEST
+## URL
 
 ### testing server:
 
-```http
+```jsx
 GET https://staging.xpay.app/api/v1/communities/{community_id}/transactions/{transaction_uuid}/
 ```
 
 ### production(Live) server:
 
-```http
+```jsx
 GET https://community.xpay.app/api/v1/communities/{community_id}/transactions/{transaction_uuid}/
+```
+
+## Authentication
+
+Supply your API key in the request header
+
+```jsx
+"x-api-key" : string
 ```
 
 ## Parameters
@@ -42,7 +50,7 @@ GET https://community.xpay.app/api/v1/communities/{community_id}/transactions/{t
 
 If successful, this method returns a response body with the following structure:
 
-```json
+```jsx
 {
   "status": {
     "code": integer,
@@ -53,9 +61,14 @@ If successful, this method returns a response body with the following structure:
     "created": string,
     "id": integer,
     "uuid": string,
+    "member_id": string, // in case the payment is connected to a membership id
     "total_amount": string,
     "total_amount_currency": string,
-    "status": string
+    "payment_for": string, // ex: "API_PAYMENT", "EVENT", "BILL", etc..
+    "payment_for": number, // in case the payment was for event, service, product or training.
+    "status": string,
+    "custom_fields_json": object,
+    "total_amount_piasters": number
   },
   "count": integer,
   "next": string,
@@ -63,7 +76,27 @@ If successful, this method returns a response body with the following structure:
 }
 ```
 
-### Example
+## Example
+
+The following example uses Axios which is a Promise based HTTP client for the browser and node.js
+
+<a target="_blank" href="https://github.com/axios/axios">
+  Axios Github repo
+</a>
+
+#### installing
+
+Using npm:
+
+```jsx
+$ npm install axios
+```
+
+Using jsDelivr CDN:
+
+```jsx
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+```
 
 <Tabs
   defaultValue="request"
@@ -73,8 +106,21 @@ If successful, this method returns a response body with the following structure:
 }>
 <TabItem value="request">
 
-```json
-
+```jsx
+axios({
+  method: "get",
+  url:
+    "https://staging.xpay.app/api/v1/communities/JZ40KjN/transactions/2e1b68de-53f3-4228-a509-53560477a860/",
+  headers: {
+    "x-api-key": "fVmOK4Y6.gHjL48wKy47MoIUwIBGCht8M8kSg7QCP",
+  },
+})
+  .then((response) => {
+    console.log(response.data.data);
+  })
+  .catch((e) => {
+    console.log(e.response.data.status);
+  });
 ```
 
 </TabItem>
@@ -82,22 +128,17 @@ If successful, this method returns a response body with the following structure:
 
 ```json
 {
-  "status": {
-    "code": 200,
-    "message": "success",
-    "errors": []
-  },
-  "data": {
-    "created": "2020-05-10T14:20:11.855539+02:00",
-    "id": 3517,
-    "uuid": "452ecb4d-3b6e-4a94-af82-f3ffd21c7e0f",
-    "total_amount": "50.00",
-    "total_amount_currency": "EGP",
-    "status": "SUCCESSFUL"
-  },
-  "count": null,
-  "next": null,
-  "previous": null
+  "created": "2020-02-25T23:43:20.505541+02:00",
+  "custom_fields_json": null,
+  "id": 1760,
+  "member_id": "13333",
+  "payment_for": "BILL",
+  "quantity": null,
+  "status": "SUCCESSFUL",
+  "total_amount": "12.50",
+  "total_amount_currency": "EGP",
+  "total_amount_piasters": 1250,
+  "uuid": "2e1b68de-53f3-4228-a509-53560477a860"
 }
 ```
 
