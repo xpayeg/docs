@@ -1,11 +1,25 @@
 ---
 id: installation
-title: installation
+title: Introduction
 ---
 
-## installation
+XpayUtils is an sdk for android development written in kotlin.
 
-## Basic usage
+## Features
+
+- supports native development
+- supports coroutines
+- get the available
+
+## Installation
+
+XpayUtils is available through jitpack
+
+## Usage
+
+### make payment
+
+### Get transaction info
 
 <!-- example code -->
 
@@ -18,14 +32,51 @@ title: installation
 
 ### XpayUtils
 
+XpayUtils is a singelton class
+
 ### Objects
 
 #### Core settings
+
+##### apiKey
+
+| Object name                | Type                            | Description         | Notes                                         |
+| -------------------------- | ------------------------------- | ------------------- | --------------------------------------------- |
+| apiKey                     | String                          | your api key        | [How to create API key](/api-key)             |
+| communityId                | String                          | your community id   | [How to get your community ID](/api-key)      |
+| variableAmountID           | Number                          | your api payment id | [How to create API payment ID](/api-payments) |
+| serverSetting              | Enum of [ServerSetting]         | Server settings     | [ServerSetting]                               |
+| PaymentOptionsTotalAmounts | [PaymentOptionsTotalAmounts]    |                     |                                               |
+| payUsing                   | [PaymentMethods]                |                     |                                               |
+| activePaymentMethods       | MutableList of [PaymentMethods] |                     |                                               |
+| customFields               | MutableList of [CustomField]    |                     |                                               |
+| userInfo                   | [User]                          |                     |                                               |
+| ShippingInfo               | [ShippingInfo]                  |                     |                                               |
 
 #### Payment settings
 
 ### Methods
 
-<!-- prepare amount -->
-<!-- payment attributes -->
-<!-- pay -->
+#### PrepareAmount
+
+This method does the following:
+
+- Get the active payment methods available to your community and set activePaymentMethods
+- Get the total amount of each active payment method and set PaymentOptionsTotalAmounts
+- Return PrepareAmountData object which represents the total amount of each active payment method including fees (if any)
+
+```
+suspend fun prepareAmount(amount: Number): PrepareAmountData?
+```
+
+#### pay
+
+```jsx
+suspend fun pay(): PayData?
+```
+
+#### getTransaction
+
+```jsx
+suspend fun getTransaction(transactionUid: String): TransactionData?
+```
