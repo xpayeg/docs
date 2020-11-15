@@ -3,17 +3,32 @@ id: installation
 title: Introduction
 ---
 
-XpayUtils is an sdk for android development written in kotlin.
-
-## Features
-
-- supports native development
-- supports coroutines
-- get the available
+XpayUtils is an SDK for android development written in kotlin.
 
 ## Installation
 
 XpayUtils is available through jitpack
+
+1. Add the following line in your root build.gradle at the end of repositories:
+
+```
+allprojects {
+    repositories {
+        ...
+        maven { url 'https://jitpack.io' }
+    }
+}
+```
+
+2. Add the dependency
+
+```
+dependencies {
+	implementation 'com.github.xpayeg:Android-kotlin-sdk:Tag'
+}
+```
+
+Click [here](https://jitpack.io/#xpayeg/Android-kotlin-sdk) for more installation options.
 
 ## Usage
 
@@ -32,42 +47,51 @@ XpayUtils is available through jitpack
 
 ### XpayUtils
 
-XpayUtils is a singelton class
+XpayUtils is a singelton class, to get more info on singeltons in kotlin check the following resources:
 
-### Objects
+- [Singleton Class in Kotlin](https://www.geeksforgeeks.org/singleton-class-in-kotlin/)
+
+### Properties
 
 #### Core settings
 
-##### apiKey
-
-| Object name                | Type                            | Description         | Notes                                         |
-| -------------------------- | ------------------------------- | ------------------- | --------------------------------------------- |
-| apiKey                     | String                          | your api key        | [How to create API key](/api-key)             |
-| communityId                | String                          | your community id   | [How to get your community ID](/api-key)      |
-| variableAmountID           | Number                          | your api payment id | [How to create API payment ID](/api-payments) |
-| serverSetting              | Enum of [ServerSetting]         | Server settings     | [ServerSetting]                               |
-| PaymentOptionsTotalAmounts | [PaymentOptionsTotalAmounts]    |                     |                                               |
-| payUsing                   | [PaymentMethods]                |                     |                                               |
-| activePaymentMethods       | MutableList of [PaymentMethods] |                     |                                               |
-| customFields               | MutableList of [CustomField]    |                     |                                               |
-| userInfo                   | [User]                          |                     |                                               |
-| ShippingInfo               | [ShippingInfo]                  |                     |                                               |
+| Object name      | Type            | Description                  | Notes                                         |
+| ---------------- | --------------- | ---------------------------- | --------------------------------------------- |
+| apiKey           | String          | your api key                 | [How to create API key](/api-key)             |
+| communityId      | String          | your community id            | [How to get your community ID](/api-key)      |
+| variableAmountID | Number          | your api payment id          | [How to create API payment ID](/api-payments) |
+| serverSetting    | [ServerSetting] | Production or testing server | [ServerSetting refrence]                      |
 
 #### Payment settings
+
+| Object name                | Type                            | Description                                                                                                        | Notes                                                            |
+| -------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| PaymentOptionsTotalAmounts | [PaymentOptionsTotalAmounts]    | Total amount for the prepared amount after adding fees (if any) for each ayment method available to your community |                                                                  |
+| payUsing                   | [PaymentMethods]                | Payment method you wish to use when making payments using pay method                                               |                                                                  |
+| activePaymentMethods       | MutableList of [PaymentMethods] | Available payment methods available for your community                                                             |                                                                  |
+| userInfo                   | [User]                          | Billing information of the user making payment                                                                     |                                                                  |
+| ShippingInfo               | [ShippingInfo]                  | Shipping information of the user making payment                                                                    | Required when using cash collection method as the payment method |
+| customFields               | MutableList of [CustomField]    | Extra information you wish to save alongside the transaction info for future use according to your needs           |                                                                  |
 
 ### Methods
 
 #### PrepareAmount
 
-This method does the following:
-
-- Get the active payment methods available to your community and set activePaymentMethods
-- Get the total amount of each active payment method and set PaymentOptionsTotalAmounts
-- Return PrepareAmountData object which represents the total amount of each active payment method including fees (if any)
-
-```
+```jsx
 suspend fun prepareAmount(amount: Number): PrepareAmountData?
 ```
+
+This method does the following:
+
+- Get the active payment methods available to your community and set activePaymentMethods.
+- Get the total amount including fees(if any) of each available payment method and set PaymentOptionsTotalAmounts.
+- Return PrepareAmountData object which represents the total amount including fees (if any) of each active payment method.
+
+##### Parameters
+
+| Object name | Type   | Description                                     | Notes |
+| ----------- | ------ | ----------------------------------------------- | ----- |
+| amount      | number | value of the amount you want to charge the user |       |
 
 #### pay
 
@@ -75,8 +99,23 @@ suspend fun prepareAmount(amount: Number): PrepareAmountData?
 suspend fun pay(): PayData?
 ```
 
+This method does the following:
+
+- Read the payment settings Parameters and make a payment request using those values.
+- Returns PayData which contains payment information like the credit card from url or the refrence number for kiosk payments.
+
 #### getTransaction
 
 ```jsx
 suspend fun getTransaction(transactionUid: String): TransactionData?
 ```
+
+This method does the following:
+
+- Returns TransactionData which contains transaction info
+
+##### Parameters
+
+| Object name    | Type   | Description                                  | Notes                                                                               |
+| -------------- | ------ | -------------------------------------------- | ----------------------------------------------------------------------------------- |
+| transactionUid | String | UUID of the transaction you wish to its data | UUID is returned inside payData after pay method is called and returns successfully |
