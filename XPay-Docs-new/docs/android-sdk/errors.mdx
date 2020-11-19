@@ -65,22 +65,46 @@ check [here](/api-payments) to know how to generate an API Payment ID.
 
 **Solution**: Set XpayUtils.userInfo using User data class.
 
-Example:
+**Example**:
 
 ```jsx
-XpayUtils.userInfo = XpayUtils.userInfo = User(
-  "John Doe",
-  "j.doe@test.com",
-  "+201111111111"
-);
+XpayUtils.userInfo = User("John Doe", "j.doe@test.com", "+201111111111");
 ```
 
-## PaymentOptionsTotalAmounts is not set"
+## PaymentOptionsTotalAmounts is not set
 
 **Type**: IllegalStateException
 
 **Reason**: XPayUtils.PaymentOptionsTotalAmounts is null
 
-**Solution**: call ```prepareAmount(amount: Number)``` method before calling ```pay()``` method which sets XpayUtils.PaymentOptionsTotalAmounts internally
+**Solution**: call `prepareAmount(amount: Number)` method before calling `pay()` method which sets XpayUtils.PaymentOptionsTotalAmounts internally
 
+## activePaymentMethods is empty
 
+**Type**: IllegalStateException
+
+**Reason**: XPayUtils.activePaymentMethods mutable list is empty
+
+**Solution**: call `prepareAmount(amount: Number)` method before calling `pay()` method which sets XpayUtils.activePaymentMethods internally
+
+## Shipping Information is not found
+
+**Type**: IllegalStateException
+
+**Reason**: XPayUtils.ShippingInfo is null
+
+**Solution**: Set XpayUtils.ShippingInfo using ShippingInfo data class.
+
+**Example**:
+
+```jsx
+XpayUtils.ShippingInfo = ShippingInfo(
+  "EG", // country
+  "Cairo", // city
+  "Down Town", // state
+  "5", // apartment
+  "5", // building
+  "5", // floor
+  "Falki" // street
+);
+```
