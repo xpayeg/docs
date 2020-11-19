@@ -29,6 +29,7 @@ module.exports = {
         "android-sdk/installation",
         "android-sdk/example",
         "android-sdk/classes",
+        "android-sdk/sdk-errors",
       ],
     },
     {

@@ -32,15 +32,19 @@ Click [here](https://jitpack.io/#xpayeg/Android-kotlin-sdk) for more installatio
 
 ## Usage
 
-### make payment
+### Make payment
 
 ```jsx
 import com.xpay.kotlinutils.XpayUtils
+import com.xpay.kotlinutils.models.User
 
 // set XpayUtils core settings
-XpayUtils.apiKey = "3uBD5mrj.3HSCm46V7xJ5yfIkPb2gBOIUFH4Ks0Ss";
-XpayUtils.communityId = "zogDmQW";
-XpayUtils.variableAmountID = 18;
+// The following settings are for testing purposes only
+XpayUtils.apiKey = "Cce74Y3B.J0P4tItq7hGu2ddhCB0WF5ND1eTubkpT";
+XpayUtils.communityId = "m2J7eBK";
+XpayUtils.variableAmountID = 60;
+// default server settings are testing servers which is equivalent to
+// XpayUtils.serverSetting = ServerSetting.TEST
 
 lifecycleScope.launch {
     try {
@@ -59,7 +63,7 @@ lifecycleScope.launch {
         val paymentRespone = XpayUtils.pay()
         // get payment form url and navigate to it to complete your payment
         val formUrl = paymentRespone?.iframe_url!!
-        //in case of KIOSK payment method, read the message respone which contains your payment refrence number from AMAN
+        //in case of KIOSK payment method, read the message respone which contains your payment reference number from AMAN
         // val formUrl = paymentRespone?.message!!
 
         // that's it !
@@ -75,9 +79,12 @@ lifecycleScope.launch {
 import com.xpay.kotlinutils.XpayUtils
 
 // set XpayUtils core settings
-XpayUtils.apiKey = "3uBD5mrj.3HSCm46V7xJ5yfIkPb2gBOIUFH4Ks0Ss";
-XpayUtils.communityId = "zogDmQW";
-XpayUtils.variableAmountID = 18;
+// The following settings are for testing purposes only
+XpayUtils.apiKey = "Cce74Y3B.J0P4tItq7hGu2ddhCB0WF5ND1eTubkpT";
+XpayUtils.communityId = "m2J7eBK";
+XpayUtils.variableAmountID = 60;
+// default server settings are testing servers which is equivalent to
+// XpayUtils.serverSetting = ServerSetting.TEST
 
 lifecycleScope.launch {
     try {
@@ -93,9 +100,7 @@ lifecycleScope.launch {
 }
 ```
 
-## Library refrence
-
-### XpayUtils
+## XpayUtils reference
 
 XpayUtils is a singelton class, to get more info on singeltons in kotlin check the following resources:
 
@@ -103,32 +108,32 @@ XpayUtils is a singelton class, to get more info on singeltons in kotlin check t
 
 ### Properties
 
-#### Core settings
+### Core settings
 
 | Object name      | Type            | Description                  | Notes                                         |
 | ---------------- | --------------- | ---------------------------- | --------------------------------------------- |
 | apiKey           | String          | your api key                 | [How to create API key](/api-key)             |
 | communityId      | String          | your community id            | [How to get your community ID](/api-key)      |
 | variableAmountID | Number          | your api payment id          | [How to create API payment ID](/api-payments) |
-| serverSetting    | [ServerSetting] | Production or testing server | [ServerSetting refrence]                      |
+| serverSetting    | [ServerSetting] | Production or testing server | [ServerSetting reference]                      |
 
-#### Payment settings
+### Payment settings
 
-| Object name                | Type                            | Description                                                                                                        | Notes                                                            |
-| -------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
-| PaymentOptionsTotalAmounts | [PaymentOptionsTotalAmounts]    | Total amount for the prepared amount after adding fees (if any) for each ayment method available to your community |                                                                  |
-| payUsing                   | [PaymentMethods]                | Payment method you wish to use when making payments using pay method                                               |                                                                  |
-| activePaymentMethods       | MutableList of [PaymentMethods] | Available payment methods available for your community                                                             |                                                                  |
-| userInfo                   | [User]                          | Billing information of the user making payment                                                                     |                                                                  |
-| ShippingInfo               | [ShippingInfo]                  | Shipping information of the user making payment                                                                    | Required when using cash collection method as the payment method |
-| customFields               | MutableList of [CustomField]    | Extra information you wish to save alongside the transaction info for future use according to your needs           |                                                                  |
+| Object name                | Type                            | Description                                                                                                         | Notes                                                            |
+| -------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| PaymentOptionsTotalAmounts | [PaymentOptionsTotalAmounts]    | Total amount for the prepared amount after adding fees (if any) for each payment method available to your community |                                                                  |
+| payUsing                   | [PaymentMethods]                | Payment method you wish to use when requesting payments using pay method                                            |                                                                  |
+| activePaymentMethods       | MutableList of [PaymentMethods] | Available payment methods available for your community                                                              |                                                                  |
+| userInfo                   | [User]                          | Billing information of the user making payment                                                                      |                                                                  |
+| ShippingInfo               | [ShippingInfo]                  | Shipping information of the user making payment                                                                     | Required when using cash collection method as the payment method |
+| customFields               | MutableList of [CustomField]    | Extra information you wish to save alongside the transaction info for future use according to your needs            |                                                                  |
 
 ### Methods
 
-#### PrepareAmount
+### PrepareAmount
 
 ```jsx
-suspend fun prepareAmount(amount: Number): PrepareAmountData?
+prepareAmount(amount: Number): PrepareAmountData?
 ```
 
 This method does the following:
@@ -137,60 +142,72 @@ This method does the following:
 - Get the total amount including fees(if any) of each available payment method and set PaymentOptionsTotalAmounts.
 - Return PrepareAmountData object which represents the total amount including fees (if any) of each active payment method.
 
-##### Parameters
+:::note
+This is a suspend function it have to be run inside a coroutine scope
+:::
+
+#### Parameters
 
 | Object name | Type   | Description                                     | Notes |
 | ----------- | ------ | ----------------------------------------------- | ----- |
 | amount      | number | value of the amount you want to charge the user |       |
 
-#### pay
+### pay
 
 ```jsx
-suspend fun pay(): PayData?
+pay(): PayData?
 ```
 
 This method does the following:
 
 - Read the payment settings Parameters and make a payment request using those values.
-- Returns PayData which contains payment information like the credit card from url or the refrence number for kiosk payments.
+- Returns PayData which contains payment information like the credit card from url or the reference number for kiosk payments.
 
-#### getTransaction
+:::note
+This is a suspend function it have to be run inside a coroutine scope
+:::
+
+### getTransaction
 
 ```jsx
-suspend fun getTransaction(transactionUid: String): TransactionData?
+getTransaction(transactionUid: String): TransactionData?
 ```
 
 This method does the following:
 
 - Returns TransactionData which contains transaction info like status, creation date and time, customFields that were saved with the transaction, etc..
 
-##### Parameters
+:::note
+This is a suspend function it have to be run inside a coroutine scope
+:::
+
+#### Parameters
 
 | Object name    | Type   | Description                                  | Notes                                                                               |
 | -------------- | ------ | -------------------------------------------- | ----------------------------------------------------------------------------------- |
 | transactionUid | String | UUID of the transaction you wish to its data | UUID is returned inside payData after pay method is called and returns successfully |
 
-#### addCustomField
+### addCustomField
 
 ```jsx
-fun addCustomField(fieldName: String, fieldValue: String): Unit
+addCustomField(fieldName: String, fieldValue: String): Unit
 ```
 
 This method does the following:
 
 - add a custom field to XpayUtils.customFields,
 
-##### Parameters
+#### Parameters
 
 | Object name | Type   | Description                        | Notes |
 | ----------- | ------ | ---------------------------------- | ----- |
 | fieldName   | String | key of the data you want to save   |       |
 | fieldValue  | String | value of the data you want to save |       |
 
-#### clearCustomField
+### clearCustomField
 
 ```jsx
-fun clearCustomField(): Unit
+clearCustomField(): Unit
 ```
 
 This method does the following:

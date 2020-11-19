@@ -1,0 +1,86 @@
+---
+id: sdk-errors
+title: Errors reference
+---
+
+XpayUtils throws errors in the following cases:
+
+- when there is a missing setting
+- values were supplied in the wrong format
+- XPay servers returned an error message
+
+All errors(except server errors, it's a work in progress) that gets thrown by XPayUtils can be found in this document with the reason explained and steps to solve them
+
+## apiKey is required
+
+**Type**: IllegalStateException
+
+**Reason**: XPayUtils.apiKey is null
+
+**Solution**: Set XpayUtils.apiKey with your API Key value
+
+check [here](/api-key) to know how to generate an API key.
+
+## communityId is required
+
+**Type**: IllegalStateException
+
+**Reason**: XPayUtils.communityId is null
+
+**Solution**: Set XpayUtils.communityId with your Community ID value
+
+check [here](/api-key) to know how to get your Community ID.
+
+## variableAmountID is required
+
+**Type**: IllegalStateException
+
+**Reason**: XPayUtils.variableAmountID is null
+
+**Solution**: Set XpayUtils.variableAmountID with your API Payment ID
+
+check [here](/api-payments) to know how to generate an API Payment ID.
+
+## Payment method is not set
+
+**Type**: IllegalStateException
+
+**Reason**: XPayUtils.payUsing is null
+
+**Solution**: Set XpayUtils.payUsing with one of the values found in XpayUtils.activePaymentMethods.
+
+## Payment method chosen is not available
+
+**Type**: IllegalArgumentException
+
+**Reason**: the value found in XPayUtils.payUsing is not found in XpayUtils.activePaymentMethods
+
+**Solution**: Set XpayUtils.payUsing with one of the values found in XpayUtils.activePaymentMethods.
+
+## Billing information is not found
+
+**Type**: IllegalStateException
+
+**Reason**: XPayUtils.userInfo is null
+
+**Solution**: Set XpayUtils.userInfo using User data class.
+
+Example:
+
+```jsx
+XpayUtils.userInfo = XpayUtils.userInfo = User(
+  "John Doe",
+  "j.doe@test.com",
+  "+201111111111"
+);
+```
+
+## PaymentOptionsTotalAmounts is not set"
+
+**Type**: IllegalStateException
+
+**Reason**: XPayUtils.PaymentOptionsTotalAmounts is null
+
+**Solution**: call ```prepareAmount(amount: Number)``` method before calling ```pay()``` method which sets XpayUtils.PaymentOptionsTotalAmounts internally
+
+
