@@ -34,14 +34,64 @@ Click [here](https://jitpack.io/#xpayeg/Android-kotlin-sdk) for more installatio
 
 ### make payment
 
+```jsx
+import com.xpay.kotlinutils.XpayUtils
+
+// set XpayUtils core settings
+XpayUtils.apiKey = "3uBD5mrj.3HSCm46V7xJ5yfIkPb2gBOIUFH4Ks0Ss";
+XpayUtils.communityId = "zogDmQW";
+XpayUtils.variableAmountID = 18;
+
+lifecycleScope.launch {
+    try {
+        val res = XpayUtils.prepareAmount(50)
+        // read active payment methods list and set payUsing property
+        // this test community returns CARD and KIOSK payment options
+        // the following line is equivalent to XpayUtils.payUsing = PaymentMethods.CARD
+        XpayUtils.payUsing = XpayUtils.activePaymentMethods[0]
+        // read the total amount of card payment
+        // this is also equivalent to
+        // val totalAmount = res?.totalAmount!!
+        val totalAmount = XpayUtils.PaymentOptionsTotalAmounts?.card!!
+        // set billing information
+        XpayUtils.userInfo = User( "John Doe", "j.doe@test.com", "+201111111111")
+        // make payment
+        val paymentRespone = XpayUtils.pay()
+        // get payment form url and navigate to it to complete your payment
+        val formUrl = paymentRespone?.iframe_url!!
+        //in case of KIOSK payment method, read the message respone which contains your payment refrence number from AMAN
+        // val formUrl = paymentRespone?.message!!
+
+        // that's it !
+    } catch (e: Exception) {
+        e.message?.let { msg -> displayError(msg) }
+    }
+}
+```
+
 ### Get transaction info
 
-<!-- example code -->
+```jsx
+import com.xpay.kotlinutils.XpayUtils
 
-<!-- sdk settings -->
-<!-- prepare amount -->
-<!-- payment settings -->
-<!-- pay -->
+// set XpayUtils core settings
+XpayUtils.apiKey = "3uBD5mrj.3HSCm46V7xJ5yfIkPb2gBOIUFH4Ks0Ss";
+XpayUtils.communityId = "zogDmQW";
+XpayUtils.variableAmountID = 18;
+
+lifecycleScope.launch {
+    try {
+        val response = XpayUtils.getTransaction(it)
+        // read transaction status and amount
+        val status = respone.status
+        val totalAmount = respone.total_amount
+
+        // that's it !
+    } catch (e: Exception) {
+        e.message?.let { msg -> displayError(msg) }
+    }
+}
+```
 
 ## Library refrence
 
@@ -112,10 +162,37 @@ suspend fun getTransaction(transactionUid: String): TransactionData?
 
 This method does the following:
 
-- Returns TransactionData which contains transaction info
+- Returns TransactionData which contains transaction info like status, creation date and time, customFields that were saved with the transaction, etc..
 
 ##### Parameters
 
 | Object name    | Type   | Description                                  | Notes                                                                               |
 | -------------- | ------ | -------------------------------------------- | ----------------------------------------------------------------------------------- |
 | transactionUid | String | UUID of the transaction you wish to its data | UUID is returned inside payData after pay method is called and returns successfully |
+
+#### addCustomField
+
+```jsx
+fun addCustomField(fieldName: String, fieldValue: String): Unit
+```
+
+This method does the following:
+
+- add a custom field to XpayUtils.customFields,
+
+##### Parameters
+
+| Object name | Type   | Description                        | Notes |
+| ----------- | ------ | ---------------------------------- | ----- |
+| fieldName   | String | key of the data you want to save   |       |
+| fieldValue  | String | value of the data you want to save |       |
+
+#### clearCustomField
+
+```jsx
+fun clearCustomField(): Unit
+```
+
+This method does the following:
+
+- clears the customFields MutableList
