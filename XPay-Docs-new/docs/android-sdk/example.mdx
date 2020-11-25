@@ -439,3 +439,284 @@ The above code is called when the submit button is clicked, it does the followin
 3. Checks the return value of `validateBillingInfo()` method and `validShippingInfo` var
    - if true, set `XpayUtils.userInfo` property using `User` data class and navigate to PaymentPreviewActivity
 
+## 7. Review Payment information
+
+Now it's time you show the user a preview of the payment information he provided before taking him to the final step which is payment.
+
+1. Open PaymentPreviewActivity inside the java folder.
+
+2. Navigate to `onCreate` function and add the following code between the the commented lines `01-start` and `01-end`.
+
+<Tabs
+  defaultValue="kt"
+  values={[
+    { label: 'Kotlin', value: 'kt', },
+    { label: 'Java', value: 'java', },
+  ]
+}>
+
+<TabItem value="kt">
+
+```kt title="/app/src/main/java/com.xpay.kotlin/PaymentPreviewActivity.kt"
+textName.text = "Name: \n${XpayUtils.userInfo!!.name}"
+textEmail.text = "Email: \n${XpayUtils.userInfo!!.email}"
+txtPhone.text = "Phone: \n${XpayUtils.userInfo?.phone}"
+txtMethod.text = "Payment Method: \n${XpayUtils.payUsing}"
+totalAmount.text = "Total Amount: \n${intent.getStringExtra("TOTAL_AMOUNT")?.toDouble()}"
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
+
+```
+
+</TabItem>
+</Tabs>
+
+The Above code sets each text box in the PaymentPreviewActivity corresponding layout
+to the values you set before for the billing information in the previous section using `XpayUtils.userInfo` and `XpayUtils.payUsing`
+
+3. go between the the commented lines `02-start` and `02-end` and add the following code.
+
+<Tabs
+  defaultValue="kt"
+  values={[
+    { label: 'Kotlin', value: 'kt', },
+    { label: 'Java', value: 'java', },
+  ]
+}>
+
+<TabItem value="kt">
+
+```kt title="/app/src/main/java/com.xpay.kotlin/PaymentPreviewActivity.kt"
+try {
+  dialog!!.show()
+  GlobalScope.launch {
+  val response = XpayUtils.pay()
+  response?.let { completePayment(response) }
+}
+} catch (e: Exception) {
+  dialog?.dismiss()
+  e.message?.let { it1 -> Toast.makeText(this, it1, Toast.LENGTH_LONG).show() }
+}
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
+
+```
+
+</TabItem>
+</Tabs>
+
+The above code will get called when the confirm button is clicked, it does the following:
+
+1. Show up loading screen.
+2. Call `pay` method to start processing the payment.
+3. If the request is successfull call `completePayment()` function with the response which for now it just:
+   - Hide the loading screen
+4. If an exception occured,
+   - Hide the loading screen
+   - displays the error message in a Toast.
+
+Now it's time to build the final payment step in the checkout process
+
+:::note
+`XpayUtils.pay()` is a suspend function it has to run inside a Coroutine/Async Scope.
+:::
+
+## 8. Payment
+
+1. Go to `completePayment(response: PayData)` function and add the following code between the the commented lines `03-start` and `03-end`.
+
+<Tabs
+  defaultValue="kt"
+  values={[
+    { label: 'Kotlin', value: 'kt', },
+    { label: 'Java', value: 'java', },
+  ]
+}>
+
+<TabItem value="kt">
+
+```kt title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
+if (response.iframe_url != null) {
+  // if iframe_url inside the returned response is not null, launch a web view to display the payment form
+  isCardPayment = true
+  // start a web view and navigate the user to the credit card form
+  val builder = CustomTabsIntent.Builder()
+  builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
+  builder.setShowTitle(true)
+  val customTabsIntent: CustomTabsIntent = builder.build()
+  customTabsIntent.launchUrl(this@PaymentPreviewActivity, Uri.parse(response.iframe_url))
+} else if (response.message != null) {
+  // if iframe_url inside the returned response is null while the message is not null
+  // this is a kiosk or cash collection payment, just display the message to the user
+  isCardPayment = false
+  val intent = Intent(baseContext, CashPaymentActivity::class.java)
+  intent.putExtra("UUID", response.transaction_uuid)
+  intent.putExtra("MESSAGE", response.message)
+  startActivity(intent)
+  }
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
+
+```
+
+</TabItem>
+</Tabs>
+
+The above code does the following:
+
+Checks if the `iframe_url` value of the response passed
+
+- If not null, then this is is a credit card payment:
+  - set `isCardPayment` to `true`.
+  - setup a web view using [Custom tabs](https://developers.google.com/web/android/custom-tabs).
+  - Start the web view and Navigate to the credit card form using the value found inside `iframe_url`.
+- If null, check if the `message` value of the response passed
+  - If not null, then this is a kiosk/cash collection payment:
+    - set `isCardPayment` to `false`.
+    - create an Intent for the CashPaymentActivity
+    - pass `transaction_uuid` and `message` values of the response to the intent.
+    - Navigate to CashPaymentActivity.
+
+## 9. Getting Transaction details
+
+Later on, you might need to show the user details about his past transactions,
+whether to check on the transaction status or get other info like total amount paid or even the custom fields that was saved with the transaction.
+
+You can get a transaction details using `XpayUtils.getTransaction(transactionUid: String)` method and the transaction UUID.
+
+We will implement this method in our app so that when the user closes the web view of the credit card form,
+It navigates him to the TransactionActivity which shows him the current transaction status as well as other information.
+
+1. Go to PaymentPreviewActivity inside the java folder.
+
+2. Go to `onRestart()` function and add the following code between the the commented lines `04-start` and `04-end`.
+
+<Tabs
+  defaultValue="kt"
+  values={[
+    { label: 'Kotlin', value: 'kt', },
+    { label: 'Java', value: 'java', },
+  ]
+}>
+
+<TabItem value="kt">
+
+```kt title="/app/src/main/java/com.xpay.kotlin/PaymentPreviewActivity.kt"
+if (isCardPayment) {
+  val intent = Intent(this, TransactionActivity::class.java)
+  intent.putExtra("UUID", uuid)
+  startActivity(intent)
+}
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java title="/app/src/main/java/com.xpay.kotlin/PaymentPreviewActivity.kt"
+
+```
+
+</TabItem>
+</Tabs>
+
+The above code does the following:
+
+Check if the `isCardPayment` is `true` and if so:
+
+- create an Intent for the TransactionActivity.
+- pass `transaction_uuid` value of the response to the intent.
+- Go to TransactionActivity.
+
+:::info
+`onRestart` function gets triggered when the the user closes the web view (when the current activity is being re-displayed to the user)
+Read more about it [here](<https://developer.android.com/reference/android/app/Activity#onRestart()>)
+:::
+
+3. Go to TransactionActivity inside the java folder.
+
+4. Go to `onStart()` function and add the following code between the the commented lines `01-start` and `01-end`.
+
+<Tabs
+  defaultValue="kt"
+  values={[
+    { label: 'Kotlin', value: 'kt', },
+    { label: 'Java', value: 'java', },
+  ]
+}>
+
+<TabItem value="kt">
+
+```kt title="/app/src/main/java/com.xpay.kotlin/TransactionActivity.kt"
+uuid = intent.getStringExtra("UUID")
+uuid?.let { loadTransaction(it) }
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java title="/app/src/main/java/com.xpay.kotlin/TransactionActivity.kt"
+
+```
+
+</TabItem>
+</Tabs>
+
+The above code does the following:
+
+- Get the value of the UUID passed to the intent.
+- call `loadTransaction()` function with the value of the UUID
+
+5. Go to `loadTransaction()` function and add the following code between the the commented lines `02-start` and `02-end`.
+
+<Tabs
+  defaultValue="kt"
+  values={[
+    { label: 'Kotlin', value: 'kt', },
+    { label: 'Java', value: 'java', },
+  ]
+}>
+
+<TabItem value="kt">
+
+```kt title="/app/src/main/java/com.xpay.kotlin/TransactionActivity.kt"
+lifecycleScope.launch {
+  try {
+    dialog?.show()
+    Uid.let { it ->
+      val res = XpayUtils.getTransaction(it)
+      res?.let { updateTransaction(it) }
+    }
+  } catch (e: Exception) {
+    dialog?.dismiss()
+    e.message?.let { displayError(e.message.toString()) }
+  }
+}
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java title="/app/src/main/java/com.xpay.kotlin/TransactionActivity.kt"
+
+```
+
+</TabItem>
+</Tabs>
+
+The above code does the following:
+
+1. Start a Coroutine Scope
+2. Try to call the `XpayUtils.getTransaction()` and if successfull call the `updateTransaction()` function with the response which updates the view with the transaction info.
+3. If an error occured, call the `displayError()` function to display the error message in a toast.
