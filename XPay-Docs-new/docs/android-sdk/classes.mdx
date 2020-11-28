@@ -15,7 +15,8 @@ enum class
 
 - TEST
 - LIVE
-<!--  -->
+
+---
 
 ### PaymentOptionsTotalAmounts
 
@@ -37,7 +38,7 @@ cash: Number | null
 
 kiosk: Number | null
 
-<!--  -->
+---
 
 ### PaymentMethods
 
@@ -50,7 +51,8 @@ enum class
 - CARD
 - CASH
 - KIOSK
-<!--  -->
+
+---
 
 ### BillingInfo
 
@@ -99,7 +101,7 @@ Regex("^\\+[0-9]{7,15}\$")
 
 :::
 
-<!--  -->
+---
 
 ### ShippingInfo
 
@@ -137,7 +139,7 @@ floor: String
 
 street: String
 
-<!--  -->
+---
 
 ### CustomField
 
@@ -155,7 +157,7 @@ field_label: String
 
 field_value: String
 
-<!--  -->
+---
 
 ## com.xpay.kotlinutils.models.api.prepare
 
@@ -177,13 +179,13 @@ total_amount_currency: String | null
 
 ##### CASH
 
-CASH: TotalAmount | null
+CASH: [TotalAmount](#totalamount) | null
 
 ##### KIOSK
 
-KIOSK: TotalAmount | null
+KIOSK: [TotalAmount](#totalamount) | null
 
-<!--  -->
+---
 
 ### TotalAmount
 
@@ -199,9 +201,9 @@ total_amount: Double
 
 ##### total_amount_currency
 
-total_amount_currency: ServerSetting
+total_amount_currency: String
 
-<!--  -->
+---
 
 ## com.xpay.kotlinutils.models.api.pay
 
@@ -241,7 +243,7 @@ bill_reference: String
 
 bm_session: String | null
 
-<!--  -->
+---
 
 ## com.xpay.kotlinutils.models.api.transaction
 
@@ -295,7 +297,7 @@ status: String
 
 ##### custom_fields_json
 
-custom_fields_json: Array< CustomField > | null
+custom_fields_json: Array<[CustomField](#customfield)> | null
 
 ##### total_amount_piasters
 
