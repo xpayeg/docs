@@ -5,95 +5,130 @@ title: Errors reference
 
 XpayUtils throws errors in the following cases:
 
-- when there is a missing setting
-- values were supplied in the wrong format
-- XPay servers returned an error message
+- You are trying to call a method when there is a required property missing.
+- You are trying to set the value of property in the wrong format.
+- XPay servers returned an error message.
 
-All errors(except server errors, it's a work in progress) that gets thrown by XPayUtils can be found in this document with the reason explained and steps to solve them
+All errors (except server errors, it's a work in progress) that gets thrown by XPayUtils can be found in this document with the reason explained and steps to solve the error.
+
+---
 
 ## apiKey is required
 
 **Type**: IllegalStateException
 
-**Reason**: XPayUtils.apiKey is null
+**Reason**: `XPayUtils.apiKey` is null
 
-**Solution**: Set XpayUtils.apiKey with your API Key value
+**Solution**: Set [`XpayUtils.apiKey`](/android-sdk/xpayutils#apikey) with your API Key value
 
 check [here](/api-key) to know how to generate an API key.
+
+---
 
 ## communityId is required
 
 **Type**: IllegalStateException
 
-**Reason**: XPayUtils.communityId is null
+**Reason**: `XPayUtils.communityId` is null
 
-**Solution**: Set XpayUtils.communityId with your Community ID value
+**Solution**: Set [`XpayUtils.communityId`](/android-sdk/xpayutils#communityid) with your Community ID value
 
 check [here](/api-key) to know how to get your Community ID.
+
+---
 
 ## variableAmountID is required
 
 **Type**: IllegalStateException
 
-**Reason**: XPayUtils.variableAmountID is null
+**Reason**: `XPayUtils.variableAmountID` is null
 
-**Solution**: Set XpayUtils.variableAmountID with your API Payment ID
+**Solution**: Set [`XpayUtils.apiPaymentId`](/android-sdk/xpayutils#aipaymentid) with your API Payment ID
 
 check [here](/api-payments) to know how to generate an API Payment ID.
+
+---
 
 ## Payment method is not set
 
 **Type**: IllegalStateException
 
-**Reason**: XPayUtils.payUsing is null
+**Reason**: `XPayUtils.payUsing` is null
 
-**Solution**: Set XpayUtils.payUsing with one of the values found in XpayUtils.activePaymentMethods.
+**Solution**: Set [`XpayUtils.payUsing`](/android-sdk/xpayutils#payusing) with one of the values found in XpayUtils.activePaymentMethods.
+
+:::info
+Check the examples in [Display active payment methods](/android-sdk/example#3-display-active-payment-methods)
+and [Set Payment method](/android-sdk/example#4-set-payment-method) sections in the [Tutorial](/android-sdk/example).
+:::
+
+---
 
 ## Payment method chosen is not available
 
 **Type**: IllegalArgumentException
 
-**Reason**: the value found in XPayUtils.payUsing is not found in XpayUtils.activePaymentMethods
+**Reason**: The value found in `XPayUtils.payUsing` is not found in `XpayUtils.activePaymentMethods`.
 
-**Solution**: Set XpayUtils.payUsing with one of the values found in XpayUtils.activePaymentMethods.
+**Solution**: Set [`XPayUtils.payUsing`](/android-sdk/xpayutils#payusing) with one of the values found in [`XpayUtils.activePaymentMethods`](/android-sdk/xpayutils#activepaymentmethods).
+
+:::info
+Check the examples in [Display active payment methods](/android-sdk/example#3-display-active-payment-methods)
+and [Set Payment method](/android-sdk/example#4-set-payment-method) sections in the [Tutorial](/android-sdk/example).
+:::
+
+---
 
 ## Billing information is not found
 
 **Type**: IllegalStateException
 
-**Reason**: XPayUtils.userInfo is null
+**Reason**: `XPayUtils.billingInfo` is null.
 
-**Solution**: Set XpayUtils.userInfo using User data class.
+**Solution**: Set [`XpayUtils.billingInfo`](/android-sdk/xpayutils#billinginfo) using [BillingInfo](/android-sdk/classes#billinginfo) data class.
 
 **Example**:
 
 ```jsx
-XpayUtils.userInfo = User("John Doe", "j.doe@test.com", "+201111111111");
+XpayUtils.billingInfo = BillingInfo(
+  "John Doe",
+  "j.doe@test.com",
+  "+201111111111"
+);
 ```
+
+---
 
 ## PaymentOptionsTotalAmounts is not set
 
 **Type**: IllegalStateException
 
-**Reason**: XPayUtils.PaymentOptionsTotalAmounts is null
+**Reason**: `XpayUtils.PaymentOptionsTotalAmounts` is null.
 
-**Solution**: call `prepareAmount(amount: Number)` method before calling `pay()` method which sets XpayUtils.PaymentOptionsTotalAmounts internally
+`XpayUtils.pay()` reads the value of the total amount of the payment from [`XpayUtils.PaymentOptionsTotalAmounts`](/android-sdk/xpayutils#paymentoptionstotalamounts) accessors using the value inside [`XpayUtils.payusing`](/android-sdk/xpayutils#payusing)
+
+**Solution**: call [`XpayUtils.prepareAmount()`](/android-sdk/xpayutils#prepareamount) method before calling [`XpayUtils.pay()`](/android-sdk/xpayutils#pay) method which sets [`XpayUtils.PaymentOptionsTotalAmounts`](/android-sdk/xpayutils#paymentoptionstotalamounts) internally.
+
+---
 
 ## activePaymentMethods is empty
 
 **Type**: IllegalStateException
 
-**Reason**: XPayUtils.activePaymentMethods mutable list is empty
+**Reason**: `XPayUtils.activePaymentMethods` mutable list is empty
 
-**Solution**: call `prepareAmount(amount: Number)` method before calling `pay()` method which sets XpayUtils.activePaymentMethods internally
+**Solution**: call [`XpayUtils.prepareAmount()`](/android-sdk/xpayutils#prepareamount) method
+before calling [`XpayUtils.pay()`](/android-sdk/xpayutils#pay) method which sets `XpayUtils.activePaymentMethods` internally
+
+---
 
 ## Shipping Information is not found
 
 **Type**: IllegalStateException
 
-**Reason**: XPayUtils.ShippingInfo is null
+**Reason**: `XPayUtils.ShippingInfo` is null
 
-**Solution**: Set XpayUtils.ShippingInfo using ShippingInfo data class.
+**Solution**: Set [`XpayUtils.ShippingInfo`](/android-sdk/xpayutils#shippinginfo) using [ShippingInfo](/android-sdk/classes#shippinginfo) data class.
 
 **Example**:
 
