@@ -27,6 +27,7 @@ module.exports = {
       label: "Android SDK",
       items: [
         "android-sdk/installation",
+        "android-sdk/xpayutils",
         "android-sdk/example",
         "android-sdk/classes",
         "android-sdk/sdk-errors",

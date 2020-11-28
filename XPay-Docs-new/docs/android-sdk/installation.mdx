@@ -3,11 +3,11 @@ id: installation
 title: Introduction
 ---
 
-XpayUtils is an SDK for android development written in kotlin.
+XPay KotlinUtils is an SDK for integrating payments through XPay with android development written in kotlin.
 
 ## Installation
 
-XpayUtils is available through jitpack
+KotlinUtils is available through jitpack
 
 1. Add the following line in your root build.gradle at the end of repositories:
 
@@ -20,11 +20,13 @@ allprojects {
 }
 ```
 
-2. Add the dependency
+2. Add the dependencies
 
 ```
 dependencies {
 	implementation 'com.github.xpayeg:Android-kotlin-sdk:Tag'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha02"
 }
 ```
 
@@ -34,15 +36,15 @@ Click [here](https://jitpack.io/#xpayeg/Android-kotlin-sdk) for more installatio
 
 ### Make payment
 
-```jsx
+```java
 import com.xpay.kotlinutils.XpayUtils
-import com.xpay.kotlinutils.models.User
+import com.xpay.kotlinutils.models.BillingInfo
 
 // set XpayUtils core settings
 // The following settings are for testing purposes only
 XpayUtils.apiKey = "Cce74Y3B.J0P4tItq7hGu2ddhCB0WF5ND1eTubkpT";
 XpayUtils.communityId = "m2J7eBK";
-XpayUtils.variableAmountID = 60;
+XpayUtils.apiPaymentId = 60;
 // default server settings are testing servers which is equivalent to
 // XpayUtils.serverSetting = ServerSetting.TEST
 
@@ -51,18 +53,23 @@ lifecycleScope.launch {
         val res = XpayUtils.prepareAmount(50)
         // read active payment methods list and set payUsing property
         // this test community returns CARD and KIOSK payment options
-        // the following line is equivalent to XpayUtils.payUsing = PaymentMethods.CARD
-        XpayUtils.payUsing = XpayUtils.activePaymentMethods[0]
+        // the following line is equivalent to XpayUtils.payUsing = XpayUtils.activePaymentMethods[0]
+        XpayUtils.payUsing = PaymentMethods.CARD
         // read the total amount of card payment
         // this is also equivalent to
         // val totalAmount = res?.totalAmount!!
         val totalAmount = XpayUtils.PaymentOptionsTotalAmounts?.card!!
         // set billing information
-        XpayUtils.userInfo = User( "John Doe", "j.doe@test.com", "+201111111111")
+        XpayUtils.billingInfo = BillingInfo( "John Doe", "j.doe@test.com", "+201111111111")
         // make payment
         val paymentRespone = XpayUtils.pay()
         // get payment form url and navigate to it to complete your payment
         val formUrl = paymentRespone?.iframe_url!!
+        val builder = CustomTabsIntent.Builder()
+        builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
+        builder.setShowTitle(true)
+        val customTabsIntent: CustomTabsIntent = builder.build()
+        customTabsIntent.launchUrl(this@MainActivity, Uri.parse(response.iframe_url))
         //in case of KIOSK payment method, read the message respone which contains your payment reference number from AMAN
         // val formUrl = paymentRespone?.message!!
 
@@ -75,14 +82,14 @@ lifecycleScope.launch {
 
 ### Get transaction info
 
-```jsx
+```java
 import com.xpay.kotlinutils.XpayUtils
 
 // set XpayUtils core settings
 // The following settings are for testing purposes only
 XpayUtils.apiKey = "Cce74Y3B.J0P4tItq7hGu2ddhCB0WF5ND1eTubkpT";
 XpayUtils.communityId = "m2J7eBK";
-XpayUtils.variableAmountID = 60;
+XpayUtils.apiPaymentId = 60;
 // default server settings are testing servers which is equivalent to
 // XpayUtils.serverSetting = ServerSetting.TEST
 
@@ -95,121 +102,22 @@ lifecycleScope.launch {
 
         // that's it !
     } catch (e: Exception) {
-        e.message?.let { msg -> displayError(msg) }
+        e.message?.let { errMsg -> displayError(errMsg) }
     }
 }
 ```
 
-## XpayUtils reference
+## Switching to Production server
 
-XpayUtils is a singelton class, to get more info on singeltons in kotlin check the following resources:
+By default XpayUtils will make all the requests to XPay testing server, to switch to Production server set `XpayUtils.serverSetting` property to `ServerSetting.LIVE`.
 
-- [Singleton Class in Kotlin](https://www.geeksforgeeks.org/singleton-class-in-kotlin/)
-
-### Properties
-
-### Core settings
-
-| Object name      | Type            | Description                  | Notes                                         |
-| ---------------- | --------------- | ---------------------------- | --------------------------------------------- |
-| apiKey           | String          | your api key                 | [How to create API key](/api-key)             |
-| communityId      | String          | your community id            | [How to get your community ID](/api-key)      |
-| variableAmountID | Number          | your api payment id          | [How to create API payment ID](/api-payments) |
-| serverSetting    | [ServerSetting] | Production or testing server | [ServerSetting reference]                      |
-
-### Payment settings
-
-| Object name                | Type                            | Description                                                                                                         | Notes                                                            |
-| -------------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
-| PaymentOptionsTotalAmounts | [PaymentOptionsTotalAmounts]    | Total amount for the prepared amount after adding fees (if any) for each payment method available to your community |                                                                  |
-| payUsing                   | [PaymentMethods]                | Payment method you wish to use when requesting payments using pay method                                            |                                                                  |
-| activePaymentMethods       | MutableList of [PaymentMethods] | Available payment methods available for your community                                                              |                                                                  |
-| userInfo                   | [User]                          | Billing information of the user making payment                                                                      |                                                                  |
-| ShippingInfo               | [ShippingInfo]                  | Shipping information of the user making payment                                                                     | Required when using cash collection method as the payment method |
-| customFields               | MutableList of [CustomField]    | Extra information you wish to save alongside the transaction info for future use according to your needs            |                                                                  |
-
-### Methods
-
-### PrepareAmount
-
-```jsx
-prepareAmount(amount: Number): PrepareAmountData?
+```
+XpayUtils.serverSetting = ServerSetting.LIVE
 ```
 
-This method does the following:
+to switch back to the test server:
 
-- Get the active payment methods available to your community and set activePaymentMethods.
-- Get the total amount including fees(if any) of each available payment method and set PaymentOptionsTotalAmounts.
-- Return PrepareAmountData object which represents the total amount including fees (if any) of each active payment method.
-
-:::note
-This is a suspend function it have to be run inside a coroutine scope
-:::
-
-#### Parameters
-
-| Object name | Type   | Description                                     | Notes |
-| ----------- | ------ | ----------------------------------------------- | ----- |
-| amount      | number | value of the amount you want to charge the user |       |
-
-### pay
-
-```jsx
-pay(): PayData?
+```
+XpayUtils.serverSetting = ServerSetting.TEST
 ```
 
-This method does the following:
-
-- Read the payment settings Parameters and make a payment request using those values.
-- Returns PayData which contains payment information like the credit card from url or the reference number for kiosk payments.
-
-:::note
-This is a suspend function it have to be run inside a coroutine scope
-:::
-
-### getTransaction
-
-```jsx
-getTransaction(transactionUid: String): TransactionData?
-```
-
-This method does the following:
-
-- Returns TransactionData which contains transaction info like status, creation date and time, customFields that were saved with the transaction, etc..
-
-:::note
-This is a suspend function it have to be run inside a coroutine scope
-:::
-
-#### Parameters
-
-| Object name    | Type   | Description                                  | Notes                                                                               |
-| -------------- | ------ | -------------------------------------------- | ----------------------------------------------------------------------------------- |
-| transactionUid | String | UUID of the transaction you wish to its data | UUID is returned inside payData after pay method is called and returns successfully |
-
-### addCustomField
-
-```jsx
-addCustomField(fieldName: String, fieldValue: String): Unit
-```
-
-This method does the following:
-
-- add a custom field to XpayUtils.customFields,
-
-#### Parameters
-
-| Object name | Type   | Description                        | Notes |
-| ----------- | ------ | ---------------------------------- | ----- |
-| fieldName   | String | key of the data you want to save   |       |
-| fieldValue  | String | value of the data you want to save |       |
-
-### clearCustomField
-
-```jsx
-clearCustomField(): Unit
-```
-
-This method does the following:
-
-- clears the customFields MutableList

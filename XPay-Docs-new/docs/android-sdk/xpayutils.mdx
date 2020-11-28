@@ -1,0 +1,261 @@
+---
+id: xpayutils
+title: XpayUtils
+---
+
+## XpayUtils reference
+
+XpayUtils is a singelton class, for more info on singeltons in kotlin check the following [link](https://www.geeksforgeeks.org/singleton-class-in-kotlin/)
+
+### Properties
+
+### apiKey
+
+#### Description
+
+your API key.
+
+[How to create an API key](/api-key)
+
+#### Type
+
+String
+
+---
+
+### communityId
+
+#### Description
+
+your community ID.
+
+[How to get your community ID](/api-key)
+
+#### Type
+
+String
+
+---
+
+### apiPaymentId
+
+#### Description
+
+your api payment ID.
+
+[How to create API payment ID](/api-payments)
+
+#### Type
+
+Number
+
+---
+
+### serverSetting
+
+#### Description
+
+sets your requests to be processed on either the production or testing server
+
+:::note
+Make sure to set the values of `apiKey`,`communityId`,`apiPaymentId`
+with values from the production dashboard when setting `serverSetting` to production.
+:::
+
+#### Type
+
+[ServerSetting](/android-sdk/classes#serversetting)
+
+---
+
+### paymentOptionsTotalAmounts
+
+#### Description
+
+Total amount for the prepared amount after adding fees (if any) for each payment method available to your community
+
+:::note
+This property cannot be set by external logic, it's set internally after calling prepareAmount method.
+:::
+
+#### Type
+
+[PaymentOptionsTotalAmounts](/android-sdk/classes#paymentoptionstotalamounts)
+
+---
+
+### activePaymentMethods
+
+#### Description
+
+Available payment methods available for your community.
+
+:::note
+This property cannot be set by external logic, it's set internally after calling prepareAmount method.
+:::
+
+#### Type
+
+MutableList of [PaymentMethods](/android-sdk/classes#paymentmethods)
+
+---
+
+### payUsing
+
+#### Description
+
+Payment method you wish to use when processing payments.
+
+#### Type
+
+[PaymentMethods](/android-sdk/classes#paymentmethods)
+
+---
+
+### billingInfo
+
+#### Description
+
+Billing information of the user making payment; full name, phone number, and E-mail address.
+
+#### Type
+
+[BillingInfo](/android-sdk/classes#billinginfo)
+
+---
+
+### ShippingInfo
+
+#### Description
+
+Shipping information of the user making payment.
+
+:::note
+This property must be set when processing payments using cash collection method.
+:::
+
+#### Type
+
+[ShippingInfo](/android-sdk/classes#shippinginfo)
+
+---
+
+### customFields
+
+#### Description
+
+Extra information you wish to save with the transaction info for future use according to your needs.
+
+:::info
+You can either set the values of this list through direct list methods
+or through [addCustomField](#addcustomfield) and [clearCustomField](#clearcustomfield) methods.
+:::
+
+#### Type
+
+MutableList of [CustomField](/android-sdk/classes#customfield)
+
+---
+
+### Methods
+
+### PrepareAmount
+
+```jsx
+prepareAmount(amount: Number): PrepareAmountData?
+```
+
+This method does the following:
+
+- Get the active payment methods available to your community and set them in [activePaymentMethods](#activepaymentmethods).
+- Get the total amount including fees(if any) for each active payment method and set them in [PaymentOptionsTotalAmounts](#paymentoptionstotalamounts).
+- Return [PrepareAmountData](/android-sdk/classes#prepareamountdata) object which represents the total amount including fees (if any) for each active payment method.
+
+:::note
+This is a suspend function so it have to be run inside Async/Coroutine scope.
+:::
+
+:::info
+The values set inside [PaymentOptionsTotalAmounts](#paymentoptionstotalamounts) are the values that will be used when making a payment request,
+and they can only be set internally through `prepareAmount` method.
+:::
+
+#### Parameters
+
+| Object name | Type   | Description                                     | Notes |
+| ----------- | ------ | ----------------------------------------------- | ----- |
+| amount      | number | value of the amount you want to charge the user |       |
+
+---
+
+### pay
+
+```jsx
+pay(): PayData?
+```
+
+This method does the following:
+
+- Get the values of `payUsing`, `paymentOptionsTotalAmounts`, `billingInfo`, `shippingInfo`, `customFields` and make a payment request using those values.
+- Returns [PayData](/android-sdk/classes#paydata) which contains payment information like the credit card from url or the reference number for Aman payments.
+- Clear `customFields` and `activePaymentMethods` list properties
+- Set `PaymentOptionsTotalAmounts` to `null`.
+
+:::note
+This is a suspend function so it have to be run inside Async/Coroutine scope.
+:::
+
+---
+
+### getTransaction
+
+```jsx
+getTransaction(transactionUid: String): TransactionData?
+```
+
+This method does the following:
+
+- Returns [TransactionData](/android-sdk/classes#transactiondata) which contains transaction info like status, creation date and time, customFields that were saved with the transaction, etc..
+
+:::note
+This is a suspend function so it have to be run inside Async/Coroutine scope.
+:::
+
+#### Parameters
+
+| Object name     | Type   | Description                                  | Notes                                                                                                               |
+| --------------- | ------ | -------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| transactionUuid | String | UUID of the transaction you wish to its data | UUID is returned inside [PayData](/android-sdk/classes#paydata) after pay method is called and returns successfully |
+
+---
+
+### addCustomField
+
+```jsx
+addCustomField(fieldName: String, fieldValue: String): Unit
+```
+
+This method does the following:
+
+- Add a new custom field inside [customFields](#customfields) list.
+
+#### Parameters
+
+| Object name | Type   | Description                            |
+| ----------- | ------ | -------------------------------------- |
+| fieldName   | String | key value of the data you want to save |
+| fieldValue  | String | value of the data you want to save     |
+
+---
+
+### clearCustomField
+
+```jsx
+clearCustomField(): Unit
+```
+
+This method does the following:
+
+- Clears the [customFields](#customfields) list.
+
+---
