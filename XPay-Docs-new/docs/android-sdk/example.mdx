@@ -7,9 +7,9 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-:::info
+<!-- :::info
 This Tutorial contains Examples for both Kotlin and Java programming languages.
-:::
+::: -->
 
 ## Introduction
 
@@ -43,7 +43,7 @@ The Example app for this tutorial is a simplified shoe store which consists of a
 
 - Clone this [repo](https://github.com/xpayeg/Android-java-sdk-example) for **Java** project code
 
-Checkout `starter-code` branch for the starter code and `example-finished` branch for the complete code including the code snippets found here.
+Checkout `starter-code` branch for the starter code and `example-completed` branch for the complete code including the code snippets found here.
 
 ## Project layout
 
@@ -70,35 +70,6 @@ go ahead and explore it then try to click the checkout button at the end of the 
 <img alt="Add API key" src={useBaseUrl("kotlinsdk/01.gif")} />
 
 in the upcoming sections we are going to edit the ProductActivity code to start the checkout process but first let's install KotlinUtils in our app.
-
-## Installing KotlinUtils
-
-KotlinUtils is available through jitpack
-
-1. Add the following line in your root build.gradle at the end of repositories:
-
-```
-allprojects {
-    repositories {
-        ...
-        maven { url 'https://jitpack.io' }
-    }
-}
-```
-
-2. Add the dependencies
-
-```
-dependencies {
-  implementation 'com.github.xpayeg:Android-kotlin-sdk:0.9.4'
-  implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.3'
-  implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0-alpha02"
-}
-```
-
-Click [here](https://jitpack.io/#xpayeg/Android-kotlin-sdk) for more installation options other than gradle.
-
----
 
 ## 1. Prepare for the checkout process
 
