@@ -5,16 +5,17 @@ title: Tutorial
 
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
+import useBaseUrl from "@docusaurus/useBaseUrl";
 
-:::note
+:::info
 This Tutorial contains Examples for both Kotlin and Java programming languages.
 :::
 
 ## Introduction
 
-In this tutorial you learn how to use the XPay sdk with your Android application. You will learn how to use XpayUtils properties and methods to process payments in your application.
+In this tutorial you learn how to use the XPay KotlinUtils SDK with your Android application.
 
-The Example app for this tutorial is a simplified shoe store which consists of a single product view and four other activities for the checkout process.
+The Example app for this tutorial is a simplified shoe store which consists of a single product activity and four other activities for the checkout process.
 
 ## What you should already know
 
@@ -25,7 +26,7 @@ The Example app for this tutorial is a simplified shoe store which consists of a
 
 ## What you'll learn
 
-- How to install XpayUtils in an Android application.
+- How to install KotlinUtils in an Android application.
 - How to use XpayUtils properties and methods to build the checkout process and process payments online.
 
 ## What you'll do
@@ -33,14 +34,14 @@ The Example app for this tutorial is a simplified shoe store which consists of a
 - Clone the example app code.
 - Explore the project layout.
 - Run the app on virtual or physical devices.
-- Include and use XpayUtils using the example codes included here.
+- Include and use KotlinUtils using the example codes included here.
 - Run the app and test a complete payment cycle on XPay testing server.
 
 ## Project code
 
-- Clone this [repo](https://github.com/xpayeg/android-kotlin-sdk) for **Kotlin** project code
+- Clone this [repo](https://github.com/xpayeg/Android-kotlin-sdk-example) for **Kotlin** project code
 
-- Clone this [repo](https://github.com/xpayeg/android-java-sdk) for **Java** project code
+- Clone this [repo](https://github.com/xpayeg/Android-java-sdk-example) for **Java** project code
 
 Checkout `starter-code` branch for the starter code and `example-finished` branch for the complete code including the code snippets found here.
 
@@ -52,7 +53,7 @@ You will find 5 Kotlin or Java files that contains logic for each activity in ou
 
 below is a description for each one:
 
-- **ProductActivity** is the main activity and it simulates a product programmer
+- **ProductActivity** is the main activity and it simulates a product page in a shoe store app.
 - **UserInfoActivity** is the first activity in the checkout process that is responsible for getting the user billing information and choosing the payment method
 - **PaymentPreviewActivity** is the second activity in the checkout process that is responsible for displaying a preview of the payment and displaying the Credit Card form in the case of card payment
 - **CashPaymentActivity** is the third activity in the checkout process (in case of Kiosk/Cash collection) that is responsible for displaying payment refrence number to the user
@@ -66,11 +67,13 @@ go ahead and run it either on an emulator or your physical device
 After the app build and run you will see the fake product page on the main screen,
 go ahead and explore it then try to click the checkout button at the end of the screen you will find that it does nothing.
 
-in the upcoming sections we are going to edit the ProductActivity code to start the checkout process but first let's install XpayUtils in our app.
+<img alt="Add API key" src={useBaseUrl("kotlinsdk/01.gif")} />
 
-## Installing XpayUtils
+in the upcoming sections we are going to edit the ProductActivity code to start the checkout process but first let's install KotlinUtils in our app.
 
-XpayUtils is available through jitpack
+## Installing KotlinUtils
+
+KotlinUtils is available through jitpack
 
 1. Add the following line in your root build.gradle at the end of repositories:
 
@@ -83,7 +86,7 @@ allprojects {
 }
 ```
 
-2. Add the dependency
+2. Add the dependencies
 
 ```
 dependencies {
@@ -93,15 +96,17 @@ dependencies {
 }
 ```
 
-Click [here](https://jitpack.io/#xpayeg/Android-kotlin-sdk) for more installation options.
+Click [here](https://jitpack.io/#xpayeg/Android-kotlin-sdk) for more installation options other than gradle.
+
+---
 
 ## 1. Prepare for the checkout process
 
-Let's start implementing the checkout process
+Let's start implementing the checkout process. First, We need to set our credentials.
 
 1. Open ProductActivity inside the java folder.
 
-2. Navigate to `onCreate` function and add the following code between the the commented lines `01-start` and `01-end`.
+2. Go to `onCreate` function and add the following code between the the commented lines `01-start` and `01-end`.
 
 <Tabs
   defaultValue="kt"
@@ -115,9 +120,9 @@ Let's start implementing the checkout process
 
 ```kt title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
 // set XpayUtils core settings
-XpayUtils.apiKey = "3uBD5mrj.3HSCm46V7xJ5yfIkPb2gBOIUFH4Ks0Ss"
-XpayUtils.communityId = "zogDmQW"
-XpayUtils.variableAmountID = 18
+XpayUtils.apiKey = "Cce74Y3B.J0P4tItq7hGu2ddhCB0WF5ND1eTubkpT"
+XpayUtils.communityId = "m2J7eBK"
+XpayUtils.apiPaymentId = 60
 ```
 
 </TabItem>
@@ -140,7 +145,9 @@ The Above code sets the required settings to start using XpayUtils which are:
 since XpayUtils is a singelton class, it's instance is created after the first access to any of it's properties or methods.
 :::
 
-3. Navigate to the end of `onCreate` function and add the following code between the the commented lines `02-start` and `02-end`.
+Now, let's start the checkout process by calling `prepareAmount()` method with the total amount of the cart.
+
+3. Go to the end of `onCreate` function and add the following code between the the commented lines `02-start` and `02-end`.
 
 <Tabs
   defaultValue="kt"
@@ -156,7 +163,7 @@ since XpayUtils is a singelton class, it's instance is created after the first a
 lifecycleScope.launch {
   try {
     dialog?.show()
-    val res = XpayUtils.prepareAmount(totalAmount)
+    XpayUtils.prepareAmount(totalAmount)
     goToCheckout()
   } catch (e: Exception) {
     dialog?.hide()
@@ -178,7 +185,12 @@ lifecycleScope.launch {
 The above code will get called when the checkout button is clicked, it does the following:
 
 1. Show up loading screen.
-2. Call prepareAmount method with the total amount of the user's cart.
+2. Call [`prepareAmount()`](/android-sdk/xpayutils#prepareamount) method with the total amount of the user's cart which if successfull does the following:
+
+   - Get the active payment methods available to your community and set them in [activePaymentMethods](/android-sdk/xpayutils#activepaymentmethods).
+   - Get the total amount including fees(if any) for each active payment method and set them in [PaymentOptionsTotalAmounts](/android-sdk/xpayutils#paymentoptionstotalamounts).
+   - Return [PrepareAmountData](/android-sdk/classes#prepareamountdata) object which represents the total amount including fees (if any) for each active payment method.
+
 3. If the request is successfull call `goToCheckout()` function which for now it just:
    - Hide the loading screen
    - Navigates to UserInfoActivity activity.
@@ -187,14 +199,16 @@ The above code will get called when the checkout button is clicked, it does the 
    - Call `displayError(res)` function with the result which displays the error message in a Toast.
 
 :::note
-`XpayUtils.prepareAmount()` is a suspend function it has to run inside a Coroutine/Async Scope.
+`XpayUtils.prepareAmount()` is a suspend function, it has to run inside a Coroutine/Async Scope.
 :::
+
+---
 
 ## 2. Adding custom fields
 
-If you want to save extra information with the transaction in XPay servers like the color and size chosen, You can do so using custom fields methods.
+If you want to save extra information with the transaction in XPay servers like in this example, the color and size chosen, You can do so using custom fields methods.
 
-Navigate to the `goToCheckout` function definition and add the following code between the the commented lines that says `03-start` and `03-end`.
+Go to the `goToCheckout` function definition and add the following code between the the commented lines that says `03-start` and `03-end`.
 
 <Tabs
   defaultValue="kt"
@@ -207,11 +221,8 @@ Navigate to the `goToCheckout` function definition and add the following code be
 <TabItem value="kt">
 
 ```kt title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
-// 03-start
-// add color and size chosen as a custom fields to be saved with the transaction
 XpayUtils.addCustomField("color", color)
 XpayUtils.addCustomField("size", size)
-// 03-end
 ```
 
 </TabItem>
@@ -229,11 +240,26 @@ The above code does the following:
 1. Add the value of the chosen color stored in the `color` variable as a custom field with a key value of "color"
 1. Add the value of the chosen size stored in the `size` variable as a custom field with a key value of "size"
 
+Try to run the app again and click on the checkout button in the first activity.
+
+<img alt="Add API key" src={useBaseUrl("kotlinsdk/02.gif")} />
+
+Now when you click on the checkout button, you see the loading windows shows up while making the request then
+it takes you to the checkout activity where the user submit his billing info and choose payment method.
+But you will find that the payment options dropdown is empty.
+
+In the next section you will populate the empty dropdown with the available payment methods.
+
+---
+
 ## 3. Display active payment methods
+
+Now it's time to read the avilable payment methods to your community and pass them to the
+payment options dropdown so the user can choose one of them.
 
 1. Go to UserInfoActivity inside the java folder.
 
-2. Navigate to `onCreate` function and add the following code between the the commented lines that says `01-start` and `01-end`.
+2. Go to `onCreate` function and add the following code between the the commented lines `01-start` and `01-end`.
 
 <Tabs
   defaultValue="kt"
@@ -274,8 +300,11 @@ paymentMethodsDropdown.adapter = paymentMethodsAdapter
 
 The above code will get called when the activity is created, it does the following in order:
 
+- Read the available payment methods found in `XpayUtils.activePaymentMethods` after `prepareAmount()` method was called.
 - Converts the available payment methods found in `XpayUtils.activePaymentMethods` to a list of String values.
 - Pass the converted list to the paymentMethodsDropdown adapter so it's shown in the payment method dropdown.
+
+---
 
 ## 4. Set Payment method
 
@@ -326,12 +355,25 @@ totalAmountTxt.text = "Total Amount: ${totalAmount} Egp"
 
 The above code is called whenever the user chooses a payment method from the payment methods dropdown, it does the following:
 
-1. Sets the payment method using `XpayUtils.payUsing`
-2. Displays the total amount that will be paid accordingly from `XpayUtils.PaymentOptionsTotalAmounts`
+1. Sets the payment method chosen in `XpayUtils.payUsing` property.
+2. Displays the total amount that will be paid for the payment method chosen from `XpayUtils.PaymentOptionsTotalAmounts` property.
+3. Show Shipping information form if cash collection method was chosen, and hide it otherwise.
 
-## 5. get city-state values
+Try to run the app again and click on the checkout button in the first activity.
 
-Navigate to the commented lines `03-start` and `03-end` inside `onCreate` function and add the following code
+<img alt="Add API key" src={useBaseUrl("kotlinsdk/03.gif")} />
+
+Now when you go to UserInfoActivity, you will notice that the payment methods dropdown have three options; card, cash, and kiosk.
+each time you choose a different payment method the total amount in the text below will change accordingly.
+
+You can also see that the shipping information form appears when you use cash as the payment method.
+It is useless for now but in the next section you will populate it's city and state dropdowns with values.
+
+---
+
+## 5. Populate city-state values
+
+1. Go to the commented lines `03-start` and `03-end` inside `onCreate` function and add the following code
 
 <Tabs
   defaultValue="kt"
@@ -344,7 +386,12 @@ Navigate to the commented lines `03-start` and `03-end` inside `onCreate` functi
 <TabItem value="kt">
 
 ```kt title="/app/src/main/java/com.xpay.kotlin/UserInfoActivity.kt"
+// get the value of countries-cities combinations from assets
+val jsonFileString = getJsonDataFromAsset(applicationContext, "countries.json")
+val obj = JSONObject(jsonFileString!!)
 
+val countriesList = populateCountries(obj)
+}
 ```
 
 </TabItem>
@@ -359,19 +406,58 @@ Navigate to the commented lines `03-start` and `03-end` inside `onCreate` functi
 
 The above code does the following:
 
-1. Read the `countries.json` file from assets which contains the city-state combination
-2. call `populateCountries(obj)` method which:
-   - return a list of type string that represents the cities
-   - pass the list to the cities dropdown adapter
-3. When the user selects a city, it calls `populateStates()` method which:
-   - Get a list of type string that represents the states that belongs to the city chosen
-   - pass the states list to the state dropdown adapter
+- Read the `countries.json` file from assets which contains the city-state combination
+- call `populateCountries(obj)` method which:
+  - return a list of type string that represents the cities
+  - pass the list to the cities dropdown adapter
 
-## 6. Validate user info and preview payment information
+2. Go to the commented lines `04-start` and `04-end` inside `onCreate` function and add the following code
 
-Now it's time to validate user info before moving on to the next step
+<Tabs
+  defaultValue="kt"
+  values={[
+    { label: 'Kotlin', value: 'kt', },
+    { label: 'Java', value: 'java', },
+  ]
+}>
 
-Navigate to the commented lines `04-start` and `04-end` inside `onCreate` function and add the following code
+<TabItem value="kt">
+
+```kt title="/app/src/main/java/com.xpay.kotlin/UserInfoActivity.kt"
+populateStates(obj, countriesList[position])
+```
+
+</TabItem>
+<TabItem value="java">
+
+```java title="/app/src/main/java/com.xpay.kotlin/UserInfoActivity.kt"
+
+```
+
+</TabItem>
+</Tabs>
+
+The above code does the following:
+
+- When the user selects a city, it calls `populateStates()` method which:
+  - Get a list of type string that represents the states that belongs to the city chosen
+  - pass the states list to the state dropdown adapter
+
+Try to run the app again and click on the checkout button in the first activity.
+
+<img alt="Add API key" src={useBaseUrl("kotlinsdk/04.gif")} />
+
+Now when you go to UserInfoActivity, select cash as the payment method.
+
+when the shipping information form appears you can now select a city state combination using the values in the dropdowns.
+
+---
+
+## 6. Validate billing info and preview payment information
+
+Now it's time to validate the billing info before submitting a payment request.
+
+1. Go to the commented lines `05-start` and `05-end` inside `onCreate` function and add the following code
 
 <Tabs
   defaultValue="kt"
@@ -404,11 +490,11 @@ if (constraint_shipping.visibility == View.VISIBLE) {
 if (validateBillingInfo() && validShippingInfo) {
 // set payment billing info
 try {
-  XpayUtils.userInfo =
-    User(
-        userName.text.toString(),
-        userEmail.text.toString(),
-        "+2${userPhone.text}"
+  XpayUtils.billingInfo =
+    BillingInfo(
+      userName.text.toString(),
+      userEmail.text.toString(),
+      "+2${userPhone.text}"
     )
   val intent = Intent(this, PaymentPreviewActivity::class.java)
   intent.putExtra("TOTAL_AMOUNT", totalAmount.toString())
@@ -429,19 +515,24 @@ try {
 </TabItem>
 </Tabs>
 
-The above code is called when the submit button is clicked, it does the following:
+The above code is called when the submit button in UserInfoActivity is clicked, it does the following:
 
 1. Define and set a var `validShippingInfo` to `true`
 
-2. Checks if cash collection method is chosen and the shipping form is visible:
+2. Checks if the shipping form is visible:
 
-   - If true it checks the return value of `validateShippingInfo()` method which performs simple validation on the shipping information that the user entered
-     - if true sets `XpayUtils.ShippingInfo` property using `ShippingInfo` data class
-     - if false it sets `validShippingInfo` to `false`
-   - If false do nothing and move on
+   - If true it checks the return value of `validateShippingInfo()` method which checks that non of the shipping information ofrm values are not empty:
+     - if true, sets `XpayUtils.ShippingInfo` property using `ShippingInfo` data class
+     - if false, it sets `validShippingInfo` to `false`
 
 3. Checks the return value of `validateBillingInfo()` method and `validShippingInfo` var
-   - if true, set `XpayUtils.userInfo` property using `User` data class and navigate to PaymentPreviewActivity
+   - if true, set `XpayUtils.userInfo` property using `User` data class and start a PaymentPreviewActivity
+
+`validateBillingInfo()` method does nothing more than check that the values in the billing information is not empty.
+
+We recommend implementing your own verification logic that checks that the billing informations follow the Regex patterns found [here](/android-sdk/classes#billinginfo).
+
+---
 
 ## 7. Review Payment information
 
@@ -449,7 +540,7 @@ Now it's time you show the user a preview of the payment information he provided
 
 1. Open PaymentPreviewActivity inside the java folder.
 
-2. Navigate to `onCreate` function and add the following code between the the commented lines `01-start` and `01-end`.
+2. Go to `onCreate` function and add the following code between the the commented lines `01-start` and `01-end`.
 
 <Tabs
   defaultValue="kt"
@@ -462,9 +553,9 @@ Now it's time you show the user a preview of the payment information he provided
 <TabItem value="kt">
 
 ```kt title="/app/src/main/java/com.xpay.kotlin/PaymentPreviewActivity.kt"
-textName.text = "Name: \n${XpayUtils.userInfo!!.name}"
-textEmail.text = "Email: \n${XpayUtils.userInfo!!.email}"
-txtPhone.text = "Phone: \n${XpayUtils.userInfo?.phone}"
+textName.text = "Name: \n${XpayUtils.billingInfo!!.name}"
+textEmail.text = "Email: \n${XpayUtils.billingInfo!!.email}"
+txtPhone.text = "Phone: \n${XpayUtils.billingInfo?.phone}"
 txtMethod.text = "Payment Method: \n${XpayUtils.payUsing}"
 totalAmount.text = "Total Amount: \n${intent.getStringExtra("TOTAL_AMOUNT")?.toDouble()}"
 ```
@@ -472,17 +563,23 @@ totalAmount.text = "Total Amount: \n${intent.getStringExtra("TOTAL_AMOUNT")?.toD
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
+```java title="/app/src/main/java/com.xpay.kotlin/PaymentPreviewActivity.kt"
 
 ```
 
 </TabItem>
 </Tabs>
 
-The Above code sets each text box in the PaymentPreviewActivity corresponding layout
+The above code sets each text box in the PaymentPreviewActivity corresponding layout
 to the values you set before for the billing information in the previous section using `XpayUtils.userInfo` and `XpayUtils.payUsing`
 
-3. go between the the commented lines `02-start` and `02-end` and add the following code.
+Try to run the app again go to UserInfoActivity, click on the confirm button.
+
+You will be navigated to the PaymentPreviewActivity which will display the payment information submitted and the total amount to be paid.
+
+<img alt="Add API key" src={useBaseUrl("kotlinsdk/05.gif")} />
+
+3. go between the commented lines `02-start` and `02-end` and add the following code.
 
 <Tabs
   defaultValue="kt"
@@ -510,14 +607,14 @@ try {
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
+```java title="/app/src/main/java/com.xpay.kotlin/PaymentPreviewActivity.kt"
 
 ```
 
 </TabItem>
 </Tabs>
 
-The above code will get called when the confirm button is clicked, it does the following:
+The above code will get called when the PAY button is clicked, it does the following:
 
 1. Show up loading screen.
 2. Call `pay` method to start processing the payment.
@@ -527,13 +624,15 @@ The above code will get called when the confirm button is clicked, it does the f
    - Hide the loading screen
    - displays the error message in a Toast.
 
-Now it's time to build the final payment step in the checkout process
-
 :::note
 `XpayUtils.pay()` is a suspend function it has to run inside a Coroutine/Async Scope.
 :::
 
+---
+
 ## 8. Payment
+
+Now it's time to build the final payment step in the checkout process.
 
 1. Go to `completePayment(response: PayData)` function and add the following code between the the commented lines `03-start` and `03-end`.
 
@@ -591,7 +690,21 @@ Checks if the `iframe_url` value of the response passed
     - set `isCardPayment` to `false`.
     - create an Intent for the CashPaymentActivity
     - pass `transaction_uuid` and `message` values of the response to the intent.
-    - Navigate to CashPaymentActivity.
+    - start to CashPaymentActivity which displays the response message content.
+
+Try to run the app again and follow the checkout cycle till you click the PAY button.
+
+If you chose KIOSK or cash collection payment method, you will be redirected to PaymentPreviewActivity which will display the response message.
+
+<img alt="Add API key" src={useBaseUrl("kotlinsdk/04.gif")} />
+
+If you chose card payment method, you will be redirected to credit card form.
+
+<img alt="Add API key" src={useBaseUrl("kotlinsdk/04.gif")} />
+
+You can use the testing credit card information found [here](/android-sdk/installation#test) in the form.
+
+---
 
 ## 9. Getting Transaction details
 
