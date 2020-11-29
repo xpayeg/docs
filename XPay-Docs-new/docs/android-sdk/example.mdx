@@ -650,6 +650,7 @@ Now it's time to build the final payment step in the checkout process.
 if (response.iframe_url != null) {
   // if iframe_url inside the returned response is not null, launch a web view to display the payment form
   isCardPayment = true
+  uuid = response.transaction_uuid
   // start a web view and navigate the user to the credit card form
   val builder = CustomTabsIntent.Builder()
   builder.setToolbarColor(resources.getColor(R.color.colorPrimary))
@@ -704,6 +705,8 @@ If you chose card payment method, you will be redirected to credit card form.
 
 You can use the testing credit card information found [here](/android-sdk/installation#test) in the form.
 
+When you submit the credit card information it will take you to a ACS emulator form, ignore that and press submit again.
+
 ---
 
 ## 9. Getting Transaction details
@@ -711,7 +714,7 @@ You can use the testing credit card information found [here](/android-sdk/instal
 Later on, you might need to show the user details about his past transactions,
 whether to check on the transaction status or get other info like total amount paid or even the custom fields that was saved with the transaction.
 
-You can get a transaction details using `XpayUtils.getTransaction(transactionUid: String)` method and the transaction UUID.
+You can get a transaction details using `XpayUtils.getTransaction(transactionUuid: String)` method and the transaction UUID.
 
 We will implement this method in our app so that when the user closes the web view of the credit card form,
 It navigates him to the TransactionActivity which shows him the current transaction status as well as other information.
@@ -763,7 +766,7 @@ Read more about it [here](<https://developer.android.com/reference/android/app/A
 
 3. Go to TransactionActivity inside the java folder.
 
-4. Go to `onStart()` function and add the following code between the the commented lines `01-start` and `01-end`.
+4. Go to `onStart()` function and add the following code between the commented lines `01-start` and `01-end`.
 
 <Tabs
   defaultValue="kt"
@@ -837,3 +840,11 @@ The above code does the following:
 1. Start a Coroutine Scope
 2. Try to call the `XpayUtils.getTransaction()` and if successfull call the `updateTransaction()` function with the response which updates the view with the transaction info.
 3. If an error occured, call the `displayError()` function to display the error message in a toast.
+
+Try to run the app again and make a card payment using the testing credit card information found [here](/android-sdk/installation#test)
+
+<img alt="Add API key" src={useBaseUrl("kotlinsdk/04.gif")} />
+
+After getting a response message from the server close the web view, you will be navigated to TransactionActivity and you will see the latest transaction information.
+you can compare the status value with the message you got in the web view.
+
