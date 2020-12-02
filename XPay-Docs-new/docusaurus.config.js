@@ -9,6 +9,7 @@ module.exports = {
   projectName: "docs", // Usually your repo name.
   themeConfig: {
     sidebarCollapsible: true,
+    hideableSidebar: true,
     navbar: {
       title: "Xpay Docs",
       logo: {
