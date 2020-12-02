@@ -55,7 +55,19 @@ module.exports = {
         ],
       }, ],
       copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-    }
+    },
+    algolia: {
+      apiKey: '3ebef2296972da76ae8294089beb61c7',
+      indexName: 'xpayeg',
+
+      // Optional: see doc section bellow
+      contextualSearch: false,
+
+      // Optional: Algolia search parameters
+      searchParameters: {},
+
+      //... other Algolia params
+    },
   },
   presets: [
     [
