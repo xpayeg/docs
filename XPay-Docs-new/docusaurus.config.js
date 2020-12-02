@@ -15,8 +15,7 @@ module.exports = {
         alt: "XPay Logo",
         src: "img/xpay_large.ico",
       },
-      items: [
-        {
+      items: [{
           to: "api-key",
           activeBasePath: "docs",
           label: "Guides",
@@ -33,27 +32,24 @@ module.exports = {
     },
     footer: {
       style: 'dark',
-      links: [
-        {
-          title: 'Community',
-          items: [
-            {
-              label: "Facebook",
-              href: "https://facebook.com/xpayeg",
-            },
-            {
-              label: "Twitter",
-              href: "https://twitter.com/xpayeg",
-            },
-            {
-              label: "Website",
-              href: "https://xpay.app",
-            },
-          ],
-        },
-      ],
+      links: [{
+        title: 'Community',
+        items: [{
+            label: "Facebook",
+            href: "https://facebook.com/xpayeg",
+          },
+          {
+            label: "Twitter",
+            href: "https://twitter.com/xpayeg",
+          },
+          {
+            label: "Website",
+            href: "https://xpay.app",
+          },
+        ],
+      }, ],
       copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
-    },
+    }
   },
   presets: [
     [
@@ -64,7 +60,7 @@ module.exports = {
           sidebarPath: require.resolve('./sidebars.js'),
           // Please change this to your repo.
           // editUrl:
-            // 'https://github.com/facebook/docusaurus/edit/master/website/',
+          // 'https://github.com/facebook/docusaurus/edit/master/website/',
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),

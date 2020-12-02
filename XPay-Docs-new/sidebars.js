@@ -10,7 +10,7 @@ module.exports = {
     },
     {
       type: "category",
-      label: "Payments API Reference",
+      label: "Payments API Endpoints",
       items: [
         "introduction",
         "authentication",
@@ -20,6 +20,17 @@ module.exports = {
         "subscription",
         "postman",
         "woo-commerce"
+      ],
+    },
+    {
+      type: "category",
+      label: "Android SDK",
+      items: [
+        "android-sdk/installation",
+        "android-sdk/xpayutils",
+        "android-sdk/example",
+        "android-sdk/classes",
+        "android-sdk/sdk-errors",
       ],
     },
     {

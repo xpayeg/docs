@@ -1,0 +1,304 @@
+---
+id: classes
+title: Models
+---
+
+## com.xpay.kotlinutils.models.
+
+### ServerSetting
+
+#### Type
+
+enum class
+
+#### Values
+
+- TEST
+- LIVE
+
+---
+
+### PaymentOptionsTotalAmounts
+
+#### Type
+
+data class
+
+#### Properties
+
+##### card
+
+card: Number | null
+
+##### cash
+
+cash: Number | null
+
+##### kiosk
+
+kiosk: Number | null
+
+---
+
+### PaymentMethods
+
+#### Type
+
+enum class
+
+#### Values
+
+- CARD
+- CASH
+- KIOSK
+
+---
+
+### BillingInfo
+
+#### Type
+
+data class
+
+#### Properties
+
+##### name
+
+name: String
+
+:::caution
+Must match the following Regex pattern
+
+```
+Regex("^[a-zA-Z\\u0621-\\u064A-]{3,}(?:\\s[a-zA-Z\\u0621-\\u064A-]{3,})+\$")
+```
+
+:::
+
+##### email
+
+email: String
+
+:::caution
+Must match the following Regex pattern
+
+```
+Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z.-]+[.][a-zA-Z]{2,4}\$")
+```
+
+:::
+
+##### phone
+
+phone: String
+
+:::caution
+Must match the following Regex pattern
+
+```
+Regex("^\\+[0-9]{7,15}\$")
+```
+
+:::
+
+---
+
+### ShippingInfo
+
+#### Type
+
+data class
+
+#### Properties
+
+##### country
+
+country: String
+
+##### city
+
+city: String
+
+##### state
+
+state: String
+
+##### apartment
+
+apartment: String
+
+##### building
+
+building: String
+
+##### floor
+
+floor: String
+
+##### street
+
+street: String
+
+---
+
+### CustomField
+
+#### Type
+
+data class
+
+#### Properties
+
+##### field_label
+
+field_label: String
+
+##### field_value
+
+field_value: String
+
+---
+
+## com.xpay.kotlinutils.models.api.prepare
+
+### PrepareAmountData
+
+#### Type
+
+data class
+
+#### Properties
+
+##### total_amount
+
+total_amount: Double | null
+
+##### total_amount_currency
+
+total_amount_currency: String | null
+
+##### CASH
+
+CASH: [TotalAmount](#totalamount) | null
+
+##### KIOSK
+
+KIOSK: [TotalAmount](#totalamount) | null
+
+---
+
+### TotalAmount
+
+#### Type
+
+data class
+
+#### Properties
+
+##### total_amount
+
+total_amount: Double
+
+##### total_amount_currency
+
+total_amount_currency: String
+
+---
+
+## com.xpay.kotlinutils.models.api.pay
+
+### PayData
+
+#### Type
+
+data class
+
+#### Properties
+
+##### iframe_url
+
+iframe_url: String | null
+
+##### transaction_id
+
+transaction_id: Int
+
+##### transaction_status
+
+transaction_status: String
+
+##### transaction_uuid
+
+transaction_uuid: String
+
+##### message
+
+message: String | null
+
+##### bill_reference
+
+bill_reference: String
+
+##### bm_session
+
+bm_session: String | null
+
+---
+
+## com.xpay.kotlinutils.models.api.transaction
+
+### TransactionData
+
+#### Type
+
+data class
+
+#### Properties
+
+##### created
+
+created: String
+
+##### id
+
+id: Int
+
+##### uuid
+
+uuid: String
+
+##### member_id
+
+member_id: String | null
+
+##### message
+
+message: String | null
+
+##### total_amount
+
+total_amount: Double
+
+##### total_amount_currency
+
+total_amount_currency: String
+
+##### payment_for
+
+payment_for: String
+
+##### quantity
+
+quantity: String | null
+
+##### status
+
+status: String
+
+##### custom_fields_json
+
+custom_fields_json: Array<[CustomField](#customfield)> | null
+
+##### total_amount_piasters
+
+total_amount_piasters: Int
