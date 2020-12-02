@@ -28,6 +28,12 @@ module.exports = {
           label: "API Reference",
           position: "left",
         },
+        {
+          to: "https://forms.clickup.com/f/2a24f-3536/JBPV2ITJ7OFKWK9G7M",
+          // activeBasePath: "docs",
+          label: "Support",
+          position: "right",
+        },
       ],
     },
     footer: {
