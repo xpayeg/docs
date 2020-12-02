@@ -412,7 +412,16 @@ val countriesList = populateCountries(obj)
 <TabItem value="java">
 
 ```java title="/app/src/main/java/com.xpay.sdkjava/UserInfoActivity.java"
-
+JSONObject obj = new JSONObject();
+String jsonFileString = getJsonDataFromAsset(this, "countries.json");
+try {
+  assert jsonFileString != null;
+  obj = new JSONObject(jsonFileString);
+} catch (JSONException e) {
+  e.printStackTrace();
+}
+List<String> finalAllCountries = populateCountries(obj);
+JSONObject finalObj = (JSONObject) obj;
 ```
 
 </TabItem>
@@ -445,6 +454,7 @@ populateStates(obj, countriesList[position])
 <TabItem value="java">
 
 ```java title="/app/src/main/java/com.xpay.sdkjava/UserInfoActivity.java"
+
 ```
 
 </TabItem>
@@ -931,4 +941,3 @@ Try to run the app again and make a card payment using the testing credit card i
 
 After getting a response message from the server close the web view, you will be navigated to TransactionActivity and you will see the latest transaction information.
 you can compare the status value with the message you got in the web view.
-
