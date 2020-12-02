@@ -99,8 +99,11 @@ XpayUtils.apiPaymentId = 60
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
-
+```java title="/app/src/main/java/com.xpay.sdkjava/ProductActivity.java"
+// set XpayUtils core settings
+XpayUtils.INSTANCE.setApiKey("Cce74Y3B.J0P4tItq7hGu2ddhCB0WF5ND1eTubkpT");
+XpayUtils.INSTANCE.setCommunityId("m2J7eBK");
+XpayUtils.INSTANCE.setApiPaymentId(60);
 ```
 
 </TabItem>
@@ -146,7 +149,8 @@ lifecycleScope.launch {
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
+```java title="/app/src/main/java/com.xpay.sdkjava/ProductActivity.java"
+XpayUtils.INSTANCE.prepareAmount(totalAmount, prepareCallback);
 
 ```
 
@@ -199,8 +203,9 @@ XpayUtils.addCustomField("size", size)
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
-
+```java title="/app/src/main/java/com.xpay.sdkjava/ProductActivity.java"
+XpayUtils.INSTANCE.addCustomField("color", color);
+XpayUtils.INSTANCE.addCustomField("size", size);
 ```
 
 </TabItem>
@@ -262,8 +267,24 @@ paymentMethodsDropdown.adapter = paymentMethodsAdapter
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/UserInfoActivity.kt"
+```java title="/app/src/main/java/com.xpay.sdkjava/UserInfoActivity.java"
+// Populate paymentMethodsDropdown with available active payment methods
+ArrayAdapter<String> adapter = null;
+List<String> paymentMethodsList = new ArrayList<String>();
+// get the available active payment methods and convert it to List<String>
+for (PaymentMethods i : mSpinnerData) {
+  paymentMethodsList.add(i.toString());
+}
 
+
+Set<String> set = new LinkedHashSet<>(paymentMethodsList);
+paymentMethodsList.clear();
+paymentMethodsList.addAll(set);
+
+// Populate paymentMethodsDropdown with available active payment methods
+adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, paymentMethodsList);
+adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+paymentMethodsDropdown.setAdapter(adapter);
 ```
 
 </TabItem>
@@ -317,8 +338,30 @@ totalAmountTxt.text = "Total Amount: ${totalAmount} Egp"
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/UserInfoActivity.kt"
-
+```java title="/app/src/main/java/com.xpay.sdkjava/UserInfoActivity.java"
+case CASH: {
+  amount = Objects.requireNonNull(XpayUtils.INSTANCE.getPaymentOptionsTotalAmounts()).getCash();
+  XpayUtils.INSTANCE.setPayUsing(PaymentMethods.CASH);
+  showView(parent);
+  break;
+}
+case CARD: {
+  amount = Objects.requireNonNull(XpayUtils.INSTANCE.getPaymentOptionsTotalAmounts()).getCard();
+  XpayUtils.INSTANCE.setPayUsing(PaymentMethods.CARD);
+  hideView(parent);
+  validForm = true;
+  break;
+}
+case KIOSK: {
+  amount = Objects.requireNonNull(XpayUtils.INSTANCE.getPaymentOptionsTotalAmounts()).getKiosk();
+  XpayUtils.INSTANCE.setPayUsing(PaymentMethods.KIOSK);
+  hideView(parent);
+  validForm = true;
+  break;
+}
+}
+amount = Double.parseDouble(String.format("%.2f", amount));
+totalAmount.setText("Total Amount: " + amount + " Egp");
 ```
 
 </TabItem>
@@ -368,7 +411,7 @@ val countriesList = populateCountries(obj)
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/UserInfoActivity.kt"
+```java title="/app/src/main/java/com.xpay.sdkjava/UserInfoActivity.java"
 
 ```
 
@@ -401,8 +444,7 @@ populateStates(obj, countriesList[position])
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/UserInfoActivity.kt"
-
+```java title="/app/src/main/java/com.xpay.sdkjava/UserInfoActivity.java"
 ```
 
 </TabItem>
@@ -479,8 +521,35 @@ try {
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/UserInfoActivity.kt"
+```java title="/app/src/main/java/com.xpay.sdkjava/UserInfoActivity.java"
+boolean validShippingInfo = true;
+if (parent.getVisibility() == View.VISIBLE) {
+  if (validateShippingInfo()) {
+    validShippingInfo = true;
+    // set payment shipping info
+    XpayUtils.INSTANCE.setShippingInfo(new ShippingInfo(
+      "EG",
+      state.getSelectedItem().toString(),
+      country.getSelectedItem().toString(),
+      apartment.getText().toString(),
+      building.getText().toString(),
+      floor.getText().toString(),
+      street.getText().toString()
+  ));
+  } else validShippingInfo = false;
+}
 
+if (validateBillingInfo() && validShippingInfo) {
+  // set payment billing info
+  try {
+    XpayUtils.INSTANCE.setBillingInfo(new BillingInfo(name.getText().toString(), email.getText().toString(), "+2" + phone.getText().toString()));
+    Intent intent = new Intent(getApplicationContext(), PaymentPreviewActivity.class);
+    intent.putExtra("TOTAL_AMOUNT", amount.toString());
+    startActivity(intent);
+  } catch (Exception e) {
+    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+  }
+}
 ```
 
 </TabItem>
@@ -534,8 +603,14 @@ totalAmount.text = "Total Amount: \n${intent.getStringExtra("TOTAL_AMOUNT")?.toD
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/PaymentPreviewActivity.kt"
-
+```java title="/app/src/main/java/com.xpay.sdkjava/PaymentPreviewActivity.java"
+txt_name.setText("Name: \n" + XpayUtils.INSTANCE.getBillingInfo().getName());
+txt_mail.setText("Email: \n" + XpayUtils.INSTANCE.getBillingInfo().getEmail());
+txt_phone.setText("Phone: \n" + XpayUtils.INSTANCE.getBillingInfo().getPhone());
+txtcomm_id.setText("Community Id: \n" + XpayUtils.INSTANCE.getCommunityId());
+txt_varid.setText("Variable amount: \n" + XpayUtils.INSTANCE.getApiPaymentId());
+txt_method.setText("Payment method: \n" + XpayUtils.INSTANCE.getPayUsing());
+txt_total.setText("Total Amount: \n" + getIntent().getStringExtra("TOTAL_AMOUNT"));
 ```
 
 </TabItem>
@@ -578,8 +653,13 @@ try {
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/PaymentPreviewActivity.kt"
-
+```java title="/app/src/main/java/com.xpay.sdkjava/PaymentPreviewActivity.java"
+try {
+  dialog.show();
+  XpayUtils.INSTANCE.pay(payCallback);
+} catch (Exception e) {
+  Toast.makeText(PaymentPreviewActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+}
 ```
 
 </TabItem>
@@ -617,7 +697,7 @@ Now it's time to build the final payment step in the checkout process.
 
 <TabItem value="kt">
 
-```kt title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
+```kt title="/app/src/main/java/com.xpay.kotlin/PaymentPreviewActivity.kt"
 if (response.iframe_url != null) {
   // if iframe_url inside the returned response is not null, launch a web view to display the payment form
   isCardPayment = true
@@ -642,8 +722,26 @@ if (response.iframe_url != null) {
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/ProductActivity.kt"
-
+```java title="/app/src/main/java/com.xpay.sdkjava/PaymentPreviewActivity.java"
+if (response.getIframe_url() != null) {
+  // if iframe_url inside the returned response is not null, launch a web view to display the payment form
+  isCardPayment = true;
+  uuid = response.getTransaction_uuid();
+  // start a web view and navigate the user to the credit card form
+  CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+  builder.setToolbarColor(R.color.colorPrimary);
+  builder.setShowTitle(true);
+  CustomTabsIntent customTabsIntent = builder.build();
+  customTabsIntent.launchUrl(this, Uri.parse(response.getIframe_url()));
+} else if (response.getMessage() != null) {
+  // if iframe_url inside the returned response is null while the message is not null
+  // this is a kiosk or cash collection payment, just display the message to the user
+  isCardPayment = false;
+  Intent intent = new Intent(this, CashPaymentActivity.class);
+  intent.putExtra("UUID", response.getTransaction_uuid());
+  intent.putExtra("MESSAGE", response.getMessage());
+  startActivity(intent);
+}
 ```
 
 </TabItem>
@@ -715,8 +813,12 @@ if (isCardPayment) {
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/PaymentPreviewActivity.kt"
-
+```java title="/app/src/main/java/com.xpay.sdkjava/PaymentPreviewActivity.java"
+if (isCardPayment) {
+  Intent intent = new Intent(this, TransactionActivity.class);
+  intent.putExtra("UUID", uuid);
+  startActivity(intent);
+}
 ```
 
 </TabItem>
@@ -757,8 +859,8 @@ uuid?.let { loadTransaction(it) }
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/TransactionActivity.kt"
-
+```java title="/app/src/main/java/com.xpay.sdkjava/TransactionActivity.java"
+loadTransaction(uuid);
 ```
 
 </TabItem>
@@ -799,8 +901,19 @@ lifecycleScope.launch {
 </TabItem>
 <TabItem value="java">
 
-```java title="/app/src/main/java/com.xpay.kotlin/TransactionActivity.kt"
-
+```java title="/app/src/main/java/com.xpay.sdkjava/TransactionActivity.java"
+dialog.show();
+try {
+  XpayUtils.INSTANCE.getTransaction(Uid, TransactionCallback);
+} catch (Exception e) {
+  dialog.dismiss();
+  runOnUiThread(new Runnable() {
+  @Override
+  public void run() {
+    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+  }
+  });
+}
 ```
 
 </TabItem>
