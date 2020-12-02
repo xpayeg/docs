@@ -6,4 +6,4 @@
 
 This Documentation site is built using [Docusaurus](https://v2.docusaurus.io/) and is published on Github pages
 
-You can view the Publish version [here](https://xpayeg.github.io/docs/)
+You can view the Published version [here](https://xpayeg.github.io/docs/)
