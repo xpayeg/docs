@@ -119,6 +119,7 @@ values={[
   "amount": 50,
   "currency": "EGP",
   "variable_amount_id": 4,
+  "language":"en"
   "community_id": "zogDmQW",
   "pay_using": "card"
 }
@@ -153,17 +154,18 @@ values={[
 
 ## Payment Options
 
-There are three payment options available at the moment
+There are four payment options available at the moment
 
 - card
-- cash collection
-- kiosk (aman / masary)
+- kiosk (aman)
+- fawry (both kiosk and fawryPay)
+- mobile wallets
 
-### Pay using card
+### Pay using any payment method
 
-​to use payment using card, just [follow the example above](#example).
+​just [follow the example above](#example) but replace the `<pay_using>` attribute in the request body to the desired payment method (`"card"` ,`"fawry"`, `"meeza/digital"`).
 
-### Pay using kiosk
+### Pay using kiosk (aman)
 
 ​to use payment using kiosk, change the value of `<pay_using>` attribute in the request body to `"kiosk"`.
 
@@ -254,127 +256,6 @@ If successful, this method returns a response body with the following structure 
 </Tabs>
 
 
-<!-- ### Pay using cash collection
-
-​to use payment using cash collection option, you need to change two things in the default payload:
-
-- supply the billing info attribute with this structure instead of the default one
-- change the value of `<pay_using>` attribute to `cash`
-
-#### Request body
-
-```json
-{
-  "billing_data": {
-    "name": string,
-    "email": string,
-    "phone_number": string,
-    "country": string,
-    "state": string,
-    "city": string,
-    "street": string,
-    "building": string,
-    "apartment": string,
-    "floor": string
-  },
-  "pay_using": "cash"
-}
-```
-
-Notes:
-
-- you can find all state-city combinations in this 
-<a
-  target="_blank"
-  href="https://github.com/xpayeg/api-docs/blob/master/state-city.json">
-  state-city.json
-</a>
-
-
-
-
-#### Response
-
-If successful, this method returns a response body with the following structure example:
-
-```json
-{
-  "status": {
-    "code": integer,
-    "message": string,
-    "errors": []
-  },
-  "data": {
-    "iframe_url": string,
-    "transaction_id": integer,
-    "transaction_status": string,
-    "transaction_uuid": string,
-    "message": string
-  },
-  "count": integer,
-  "next": string,
-  "previous": string
-}
-```
-
-#### Example
-
-<Tabs
-  defaultValue="request"
-  values={[
-    { label: 'Request Body', value: 'request', },
-    { label: 'Response Body', value: 'response', }  ]
-}>
-<TabItem value="request">
-
-
-```json
-{
-  "billing_data": {
-    "name": "Islam Rostom",
-    "email": "islam.rostom93@gmail.com",
-    "phone_number": "+201119045759",
-    "country": "EG",
-    "state": "Al Meniya",
-    "city": "Mghagha",
-    "street": "random street name",
-    "building": "5",
-    "apartment": "5",
-    "floor": "5"
-  },
-  "amount_piasters": 5000,
-  "variable_amount_id": 4,
-  "community_id": "1",
-  "pay_using": "cash"
-}
-```
-
-</TabItem>
-<TabItem value="response">
-
-
-```json
-{
-  "status": {
-    "code": 200,
-    "message": "success",
-    "errors": []
-  },
-  "data": {
-    "iframe_url": null,
-    "transaction_id": 3273,
-    "transaction_status": "PENDING",
-    "transaction_uuid": "411889e5-fc8f-4db3-810d-c1beddb5a2a4",
-    "message": "Our representative will go to the address you provided to collect the cash from you"
-  },
-  "count": null,
-  "next": null,
-  "previous": null
-}
-```
-
-</TabItem>
-</Tabs> -->
 
 
 ## Custom Fields
