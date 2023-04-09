@@ -1,1 +1,0 @@
-API Docs moved to : https://xpayeg.github.io/api-docs/introduction
