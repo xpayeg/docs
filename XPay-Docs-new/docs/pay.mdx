@@ -64,9 +64,12 @@ Hardcoding the billing data in the production version of your app will raise a r
 
 ### Optional Properties
 
-| Property name | Value  | Description                                    | Notes                                                           |
-| ------------- | ------ | ---------------------------------------------- | --------------------------------------------------------------- |
-| membership_id | string | ID of your community member making the payment | Needed if your [API Payment](api-payments) requires a member id |
+| Property name                 | Value   | Description                                    | Notes                                                           |
+| ----------------------------- | ------- | ---------------------------------------------- | --------------------------------------------------------------- |
+| membership_id                 | string  | ID of your community member making the payment | Needed if your [API Payment](api-payments) requires a member id |
+| is_recurring                  | boolean | Change from regular to reccuring payment       | Needed if your payment is recurring                             |
+| expiry_date                   | string  | Expiry Date of the reccuring payment           | Needed if your payment is recurring                             |
+| minimum_days_between_payments | integer | Number of days between each payment            | Needed if your payment is recurring                             |
 
 ## Response
 
