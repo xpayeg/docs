@@ -17,7 +17,6 @@ module.exports = {
         "prepare-amount",
         "pay",
         "transactions",
-        "subscription",
         "postman",
         "woo-commerce"
       ],
