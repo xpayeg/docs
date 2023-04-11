@@ -1,0 +1,20 @@
+{
+  "unversionedId": "subscription",
+  "id": "subscription",
+  "isDocsHomePage": false,
+  "title": "Subscription",
+  "description": "One of the available payment tools that XPay offers is Recurring payments or Subscriptions.",
+  "source": "@site/docs/subscription.mdx",
+  "slug": "/subscription",
+  "permalink": "/docs/subscription",
+  "version": "current",
+  "sidebar": "docs",
+  "previous": {
+    "title": "Transaction endpoint",
+    "permalink": "/docs/transactions"
+  },
+  "next": {
+    "title": "Postman Collection",
+    "permalink": "/docs/postman"
+  }
+}

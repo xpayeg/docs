@@ -1,0 +1,20 @@
+{
+  "unversionedId": "transactions",
+  "id": "transactions",
+  "isDocsHomePage": false,
+  "title": "Transaction endpoint",
+  "description": "After getting a response from Pay endpoint you can use this endpoint to fetch informations about the transaction such as status, transaction id , total amount paid, ETC...",
+  "source": "@site/docs/transactions.mdx",
+  "slug": "/transactions",
+  "permalink": "/docs/transactions",
+  "version": "current",
+  "sidebar": "docs",
+  "previous": {
+    "title": "Pay endpoint",
+    "permalink": "/docs/pay"
+  },
+  "next": {
+    "title": "Subscription",
+    "permalink": "/docs/subscription"
+  }
+}

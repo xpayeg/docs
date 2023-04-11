@@ -1,0 +1,20 @@
+{
+  "unversionedId": "direct-order",
+  "id": "direct-order",
+  "isDocsHomePage": false,
+  "title": "Direct Order",
+  "description": "This guide is meant to help you understand how to use XPay community admin dashboard to create a Direct Order",
+  "source": "@site/docs/direct_order.mdx",
+  "slug": "/direct-order",
+  "permalink": "/docs/direct-order",
+  "version": "current",
+  "sidebar": "docs",
+  "previous": {
+    "title": "Promocode",
+    "permalink": "/docs/promo-code"
+  },
+  "next": {
+    "title": "Introduction",
+    "permalink": "/docs/"
+  }
+}

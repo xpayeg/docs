@@ -1,0 +1,20 @@
+{
+  "unversionedId": "android-sdk/example",
+  "id": "android-sdk/example",
+  "isDocsHomePage": false,
+  "title": "Tutorial",
+  "description": "<!--",
+  "source": "@site/docs/android-sdk/example.mdx",
+  "slug": "/android-sdk/example",
+  "permalink": "/docs/android-sdk/example",
+  "version": "current",
+  "sidebar": "docs",
+  "previous": {
+    "title": "XpayUtils",
+    "permalink": "/docs/android-sdk/xpayutils"
+  },
+  "next": {
+    "title": "Models",
+    "permalink": "/docs/android-sdk/classes"
+  }
+}

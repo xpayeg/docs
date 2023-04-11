@@ -1,0 +1,20 @@
+{
+  "unversionedId": "android-sdk/installation",
+  "id": "android-sdk/installation",
+  "isDocsHomePage": false,
+  "title": "Introduction",
+  "description": "XPay KotlinUtils is an SDK for integrating payments through XPay with android development written in kotlin.",
+  "source": "@site/docs/android-sdk/installation.mdx",
+  "slug": "/android-sdk/installation",
+  "permalink": "/docs/android-sdk/installation",
+  "version": "current",
+  "sidebar": "docs",
+  "previous": {
+    "title": "Woo-Commerce XPay Plugin",
+    "permalink": "/docs/woo-commerce"
+  },
+  "next": {
+    "title": "XpayUtils",
+    "permalink": "/docs/android-sdk/xpayutils"
+  }
+}

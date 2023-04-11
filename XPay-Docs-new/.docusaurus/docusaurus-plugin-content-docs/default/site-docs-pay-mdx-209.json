@@ -1,0 +1,20 @@
+{
+  "unversionedId": "pay",
+  "id": "pay",
+  "isDocsHomePage": false,
+  "title": "Pay endpoint",
+  "description": "This endpoint will take the required payment info and pass them to our Core Payment API and return the resultant response.",
+  "source": "@site/docs/pay.mdx",
+  "slug": "/pay",
+  "permalink": "/docs/pay",
+  "version": "current",
+  "sidebar": "docs",
+  "previous": {
+    "title": "Prepare Amount endpoint",
+    "permalink": "/docs/prepare-amount"
+  },
+  "next": {
+    "title": "Transaction endpoint",
+    "permalink": "/docs/transactions"
+  }
+}

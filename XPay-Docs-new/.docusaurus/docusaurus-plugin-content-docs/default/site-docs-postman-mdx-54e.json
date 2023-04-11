@@ -1,0 +1,20 @@
+{
+  "unversionedId": "postman",
+  "id": "postman",
+  "isDocsHomePage": false,
+  "title": "Postman Collection",
+  "description": "We provide a postman collection to test all our api endpoints right away.",
+  "source": "@site/docs/postman.mdx",
+  "slug": "/postman",
+  "permalink": "/docs/postman",
+  "version": "current",
+  "sidebar": "docs",
+  "previous": {
+    "title": "Subscription",
+    "permalink": "/docs/subscription"
+  },
+  "next": {
+    "title": "Woo-Commerce XPay Plugin",
+    "permalink": "/docs/woo-commerce"
+  }
+}

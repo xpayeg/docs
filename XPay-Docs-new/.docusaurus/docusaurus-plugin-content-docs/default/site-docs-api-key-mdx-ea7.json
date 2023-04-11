@@ -1,0 +1,20 @@
+{
+  "unversionedId": "api-key",
+  "id": "api-key",
+  "isDocsHomePage": false,
+  "title": "API key",
+  "description": "1. Navigate to XPay dashboard through the follwing Urls:",
+  "source": "@site/docs/api_key.mdx",
+  "slug": "/api-key",
+  "permalink": "/docs/api-key",
+  "version": "current",
+  "sidebar": "docs",
+  "previous": {
+    "title": "Errors reference",
+    "permalink": "/docs/android-sdk/sdk-errors"
+  },
+  "next": {
+    "title": "API Payments",
+    "permalink": "/docs/api-payments"
+  }
+}
