@@ -166,6 +166,7 @@ There are four payment options available at the moment
 - kiosk (aman)
 - fawry (both kiosk and fawryPay)
 - mobile wallets
+- valU
 
 ### Pay using any payment method
 
@@ -301,3 +302,15 @@ The `field_value` parameter can be string, number OR boolean.
   ]
 }
 ```
+### Redirect Url
+Assign it from the dashboard once the payment is completed the url will contain the following as query paramaters:
+
+| Property name      | Value   | Description                     |
+| ------------------ | ------- | ------------------------------- |
+| amount_piasters    | integer | transaction amount in piasters  |
+| amount             | integer | transaction amount              |
+| transaction_uuid   | string  | transaction UUID in XPay system |
+| transaction_status | string  | transaction status              |
+
+### Callback url
+Assign it from the dashboard and specify what fields you want us to send as a POST request to your server after the payment is completed. 
