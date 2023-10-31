@@ -70,7 +70,7 @@ Hardcoding the billing data in the production version of your app will raise a r
 | is_recurring                  | boolean | Change from regular to reccuring payment       | Needed if your payment is recurring                             |
 | expiry_date                   | string  | Expiry Date of the reccuring payment           | Needed if your payment is recurring                             |
 | minimum_days_between_payments | integer | Number of days between each payment            | Needed if your payment is recurring                             |
-| original_amount               | float   | amount without service fees                    | Needed if your payment is in foreign currency                   |
+| original_amount               | float   | service cost without service fees included     | Needed if your payment is in foreign currency                   |
 
 ## Response
 
@@ -114,18 +114,37 @@ values={[
 
 
 ```json
+ EGP Payment
+-----------------
 {
   "billing_data": {
     "name": "Islam Rostom",
     "email": "irostom@xpay.app",
     "phone_number": "+201119045759"
   },
-  "amount": 50,
+  "amount": 53.36,
+  "original_amount": 50,
   "currency": "EGP",
   "variable_amount_id": 4,
-  "language":"en"
+  "language":"en",
   "community_id": "zogDmQW",
   "pay_using": "card"
+}
+foreign Payment
+--------------------
+{
+    "billing_data": {
+        "name": "Mahmoud Shehata",
+        "email": "m@xpay.app",
+        "phone_number": "+201551236623"
+    },
+    "amount": 10.27,
+    "original_amount": 10,
+    "currency": "USD",
+    "variable_amount_id": 25,
+    "language": "en",
+    "community_id": "zogDmQW",
+    "pay_using": "card"
 }
 ```
 
