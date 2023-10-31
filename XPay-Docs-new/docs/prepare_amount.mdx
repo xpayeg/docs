@@ -34,8 +34,15 @@ POST https://community.xpay.app/api/v1/payments/prepare-amount/
 
 | Property name | Value  | Description                                                  | Notes |
 | ------------- | ------ | ------------------------------------------------------------ | ----- |
-| community_id  | string | ID that is uniques to your community                         |
+| community_id  | string | ID that is uniques to your community                         |       |
 | amount        | float  | amount that represents the service cost without service fees |       |
+
+### Optional Properties
+
+| Property name          | Value   | Description                                        | Notes |
+| ---------------------- | ------- | -------------------------------------------------- | ----- |
+| currency               | string  | amount currency                                    |The default currency is `EGP` and all fees are calculated based on this currency.|
+| selected_payment_method| string  | the used payment method "card, fawry, ... etc"     |The default payment method is `card` and all fees are calculated based on this method.|
 
 ## Response
 
