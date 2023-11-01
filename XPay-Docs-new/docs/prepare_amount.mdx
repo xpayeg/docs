@@ -84,7 +84,9 @@ If successful, this method returns a response body with the following structure:
 ```json
 {
   "amount": 50,
-  "community_id": "zogDmQW"
+  "community_id": "zogDmQW",
+  "currency": "EGP", // optional: default is "EGP"
+  "selected_payment_method": "card" // optional: default is "card"
 }
 ```
 
@@ -100,7 +102,7 @@ If successful, this method returns a response body with the following structure:
   },
   "data": {
     "total_amount": 50.5,
-    "total_amount_currency": "EGP"
+    "total_amount_currency": "EGP" // default is "EGP"
   },
   "count": null,
   "next": null,
