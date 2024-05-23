@@ -5,18 +5,18 @@ module.exports = {
       items: [
         "custom-fields",
         "promo-code",
-        "direct-order",
-        "direct-order-api"
+        "direct-order"
       ],
     },
     {
       type: "category",
-      label: "Payments API Endpoints",
+      label: "API Endpoints",
       items: [
         "introduction",
         "authentication",
         "prepare-amount",
         "pay",
+        "direct-order-api",
         "transactions",
         "postman",
         "woo-commerce"
