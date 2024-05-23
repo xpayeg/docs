@@ -62,23 +62,25 @@ Hardcoding the customer data in the production version of your app will raise a 
 
 ### Optional Properties
 
-| Property name                 | Value   | Description                                                | Notes                                                           |
-| ----------------------------- | ------- | -------------------------------------------------------    | --------------------------------------------------------------- |
-| discount_amount.amount        | float   | will be subtracted from the amount                         |                                                                 |
-| discount_amount.currency      | string  | supported  "EGP", "USD", "EUR", "SAR", "AED" and "GBP".    | default is "EGP"                                                |
-| allow_recurring_payments      | boolean | Change from regular to reccuring payment                   | Needed if your payment is recurring                             |
-| expiry_date                   | string  | Expiry Date of the reccuring payment                       | Needed if your payment is recurring                             |
-| minimum_days_between_payments | integer | Number of days between each payment                        | Needed if your payment is recurring                             |
-| custom_fields                 | array   | [Custom Fields](#custom-fields)                            |                                                                 |
-| order_description             | string  | Order description                                          |                                                                 |
-| address                       | string  | billing address                                            |                                                                 |
-| customer_title                | string  | Customer title used when sending notification.             | e.g. Mr, Mrs, Doctor,... etc.                                   |
-| vat_percentage                | float   | The percentage will be calculated and added to the amount. | will show in the payment pages as a separate entity titled VAT  |
-| send_by_email                 | boolean | If true notify customer by email .                         |                                                                 |
-| cc_email                      | string  | CC email in case of email sent.                            |                                                                 |
-| send_by_sms                   | boolean | If true notify customer by mobile.                         |                                                                 |
-| redirect_url                  | string  | [redirect url](#redirect_url)                              |                                                                 |
-| callback_url                  | string  | [callback url](#callback_url)                              |                                                                 |
+| Property name                 | Value   | Description                                                | Notes                                                                                   |
+| ----------------------------- | ------- | -------------------------------------------------------    | --------------------------------------------------------------------------------------- |
+| discount_amount.amount        | float   | will be subtracted from the amount                         |                                                                                         |
+| discount_amount.currency      | string  | supported  "EGP", "USD", "EUR", "SAR", "AED" and "GBP".    | default is "EGP"                                                                        |
+| allow_recurring_payments      | boolean | Change from regular to reccuring payment                   | Needed if your payment is recurring                                                     |
+| expiry_date                   | string  | Expiry Date of the reccuring payment                       | Needed if your payment is recurring                                                     |
+| minimum_days_between_payments | integer | Number of days between each payment                        | Needed if your payment is recurring                                                     |
+| custom_fields                 | array   | [Custom Fields](#custom-fields)                            |                                                                                         |
+| order_description             | string  | Order description                                          |                                                                                         |
+| address                       | string  | billing address                                            |                                                                                         |
+| customer_title                | string  | Customer title used when sending notification.             | e.g. Mr, Mrs, Doctor,... etc.                                                           |
+| vat_percentage                | float   | The percentage will be calculated and added to the amount. | will show in the payment pages as a separate entity titled VAT                          |
+| send_by_email                 | boolean | If true notify customer by email .                         |                                                                                         |
+| cc_email                      | string  | CC email in case of email sent.                            |                                                                                         |
+| send_by_sms                   | boolean | If true notify customer by mobile.                         |                                                                                         |
+| redirect_url                  | string  | [redirect url](#redirect_url)                              |                                                                                         |
+| callback_url                  | string  | [callback url](#callback_url)                              |                                                                                         |
+| paid                          | boolean | default false                                              | May be use in case of recurring payment and you want to mark the first payment as paid. |
+| tags                          | string  | payment tags [see the example below](#example)             |                                                                                         |
 
 ## Response
 
@@ -93,7 +95,7 @@ If successful, this method returns a response body with the following structure:
     },
     "data": {
         "success": true,
-        "Direct Order Link": "https://staging-iframe.xpay.app/i/community/xL4rPB7/direct-order/EBxxpBl",
+        "Direct Order Link": "https://staging-iframe.xpay.app/i/community/xL4rPB7/direct-order/1BlbR48",
         "message": "Direct order link created successfully. SMS and email notifications sent."
     },
     "count": null,
@@ -151,11 +153,31 @@ values={[
     "vat_percentage": 5.0, 
     "expiry_date": "2025-05-31", 
     "minimum_days_between_payments": 30, 
-    "custom_fields": [ ],
+ "custom_fields": [
+    {
+      "field_label": "test label1",
+      "field_type": "TEXT"
+    },
+    {
+      "field_label": "check example",
+      "field_type": "CHECKBOX"
+    },
+    {
+      "field_label": "number example",
+      "field_type": "NUMBER",
+      "required": false
+    },
+    {
+      "field_label": "drop down example",
+      "field_type": "DROPDOWNLIST",
+      "field_choices": "c1,c2,c3",
+      "required": true
+    }
+  ],
     "send_by_email": true, 
     "send_by_sms": true, 
-    "redirect_url": " https://b906-196-133-101-19.ngrok-free.app/redirect",
-    "callback_url": " https://b906-196-133-101-19.ngrok-free.app/callback/"
+    "redirect_url": "https://webhook.site/90b597de-669b-499a-a595-423054d9d46d",
+    "callback_url": "https://webhook.site/90b597de-669b-499a-a595-423054d9d46d"
 }
 ```
 
@@ -172,7 +194,7 @@ values={[
     },
     "data": {
         "success": true,
-        "Direct Order Link": "https://staging-iframe.xpay.app/i/community/xL4rPB7/direct-order/EBxxpBl",
+        "Direct Order Link": "https://staging-iframe.xpay.app/i/community/xL4rPB7/direct-order/1BlbR48",
         "message": "Direct order link created successfully. SMS and email notifications sent."
     },
     "count": null,
@@ -200,51 +222,82 @@ There are four payment options available at the moment
 
 ## Custom Fields
 
-If you wish to save extra data with the invoice data, you can send this data within the request body inside a new `custom_fields` parameter which takes an array of the following structure:
+If you wish to request extra data from user during paymner, you can send custom fields array.
+each field in custom fields array contains:
+| Property name      | Value   | Description                                                                      |
+| ------------------ | ------- | -------------------------------------------------------------------------------- |
+| field_label        | integer | label that will appears to the customer on payment                               |
+| field_type         | integer | field type: TEXT, NUMBER, CHECKBOX or DROPDOWNLIST                               |
+| required           | boolean | optional parameter indicates if the field is mandatory                           |
+| field_choices      | string  | only used in case of DROPDOWNLIST (comma separated values of the drop down list) |
 
-```json
-{
-  "field_label": "custom field label value",
-  "field_value": "custom field input value"
-}
-```
-
-:::note
-The `field_value` parameter can be string, number OR boolean.
-:::
 ### Example
 
 ### Request body
 
 ```json
 {
-  ...
+  ....
   "custom_fields": [
     {
       "field_label": "test label1",
-      "field_value": "test one"
+      "field_type": "TEXT"
     },
     {
-      "field_label": "test label3",
-      "field_value": false
+      "field_label": "check example",
+      "field_type": "CHECKBOX"
     },
     {
-      "field_label": "test label2",
-      "field_value": 25
+      "field_label": "number example",
+      "field_type": "NUMBER",
+      "required": false
+    },
+    {
+      "field_label": "drop down example",
+      "field_type": "DROPDOWNLIST",
+      "field_choices": "c1,c2,c3",
+      "required": true
     }
   ]
+  ....
 }
 ```
 ### Redirect Url
-Assign it from the dashboard once the payment is completed the url will contain the following as query paramaters:
+if it is assigned then  once the payment is completed a redirect to the url will happen and will contain the following as query paramaters:
 
-| Property name      | Value   | Description                     |
-| ------------------ | ------- | ------------------------------- |
-| amount_piasters    | integer | transaction amount in piasters  |
-| amount             | integer | transaction amount              |
-| transaction_uuid   | string  | transaction UUID in XPay system |
-| transaction_status | string  | transaction status              |
+| Property name         | Value   | Description                     |
+| --------------------- | ------- | ------------------------------- |
+| total_amount_piasters | float   | transaction amount in piasters  |
+| total_amount          | float   | transaction amount              |
+| transaction_uuid      | string  | transaction UUID in XPay system |
+| transaction_status    | string  | transaction status              |
+
+and if there iscustom fields then it will be included in query parameters
 
 ### Callback url
-Assign it from the dashboard and specify what fields you want us to send as a POST request to your server after the payment is completed. 
+If it is assigned,  a POST request will be send after the customer pay the direct order with json paramaters that includes:
+
+| Property name         | Value   | Description                     |
+| --------------------- | ------- | ------------------------------- |
+| total_amount_piasters | float   | transaction amount in piasters  |
+| total_amount          | float   | transaction amount              |
+| transaction_uuid      | string  | transaction UUID in XPay system |
+| transaction_status    | string  | transaction status              |
+
+and if there is custom fields then it will be included in the request json parameter.
+
+The following is an example to the parametes sent to call back url:
+```json
+{
+  "member_id": null,
+  "test label1": "",//custom field
+  "total_amount": 99.99,
+  "check example": true,//custom field
+  "number example": "",//custom field
+  "transaction_id": "0901eddd-f71c-4f31-81a9-f03d08c328b5",
+  "drop down example": "c2",//custom field
+  "transaction_status": "SUCCESSFUL",
+  "total_amount_piasters": 9999
+}
+```
 
