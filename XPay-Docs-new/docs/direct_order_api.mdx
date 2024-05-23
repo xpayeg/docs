@@ -1,0 +1,250 @@
+---
+id: direct-order-api
+title: Direct Order API
+---
+
+import TabItem from "@theme/TabItem";
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+This guide explains how to create direct order through API call .
+After calling the API successfully the user will be notified by email and/or SMS (according to API parameters).
+
+## REQUEST
+
+### testing server:
+
+```
+POST https://staging.xpay.app/api/orders/create-direct-order/
+```
+
+### production(Live) server:
+
+```
+POST https://community.xpay.app/api/orders/create-direct-order/
+```
+
+## Parameters
+
+### Authorization
+
+This method requires authorization, supply the header with a key value pair with that structure
+
+```json
+"x-api-key" : string
+```
+
+#### Required Properties
+
+| Property name | Value  | Description                      | Notes                       |
+| ------------- | ------ | -------------------------------- | --------------------------- |
+| x-api-key     | string | API key linked to your community | [generate API key](api-key) |
+
+​
+
+## Request body
+
+### Required Properties
+
+| Property name             | Value   | Description                                       | Notes                                                                                                                                                                                  |
+| ------------------------- | ------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name                      | string  | direct order's name                               |                                                                                                                                                                                        |
+| community_id              | string  | ID that is uniques to your community              |                                                                                                                                                                                        |
+| amount.amount             | float   | represents the amount you want to charge the user | if your community fees is Added in bill then use the value returned from [prepare amount endpoint](prepare-amount) , otherwise use the amount you want to charge the user directly.    |
+| amount.currency           | string  | Currency                                          | supported currencies are "EGP", "USD", "EUR", "SAR", "AED" and "GBP". default is "EGP"                                                                                                 |
+| payment_methods           | array   | allowed payment methods.                          | [see payment available payment methods](#payment-options)                                                                                                                              |
+| customer_name             | string  | user first and last name                          | must contain first and last name in **english letters** with space between them.                                                                                                       |
+| customer_email            | string  | user email                                        |                                                                                                                                                                                        |
+| customer_mobile           | string  | user phone number                                 | **must contain country code** prefixed                                                                                                                                                 |
+
+:::danger
+Hardcoding the customer data in the production version of your app will raise a risk in the payment processor and the transaction will be declined
+:::
+
+### Optional Properties
+
+| Property name                 | Value   | Description                                                | Notes                                                           |
+| ----------------------------- | ------- | -------------------------------------------------------    | --------------------------------------------------------------- |
+| discount_amount.amount        | float   | will be subtracted from the amount                         |                                                                 |
+| discount_amount.currency      | string  | supported  "EGP", "USD", "EUR", "SAR", "AED" and "GBP".    | default is "EGP"                                                |
+| allow_recurring_payments      | boolean | Change from regular to reccuring payment                   | Needed if your payment is recurring                             |
+| expiry_date                   | string  | Expiry Date of the reccuring payment                       | Needed if your payment is recurring                             |
+| minimum_days_between_payments | integer | Number of days between each payment                        | Needed if your payment is recurring                             |
+| custom_fields                 | array   | [Custom Fields](#custom-fields)                            |                                                                 |
+| order_description             | string  | Order description                                          |                                                                 |
+| address                       | string  | billing address                                            |                                                                 |
+| customer_title                | string  | Customer title used when sending notification.             | e.g. Mr, Mrs, Doctor,... etc.                                   |
+| vat_percentage                | float   | The percentage will be calculated and added to the amount. | will show in the payment pages as a separate entity titled VAT  |
+| send_by_email                 | boolean | If true notify customer by email .                         |                                                                 |
+| cc_email                      | string  | CC email in case of email sent.                            |                                                                 |
+| send_by_sms                   | boolean | If true notify customer by mobile.                         |                                                                 |
+| redirect_url                  | string  | [redirect url](#redirect_url)                              |                                                                 |
+| callback_url                  | string  | [callback url](#callback_url)                              |                                                                 |
+
+## Response
+
+If successful, this method returns a response body with the following structure:
+
+```json
+{
+    "status": {
+        "code": 201,
+        "message": "success",
+        "errors": []
+    },
+    "data": {
+        "success": true,
+        "Direct Order Link": "https://staging-iframe.xpay.app/i/community/xL4rPB7/direct-order/EBxxpBl",
+        "message": "Direct order link created successfully. SMS and email notifications sent."
+    },
+    "count": null,
+    "next": null,
+    "previous": null
+}
+```
+
+| Property name      | Value   | Description                     | Notes                                                                                                                     |
+| ------------------ | ------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Direct Order Link  | string  | Direct Order Link               |                                                                                                                           |
+
+## Example
+
+<Tabs
+defaultValue="request"
+values={[
+{ label: 'Request Body', value: 'request', },
+{ label: 'Response Body', value: 'response', } ]
+}>
+<TabItem value="request">
+
+
+```json
+{
+    "name": "DO created Via Api",
+    "address": "123 Main St, City",
+    "order_description": "Monthly rent payment", 
+    "customer_title": "Mr.", 
+    "customer_name": "Mahmoud mmm", 
+    "customer_email": "test@example.com", 
+    "allow_recurring_payments": false, 
+    "customer_mobile": "+201223456789", 
+    "cc_email": "cc@example.com", 
+    "amount": {
+        "amount": 100.0,
+        "currency": "EGP"
+    },
+    "discount_amount": {
+        "amount": 10.0,
+        "currency": "EGP"
+    },
+    "community_id": "xL4rPB7", 
+    "paid": false, 
+    "tags": [ 
+        {
+            "id": 1,
+            "name": "test-checkoutpage"
+        }
+    ],
+    "payment_methods": [ 
+        "CARD",
+        "FAWRY"
+    ],
+    "vat_percentage": 5.0, 
+    "expiry_date": "2025-05-31", 
+    "minimum_days_between_payments": 30, 
+    "custom_fields": [ ],
+    "send_by_email": true, 
+    "send_by_sms": true, 
+    "redirect_url": " https://b906-196-133-101-19.ngrok-free.app/redirect",
+    "callback_url": " https://b906-196-133-101-19.ngrok-free.app/callback/"
+}
+```
+
+</TabItem>
+<TabItem value="response">
+
+
+```json
+{
+    "status": {
+        "code": 201,
+        "message": "success",
+        "errors": []
+    },
+    "data": {
+        "success": true,
+        "Direct Order Link": "https://staging-iframe.xpay.app/i/community/xL4rPB7/direct-order/EBxxpBl",
+        "message": "Direct order link created successfully. SMS and email notifications sent."
+    },
+    "count": null,
+    "next": null,
+    "previous": null
+}
+```
+
+</TabItem>
+</Tabs>
+
+### Recurring Payment
+
+​Just [follow the example above](#example) and don't forget to include the recurring payment paramaters
+
+## Payment Options
+
+There are four payment options available at the moment
+
+- card
+- kiosk (aman)
+- fawry (both kiosk and fawryPay)
+- mobile wallets
+- valU
+
+## Custom Fields
+
+If you wish to save extra data with the invoice data, you can send this data within the request body inside a new `custom_fields` parameter which takes an array of the following structure:
+
+```json
+{
+  "field_label": "custom field label value",
+  "field_value": "custom field input value"
+}
+```
+
+:::note
+The `field_value` parameter can be string, number OR boolean.
+:::
+### Example
+
+### Request body
+
+```json
+{
+  ...
+  "custom_fields": [
+    {
+      "field_label": "test label1",
+      "field_value": "test one"
+    },
+    {
+      "field_label": "test label3",
+      "field_value": false
+    },
+    {
+      "field_label": "test label2",
+      "field_value": 25
+    }
+  ]
+}
+```
+### Redirect Url
+Assign it from the dashboard once the payment is completed the url will contain the following as query paramaters:
+
+| Property name      | Value   | Description                     |
+| ------------------ | ------- | ------------------------------- |
+| amount_piasters    | integer | transaction amount in piasters  |
+| amount             | integer | transaction amount              |
+| transaction_uuid   | string  | transaction UUID in XPay system |
+| transaction_status | string  | transaction status              |
+
+### Callback url
+Assign it from the dashboard and specify what fields you want us to send as a POST request to your server after the payment is completed. 
+

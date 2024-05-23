@@ -5,7 +5,8 @@ module.exports = {
       items: [
         "custom-fields",
         "promo-code",
-        "direct-order"
+        "direct-order",
+        "direct-order-api"
       ],
     },
     {
