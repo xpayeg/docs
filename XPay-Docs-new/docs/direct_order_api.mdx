@@ -276,7 +276,7 @@ if it is assigned then  once the payment is completed a redirect to the url will
 and if there iscustom fields then it will be included in query parameters
 
 ### Callback url
-If it is assigned,  a POST request will be send after the customer pay the direct order with json paramaters that includes:
+If it is assigned, a POST request will be send after the customer pay the direct order with json body that includes:
 
 | Property name         | Value   | Description                     |
 | --------------------- | ------- | ------------------------------- |
@@ -285,9 +285,9 @@ If it is assigned,  a POST request will be send after the customer pay the direc
 | transaction_uuid      | string  | transaction UUID in XPay system |
 | transaction_status    | string  | transaction status              |
 
-and if there is custom fields then it will be included in the request json parameter.
+and if there is custom fields then it will be included in the request json body.
 
-The following is an example to the parametes sent to call back url:
+The following is an example of the parametes sent to callback url:
 ```json
 {
   "member_id": null,
