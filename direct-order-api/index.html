@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="generator" content="Docusaurus v2.0.0-alpha.69">
-<link rel="search" type="application/opensearchdescription+xml" title="XPAY" href="/docs/opensearch.xml"><title data-react-helmet="true">Direct Order API | XPAY</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docsearch:language" content="en"><meta data-react-helmet="true" name="docsearch:version" content="current"><meta data-react-helmet="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="Direct Order API | XPAY"><meta data-react-helmet="true" name="description" content="This guide explains how to create direct order through API call ."><meta data-react-helmet="true" property="og:description" content="This guide explains how to create direct order through API call ."><meta data-react-helmet="true" property="og:url" content="https://xpayeg.github.io/docs/direct-order-api"><link data-react-helmet="true" rel="shortcut icon" href="/docs/img/favicon.ico"><link data-react-helmet="true" rel="preconnect" href="https://BH4D9OD16A-dsn.algolia.net" crossorigin="anonymous"><link data-react-helmet="true" rel="canonical" href="https://xpayeg.github.io/docs/direct-order-api"><link rel="stylesheet" href="/docs/styles.ba84b6b6.css">
-<link rel="preload" href="/docs/styles.437e8337.js" as="script">
-<link rel="preload" href="/docs/runtime~main.657c9800.js" as="script">
-<link rel="preload" href="/docs/main.883d6ebd.js" as="script">
-<link rel="preload" href="/docs/1.add55d82.js" as="script">
-<link rel="preload" href="/docs/26.ea8a98dc.js" as="script">
-<link rel="preload" href="/docs/29.c50d3e04.js" as="script">
+<link rel="search" type="application/opensearchdescription+xml" title="XPAY" href="/docs/opensearch.xml"><title data-react-helmet="true">Direct Order API | XPAY</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docsearch:language" content="en"><meta data-react-helmet="true" name="docsearch:version" content="current"><meta data-react-helmet="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="Direct Order API | XPAY"><meta data-react-helmet="true" name="description" content="This guide explains how to create direct order through API call ."><meta data-react-helmet="true" property="og:description" content="This guide explains how to create direct order through API call ."><meta data-react-helmet="true" property="og:url" content="https://xpayeg.github.io/docs/direct-order-api"><link data-react-helmet="true" rel="shortcut icon" href="/docs/img/favicon.ico"><link data-react-helmet="true" rel="preconnect" href="https://BH4D9OD16A-dsn.algolia.net" crossorigin="anonymous"><link data-react-helmet="true" rel="canonical" href="https://xpayeg.github.io/docs/direct-order-api"><link rel="stylesheet" href="/docs/styles.8c5ff34c.css">
+<link rel="preload" href="/docs/styles.6b534bbd.js" as="script">
+<link rel="preload" href="/docs/runtime~main.51d32c5d.js" as="script">
+<link rel="preload" href="/docs/main.fb528130.js" as="script">
+<link rel="preload" href="/docs/1.a010243b.js" as="script">
+<link rel="preload" href="/docs/27.ce688c3e.js" as="script">
+<link rel="preload" href="/docs/30.4795aa61.js" as="script">
 <link rel="preload" href="/docs/935f2afb.41c7385e.js" as="script">
-<link rel="preload" href="/docs/25.b974b9f3.js" as="script">
-<link rel="preload" href="/docs/3f607134.1954a107.js" as="script">
+<link rel="preload" href="/docs/26.a0bf280d.js" as="script">
+<link rel="preload" href="/docs/3f607134.98d43f1f.js" as="script">
 </head>
 <body>
 <script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){var t=null;try{t=localStorage.getItem("theme")}catch(t){}return t}();t(null!==e?e:"light")}()</script><div id="__docusaurus">
@@ -136,7 +136,7 @@ each field in custom fields array contains:</p><table><thead><tr><th>Property na
   ]
   ....
 }
-</code></pre><h3 id="redirect-url">Redirect Url</h3><p>if it is assigned then  once the payment is completed a redirect to the url will happen and will contain the following as query paramaters:</p><table><thead><tr><th>Property name</th><th>Value</th><th>Description</th></tr></thead><tbody><tr><td>total_amount_piasters</td><td>float</td><td>transaction amount in piasters</td></tr><tr><td>total_amount</td><td>float</td><td>transaction amount</td></tr><tr><td>transaction_uuid</td><td>string</td><td>transaction UUID in XPay system</td></tr><tr><td>transaction_status</td><td>string</td><td>transaction status</td></tr></tbody></table><p>and if there iscustom fields then it will be included in query parameters</p><h3 id="callback-url">Callback url</h3><p>If it is assigned,  a POST request will be send after the customer pay the direct order with json paramaters that includes:</p><table><thead><tr><th>Property name</th><th>Value</th><th>Description</th></tr></thead><tbody><tr><td>total_amount_piasters</td><td>float</td><td>transaction amount in piasters</td></tr><tr><td>total_amount</td><td>float</td><td>transaction amount</td></tr><tr><td>transaction_uuid</td><td>string</td><td>transaction UUID in XPay system</td></tr><tr><td>transaction_status</td><td>string</td><td>transaction status</td></tr></tbody></table><p>and if there is custom fields then it will be included in the request json parameter.</p><p>The following is an example to the parametes sent to call back url:</p><pre><code class="language-json">{
+</code></pre><h3 id="redirect-url">Redirect Url</h3><p>if it is assigned then  once the payment is completed a redirect to the url will happen and will contain the following as query paramaters:</p><table><thead><tr><th>Property name</th><th>Value</th><th>Description</th></tr></thead><tbody><tr><td>total_amount_piasters</td><td>float</td><td>transaction amount in piasters</td></tr><tr><td>total_amount</td><td>float</td><td>transaction amount</td></tr><tr><td>transaction_uuid</td><td>string</td><td>transaction UUID in XPay system</td></tr><tr><td>transaction_status</td><td>string</td><td>transaction status</td></tr></tbody></table><p>and if there iscustom fields then it will be included in query parameters</p><h3 id="callback-url">Callback url</h3><p>If it is assigned, a POST request will be send after the customer pay the direct order with json body that includes:</p><table><thead><tr><th>Property name</th><th>Value</th><th>Description</th></tr></thead><tbody><tr><td>total_amount_piasters</td><td>float</td><td>transaction amount in piasters</td></tr><tr><td>total_amount</td><td>float</td><td>transaction amount</td></tr><tr><td>transaction_uuid</td><td>string</td><td>transaction UUID in XPay system</td></tr><tr><td>transaction_status</td><td>string</td><td>transaction status</td></tr></tbody></table><p>and if there is custom fields then it will be included in the request json body.</p><p>The following is an example of the parametes sent to callback url:</p><pre><code class="language-json">{
   &quot;member_id&quot;: null,
   &quot;test label1&quot;: &quot;&quot;,//custom field
   &quot;total_amount&quot;: 99.99,
@@ -148,14 +148,14 @@ each field in custom fields array contains:</p><table><thead><tr><th>Property na
   &quot;total_amount_piasters&quot;: 9999
 }
 </code></pre></div></article><div class="margin-vert--lg"><nav class="pagination-nav" aria-label="Blog list page navigation"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/docs/pay"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">« Pay endpoint</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/docs/transactions"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Transaction endpoint »</div></a></div></nav></div></div></div><div class="col col--3"><div class="tableOfContents_3SO_ thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#request" class="table-of-contents__link">REQUEST</a><ul><li><a href="#testing-server" class="table-of-contents__link">testing server:</a></li><li><a href="#productionlive-server" class="table-of-contents__link">production(Live) server:</a></li></ul></li><li><a href="#parameters" class="table-of-contents__link">Parameters</a><ul><li><a href="#authorization" class="table-of-contents__link">Authorization</a></li></ul></li><li><a href="#request-body" class="table-of-contents__link">Request body</a><ul><li><a href="#required-properties-1" class="table-of-contents__link">Required Properties</a></li><li><a href="#optional-properties" class="table-of-contents__link">Optional Properties</a></li></ul></li><li><a href="#response" class="table-of-contents__link">Response</a></li><li><a href="#example" class="table-of-contents__link">Example</a><ul><li><a href="#recurring-payment" class="table-of-contents__link">Recurring Payment</a></li></ul></li><li><a href="#payment-options" class="table-of-contents__link">Payment Options</a></li><li><a href="#custom-fields" class="table-of-contents__link">Custom Fields</a><ul><li><a href="#example-1" class="table-of-contents__link">Example</a></li><li><a href="#request-body-1" class="table-of-contents__link">Request body</a></li><li><a href="#redirect-url" class="table-of-contents__link">Redirect Url</a></li><li><a href="#callback-url" class="table-of-contents__link">Callback url</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="row footer__links"><div class="col footer__col"><h4 class="footer__title">Community</h4><ul class="footer__items"><li class="footer__item"><a href="https://facebook.com/xpayeg" target="_blank" rel="noopener noreferrer" class="footer__link-item">Facebook</a></li><li class="footer__item"><a href="https://twitter.com/xpayeg" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter</a></li><li class="footer__item"><a href="https://xpay.app" target="_blank" rel="noopener noreferrer" class="footer__link-item">Website</a></li></ul></div></div><div class="text--center"><div>Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
-<script src="/docs/styles.437e8337.js"></script>
-<script src="/docs/runtime~main.657c9800.js"></script>
-<script src="/docs/main.883d6ebd.js"></script>
-<script src="/docs/1.add55d82.js"></script>
-<script src="/docs/26.ea8a98dc.js"></script>
-<script src="/docs/29.c50d3e04.js"></script>
+<script src="/docs/styles.6b534bbd.js"></script>
+<script src="/docs/runtime~main.51d32c5d.js"></script>
+<script src="/docs/main.fb528130.js"></script>
+<script src="/docs/1.a010243b.js"></script>
+<script src="/docs/27.ce688c3e.js"></script>
+<script src="/docs/30.4795aa61.js"></script>
 <script src="/docs/935f2afb.41c7385e.js"></script>
-<script src="/docs/25.b974b9f3.js"></script>
-<script src="/docs/3f607134.1954a107.js"></script>
+<script src="/docs/26.a0bf280d.js"></script>
+<script src="/docs/3f607134.98d43f1f.js"></script>
 </body>
 </html>

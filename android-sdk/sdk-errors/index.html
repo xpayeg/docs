@@ -4,16 +4,16 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="generator" content="Docusaurus v2.0.0-alpha.69">
-<link rel="search" type="application/opensearchdescription+xml" title="XPAY" href="/docs/opensearch.xml"><title data-react-helmet="true">Errors reference | XPAY</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docsearch:language" content="en"><meta data-react-helmet="true" name="docsearch:version" content="current"><meta data-react-helmet="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="Errors reference | XPAY"><meta data-react-helmet="true" name="description" content="XpayUtils and some data classes throws exceptions in the following cases:"><meta data-react-helmet="true" property="og:description" content="XpayUtils and some data classes throws exceptions in the following cases:"><meta data-react-helmet="true" property="og:url" content="https://xpayeg.github.io/docs/android-sdk/sdk-errors"><link data-react-helmet="true" rel="shortcut icon" href="/docs/img/favicon.ico"><link data-react-helmet="true" rel="preconnect" href="https://BH4D9OD16A-dsn.algolia.net" crossorigin="anonymous"><link data-react-helmet="true" rel="canonical" href="https://xpayeg.github.io/docs/android-sdk/sdk-errors"><link rel="stylesheet" href="/docs/styles.ba84b6b6.css">
-<link rel="preload" href="/docs/styles.437e8337.js" as="script">
-<link rel="preload" href="/docs/runtime~main.657c9800.js" as="script">
-<link rel="preload" href="/docs/main.883d6ebd.js" as="script">
-<link rel="preload" href="/docs/1.add55d82.js" as="script">
-<link rel="preload" href="/docs/26.ea8a98dc.js" as="script">
-<link rel="preload" href="/docs/29.c50d3e04.js" as="script">
+<link rel="search" type="application/opensearchdescription+xml" title="XPAY" href="/docs/opensearch.xml"><title data-react-helmet="true">Errors reference | XPAY</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docsearch:language" content="en"><meta data-react-helmet="true" name="docsearch:version" content="current"><meta data-react-helmet="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="Errors reference | XPAY"><meta data-react-helmet="true" name="description" content="XpayUtils and some data classes throws exceptions in the following cases:"><meta data-react-helmet="true" property="og:description" content="XpayUtils and some data classes throws exceptions in the following cases:"><meta data-react-helmet="true" property="og:url" content="https://xpayeg.github.io/docs/android-sdk/sdk-errors"><link data-react-helmet="true" rel="shortcut icon" href="/docs/img/favicon.ico"><link data-react-helmet="true" rel="preconnect" href="https://BH4D9OD16A-dsn.algolia.net" crossorigin="anonymous"><link data-react-helmet="true" rel="canonical" href="https://xpayeg.github.io/docs/android-sdk/sdk-errors"><link rel="stylesheet" href="/docs/styles.8c5ff34c.css">
+<link rel="preload" href="/docs/styles.6b534bbd.js" as="script">
+<link rel="preload" href="/docs/runtime~main.51d32c5d.js" as="script">
+<link rel="preload" href="/docs/main.fb528130.js" as="script">
+<link rel="preload" href="/docs/1.a010243b.js" as="script">
+<link rel="preload" href="/docs/27.ce688c3e.js" as="script">
+<link rel="preload" href="/docs/30.4795aa61.js" as="script">
 <link rel="preload" href="/docs/935f2afb.41c7385e.js" as="script">
-<link rel="preload" href="/docs/25.b974b9f3.js" as="script">
-<link rel="preload" href="/docs/189ac202.743e2d4c.js" as="script">
+<link rel="preload" href="/docs/26.a0bf280d.js" as="script">
+<link rel="preload" href="/docs/189ac202.ac7ac487.js" as="script">
 </head>
 <body>
 <script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){var t=null;try{t=localStorage.getItem("theme")}catch(t){}return t}();t(null!==e?e:"light")}()</script><div id="__docusaurus">
@@ -35,14 +35,14 @@ before calling <a href="/android-sdk/xpayutils#pay"><code>XpayUtils.pay()</code>
   &quot;Falki&quot; // street
 );
 </code></pre><hr><h2 id="name-value-provided-is-in-the-wrong-format">name value provided is in the wrong format</h2><p><strong>Type</strong>: IllegalArgumentException</p><p><strong>Reason</strong>: value passed to name property in <code>BillingInfo</code> did not match the <a href="/android-sdk/classes#name">name regex pattern</a>.</p><p><strong>Solution</strong>: Make sure the value passed to the name property follows the name regex pattern found <a href="/android-sdk/classes#name">here</a>.</p><hr><h2 id="email-value-provided-is-in-the-wrong-format">email value provided is in the wrong format</h2><p><strong>Type</strong>: IllegalArgumentException</p><p><strong>Reason</strong>: value passed to <code>email</code> property in <code>BillingInfo</code> did not match the <a href="/android-sdk/classes#email">email regex pattern</a>.</p><p><strong>Solution</strong>: Make sure the value passed to the <code>email</code> property follows the email regex pattern found <a href="/android-sdk/classes#email">here</a>.</p><hr><h2 id="phone-value-provided-is-in-the-wrong-format">phone value provided is in the wrong format</h2><p><strong>Type</strong>: IllegalArgumentException</p><p><strong>Reason</strong>: value passed to <code>phone</code> property in <code>BillingInfo</code> did not match the <a href="/android-sdk/classes#phone">phone regex pattern</a>.</p><p><strong>Solution</strong>: Make sure the value passed to the <code>phone</code> property follows the phone regex pattern found <a href="/android-sdk/classes#phone">here</a>.</p><hr></div></article><div class="margin-vert--lg"><nav class="pagination-nav" aria-label="Blog list page navigation"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/docs/android-sdk/classes"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">« Models</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/docs/api-key"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">API key »</div></a></div></nav></div></div></div><div class="col col--3"><div class="tableOfContents_3SO_ thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#apikey-is-required" class="table-of-contents__link">apiKey is required</a></li><li><a href="#communityid-is-required" class="table-of-contents__link">communityId is required</a></li><li><a href="#variableamountid-is-required" class="table-of-contents__link">variableAmountID is required</a></li><li><a href="#payment-method-is-not-set" class="table-of-contents__link">Payment method is not set</a></li><li><a href="#payment-method-chosen-is-not-available" class="table-of-contents__link">Payment method chosen is not available</a></li><li><a href="#billing-information-is-not-found" class="table-of-contents__link">Billing information is not found</a></li><li><a href="#paymentoptionstotalamounts-is-not-set" class="table-of-contents__link">PaymentOptionsTotalAmounts is not set</a></li><li><a href="#activepaymentmethods-is-empty" class="table-of-contents__link">activePaymentMethods is empty</a></li><li><a href="#shipping-information-is-not-found" class="table-of-contents__link">Shipping Information is not found</a></li><li><a href="#name-value-provided-is-in-the-wrong-format" class="table-of-contents__link">name value provided is in the wrong format</a></li><li><a href="#email-value-provided-is-in-the-wrong-format" class="table-of-contents__link">email value provided is in the wrong format</a></li><li><a href="#phone-value-provided-is-in-the-wrong-format" class="table-of-contents__link">phone value provided is in the wrong format</a></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="row footer__links"><div class="col footer__col"><h4 class="footer__title">Community</h4><ul class="footer__items"><li class="footer__item"><a href="https://facebook.com/xpayeg" target="_blank" rel="noopener noreferrer" class="footer__link-item">Facebook</a></li><li class="footer__item"><a href="https://twitter.com/xpayeg" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter</a></li><li class="footer__item"><a href="https://xpay.app" target="_blank" rel="noopener noreferrer" class="footer__link-item">Website</a></li></ul></div></div><div class="text--center"><div>Copyright © 2024 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
-<script src="/docs/styles.437e8337.js"></script>
-<script src="/docs/runtime~main.657c9800.js"></script>
-<script src="/docs/main.883d6ebd.js"></script>
-<script src="/docs/1.add55d82.js"></script>
-<script src="/docs/26.ea8a98dc.js"></script>
-<script src="/docs/29.c50d3e04.js"></script>
+<script src="/docs/styles.6b534bbd.js"></script>
+<script src="/docs/runtime~main.51d32c5d.js"></script>
+<script src="/docs/main.fb528130.js"></script>
+<script src="/docs/1.a010243b.js"></script>
+<script src="/docs/27.ce688c3e.js"></script>
+<script src="/docs/30.4795aa61.js"></script>
 <script src="/docs/935f2afb.41c7385e.js"></script>
-<script src="/docs/25.b974b9f3.js"></script>
-<script src="/docs/189ac202.743e2d4c.js"></script>
+<script src="/docs/26.a0bf280d.js"></script>
+<script src="/docs/189ac202.ac7ac487.js"></script>
 </body>
 </html>
