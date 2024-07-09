@@ -17,6 +17,8 @@ module.exports = {
         "prepare-amount",
         "pay",
         "direct-order-api",
+        "refund-api",
+        "capture-api",
         "transactions",
         "postman",
         "woo-commerce"
