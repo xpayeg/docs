@@ -11,10 +11,11 @@ module.exports = {
     sidebarCollapsible: true,
     hideableSidebar: true,
     navbar: {
-      title: "Xpay Docs",
+      title: "",
       logo: {
         alt: "XPay Logo",
-        src: "img/xpay_large.ico",
+        src: "img/xpay_logo.svg",
+        srcDark: "img/xpay_white_logo.svg",
       },
       items: [{
           to: "api-key",
