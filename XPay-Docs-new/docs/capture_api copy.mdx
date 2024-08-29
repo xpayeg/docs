@@ -1,0 +1,117 @@
+---
+id: capture-api
+title: Capture API
+---
+
+import TabItem from "@theme/TabItem";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+This guide explains how to do translation refund through API call .
+
+## REQUEST
+
+### testing server:
+
+```
+POST https://staging.xpay.app/api/payments/capture-payment/
+```
+
+### production(Live) server:
+
+```
+POST https://community.xpay.app/api/payments/capture-payment/
+```
+
+## Parameters
+
+### Authorization
+
+This method requires authorization, supply the header with a key value pair with that structure
+
+```json
+"x-api-key" : string
+```
+
+#### Required Properties
+
+| Property name | Value  | Description                      | Notes                       |
+| ------------- | ------ | -------------------------------- | --------------------------- |
+| x-api-key     | string | API key linked to your community | [generate API key](api-key) |
+
+​
+
+## Request body
+
+### Required Properties
+
+| Property name    | Value  | Description                                       | Notes                                                                                                                                                                               |
+| ---------------- | ------ | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| transaction_uuid  | string | ID that is uniques to your transaction|                                                                                             |
+
+:::danger
+Hardcoding the customer data in the production version of your app will raise a risk in the payment processor and the transaction will be declined
+:::
+
+### Optional Properties
+
+    Do not supply any optional parameters.
+
+## Response
+
+If successful, this method returns a response body with the following structure:
+
+```json
+{
+ {
+    "status": {
+        "code": 200,
+        "message": "success",
+        "errors": []
+    },
+    "data": {
+        "message": "Transaction was successfully captured."
+    },
+    "count": null,
+    "next": null,
+    "previous": null
+}"previous": null
+}
+```
+
+## Example
+
+<Tabs
+defaultValue="request"
+values={[
+{ label: 'Request Body', value: 'request', },
+{ label: 'Response Body', value: 'response', } ]
+}>
+<TabItem value="request">
+
+```json
+{
+    "transaction_uuid": "a3d8fd1c-a919-4f4c-b1c1-2e3f6ad486d6",
+}
+```
+
+</TabItem>
+<TabItem value="response">
+
+```json
+{
+  "status": {
+    "code": 201,
+    "message": "success",
+    "errors": []
+  },
+  "data": {
+        "message": "Transaction was successfully captured."
+        },
+  "count": null,
+  "next": null,
+  "previous": null
+}
+```
+
+</TabItem>
+</Tabs>
