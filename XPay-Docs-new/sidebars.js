@@ -41,7 +41,7 @@ module.exports = {
       items: [
         "api-key",
         "api-payments",
-        "community-id"
+        "merchant-id"
       ],
     },
   ],
