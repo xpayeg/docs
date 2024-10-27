@@ -1,0 +1,136 @@
+---
+id: create-community-API
+title: Create Community API
+---
+
+import TabItem from "@theme/TabItem";
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+This guide explains how to create Community through API call .
+
+## REQUEST
+
+### testing server:
+
+```
+POST https://staging.xpay.app/api/communities/create_community
+```
+
+### production(Live) server:
+
+```
+POST https://staging.xpay.app/api/communities/create_community
+```
+
+## Parameters
+No params
+{/* #### Required Properties
+
+| Property name | Value  | Description                      | Notes                       |
+| ------------- | ------ | -------------------------------- | --------------------------- |
+| x-api-key     | string | API key linked to your community | [generate API key](api-key) | */}
+
+​
+
+## Request body
+
+### Required Properties
+
+| Property name             | Value   | Description                                       | Notes                                                                                                                                                                                  |
+| ------------------------- | ------- | ------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name                      | string  | Community name                                    |                                                                                                                                                                                        |
+| logo                      | file    | image for community logo "png, jpg"               |                                                                                                                                                                                        |
+
+
+### Optional Properties
+
+| Property name                 | Value   | Description                                                                                              | Notes                                                                                   |
+| ----------------------------- | ------- | -------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| app_modules                   | string  | Check allowed modules for community from list [Service, Bill, Event, Product, Training, Sport, Course]   | comma splitted string example "Service,Bill,...etc"                                     |
+| registered_name               | string  | Alternative  name for community                                                                          |                                                                                         |
+| address                       | string  | Provided address for community                                                                           |                                                                                         |
+| email                         | string  | an Email for community                                                                                   |                                                                                         |
+| phone                         | string  | Phone number for community                                                                               |                                                                                         |
+| payment_methods               | string  | Allowed payment methods for community from list [Card, Kiosk, Meeza/Digital, Fawry, valu]                | comma splitted string example "Fawry,valu,...etc"                                       |
+| kiosk_processor               | string  | Kiosk payment through method [FAWRY, AMAN]                                                               | default AMAN                                                                            |
+| wallet_processor              | string  | Wallet payment through method [Banque ElAhly (NBE), Banque Misr (BM), Orange Money(OM)]                  |                                                                                         |
+| redirect_successful_only      | string  | Url for successful payment where redirect after success                                                  |
+
+### Required Properties (on condition)
+| Property name                  | Value   | Description                                                    | Notes                                                                                   |
+| ------------------------------ | ------- | ---------------------------------------------------------------| --------------------------------------------------------------------------------------- |
+| card_accounting                | string  | If we pass "card" in payment_methods                           | payload \{"xpay_percentage": 0.0 (float),  "community_percentage": 0.0 (float), "fixed_amount": >= 0 (number) }   |
+| Kiosk_accounting               | string  | If we pass "kiosk" in payment_methods                          | payload \{"xpay_percentage": 0.0 (float),  "community_percentage": 0.0 (float), "fixed_amount": >= 0 (number) }   |
+| Meeza_accounting               | string  | If we pass "Meeza" in payment_methods                          | payload \{"xpay_percentage": 0.0 (float),  "community_percentage": 0.0 (float), "fixed_amount": >= 0 (number) }   |
+| Fawry_accounting               | string  | If we pass "Fawry" in payment_methods                          | payload \{"xpay_percentage": 0.0 (float),  "community_percentage": 0.0 (float), "fixed_amount": >= 0 (number) }   |
+| valu_accounting                | string  | If we pass "valu" in payment_methods                           | payload \{"xpay_percentage": 0.0 (float),  "community_percentage": 0.0 (float), "fixed_amount": >= 0 (number) }   |
+| NBE_setting                    | string  | if we pass "NBE" in allowed_card_processors                    | payload \{"integration_method": "LP" (string) choices ["Direct Integration" (DI), "Light Box" (LB), "Market Place" (MP) ],  "merchant_id": "id1234" (string), "api_password": "pass123" ( string ) } |
+| BM_setting                     | string  | if we pass "BM" in allowed_card_processors                     | payload \{"integration_method": "LP" (string) choices ["Direct Integration" (DI), "Light Box" (LB), "Market Place" (MP) ],  "merchant_id": "id1234" (string), "api_password": "pass123" ( string ) } |
+| CA_setting                     | string  | if we pass "CA" in allowed_card_processors                     | payload \{"integration_method": "LP" (string) choices ["Direct Integration" (DI), "Light Box" (LB), "Market Place" (MP) ],  "merchant_id": "id1234" (string), "api_password": "pass123" ( string ) } |
+
+
+## Response
+
+If successful, this method returns a response body with the following structure:
+
+```json
+{
+    "status": {
+        "code": 200,
+        "message": "success",
+        "errors": []
+    },
+    "data": {},
+    "count": null,
+    "next": null,
+    "previous": null
+}
+```
+
+## Example
+
+<Tabs
+defaultValue="request"
+values={[
+{ label: 'Request Body', value: 'request', },
+{ label: 'Response Body', value: 'response', } ]
+}>
+
+<TabItem value="request">
+
+
+```json
+{
+    "name": "New Community",
+    "app_modules": "event, service",
+    "order_description": "Monthly rent payment", 
+    "payment_methods": "card,fawry", 
+    "logo": "logo.png", 
+    "allowed_cards": "NBE", 
+    "card_accounting": {"xpay_percentage": 0.289,  "community_percentage":0.3, "fixed_amount":5}, 
+    "fawry_accounting": {"xpay_percentage": 0.399,  "community_percentage":0.2, "fixed_amount":10}, 
+    "NBE_setting": {"integration_method": "DI", "merchant_id":"1234",  "api_password": "pass1234"}, 
+    
+}
+```
+
+</TabItem>
+<TabItem value="response">
+
+
+```json
+{
+    "status": {
+        "code": 200,
+        "message": "success",
+        "errors": []
+    },
+    "data": {},
+    "count": null,
+    "next": null,
+    "previous": null
+}
+```
+
+</TabItem>
+</Tabs>
