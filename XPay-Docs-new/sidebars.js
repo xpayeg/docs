@@ -15,13 +15,14 @@ module.exports = {
         "introduction",
         "authentication",
         "prepare-amount",
+        "create-community-API",
         "pay",
         "direct-order-api",
         "refund-api",
         "capture-api",
         "transactions",
         "postman",
-        "woo-commerce"
+        "woo-commerce",
       ],
     },
     {
