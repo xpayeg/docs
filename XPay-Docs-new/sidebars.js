@@ -19,6 +19,7 @@ module.exports = {
         "direct-order-api",
         "refund-api",
         "capture-api",
+        "dashboard-statistics-api",
         "transactions",
         "postman",
         "woo-commerce"

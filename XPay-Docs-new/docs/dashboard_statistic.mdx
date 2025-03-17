@@ -1,0 +1,116 @@
+---
+id: dashboard-statistics-api
+title: Dashboard Statistics
+---
+
+import TabItem from "@theme/TabItem";
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
+This guide explains how to get dashboard statistics 
+
+## REQUEST
+
+### testing server:
+
+```
+GET https://staging.xpay.app/api/core/dashboard/statistics
+```
+
+### production(Live) server:
+
+```
+GET https://community.xpay.app/api/core/dashboard/statistics
+```
+
+## Parameters
+
+### Query Parameters
+
+| Parameter name | Value  | Description                | Required |
+| ------------- | ------ | -------------------------- | -------- |
+| community_id  | string | The ID of your community   | Yes      |
+
+### Headers
+
+This method requires the following headers:
+
+| Header name    | Value  | Description                      | Notes                       |
+| -------------- | ------ | -------------------------------- | --------------------------- |
+| x-api-key      | string | API key linked to your community | [generate API key](api-key) |
+| Authorization  | string | Basic authentication credentials  | Format: Basic username:password |
+
+
+
+## Request body
+
+This endpoint does not require a request body.
+
+## Response
+
+If successful, this method returns a response body with the following structure:
+
+| Field                           | Type    | Description                                    |
+| ------------------------------- | ------- | ---------------------------------------------- |
+| status.code                     | integer | HTTP status code                               |
+| status.message                  | string  | Response status message                        |
+| status.errors                   | array   | List of errors if any                         |
+| data.balance_details.balance    | number  | Current balance                               |
+| data.balance_details.total_settled | number | Total amount settled                        |
+| data.total_number_of_transactions | integer | Total count of transactions                 |
+| data.total_collected_transactions | number | Total amount of collected transactions       |
+| data.weekly_collected_transactions | number | Amount collected in the current week        |
+
+## Example
+
+<Tabs
+defaultValue="request"
+values={[
+{ label: 'Request Body', value: 'request', },
+{ label: 'Response Body', value: 'response', } ]
+}>
+<TabItem value="request">
+
+```json
+// Request URL
+GET /api/core/dashboard/statistics?community_id=njQ2lx7
+
+// Headers
+{
+    "x-api-key": "dvBjHqUm.1Fjna43eJ4HZ1faZALRrMKcSOyHEAJTx",
+    "Authorization": "Basic KzIwMTA1MDQ1MzM0MjpIb21lQGxlYXZlMjA0NQ=="
+}
+
+// Empty request body
+{}
+```
+
+</TabItem>
+<TabItem value="response">
+
+```json
+{
+    "status": {
+        "code": 200,
+        "message": "success",
+        "errors": []
+    },
+    "data": {
+        "balance_details": {
+            "balance": 2390482.5,
+            "total_settled": 569.48
+        },
+        "total_number_of_transactions": 29,
+        "total_collected_transactions": 35518.97,
+        "weekly_collected_transactions": 0
+    },
+    "count": null,
+    "next": null,
+    "previous": null
+}
+```
+
+</TabItem>
+</Tabs>
+
+
+
