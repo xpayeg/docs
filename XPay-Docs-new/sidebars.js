@@ -39,6 +39,16 @@ module.exports = {
     },
     {
       type: "category",
+      label: "IOS SDK",
+      items: [
+        "ios-sdk/installation",
+        "ios-sdk/example",
+        "ios-sdk/classes",
+        "ios-sdk/sdk-errors",
+      ],
+    },
+    {
+      type: "category",
       label: "Dashboard guides",
       items: [
         "api-key",

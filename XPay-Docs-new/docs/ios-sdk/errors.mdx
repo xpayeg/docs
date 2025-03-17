@@ -15,8 +15,6 @@ All errors (except server errors, it's a work in progress) that gets thrown by X
 
 ## apiKey is required
 
-**Type**: IllegalStateException
-
 **Reason**: `XPayUtils.apiKey` is null
 
 **Solution**: Set [`XpayUtils.apiKey`](/android-sdk/xpayutils#apikey) with your API Key value
@@ -26,8 +24,6 @@ check [here](/api-key) to know how to generate an API key.
 ---
 
 ## communityId is required
-
-**Type**: IllegalStateException
 
 **Reason**: `XPayUtils.communityId` is null
 
@@ -39,8 +35,6 @@ check [here](/api-key) to know how to get your Community ID.
 
 ## variableAmountID is required
 
-**Type**: IllegalStateException
-
 **Reason**: `XPayUtils.variableAmountID` is null
 
 **Solution**: Set [`XpayUtils.apiPaymentId`](/android-sdk/xpayutils#aipaymentid) with your API Payment ID
@@ -50,8 +44,6 @@ check [here](/api-payments) to know how to generate an API Payment ID.
 ---
 
 ## Payment method is not set
-
-**Type**: IllegalStateException
 
 **Reason**: `XPayUtils.payUsing` is null
 
@@ -65,8 +57,6 @@ and [Set Payment method](/android-sdk/example#4-set-payment-method) sections in 
 ---
 
 ## Payment method chosen is not available
-
-**Type**: IllegalArgumentException
 
 **Reason**: The value found in `XPayUtils.payUsing` is not found in `XpayUtils.activePaymentMethods`.
 
@@ -113,28 +103,6 @@ XpayUtils.billingInfo = BillingInfo(
 
 **Solution**: call [`XpayUtils.prepareAmount()`](/android-sdk/xpayutils#prepareamount) method
 before calling [`XpayUtils.pay()`](/android-sdk/xpayutils#pay) method which sets `XpayUtils.activePaymentMethods` internally
-
----
-
-## Shipping Information is not found
-
-**Reason**: `XPayUtils.ShippingInfo` is null
-
-**Solution**: Set [`XpayUtils.ShippingInfo`](/android-sdk/xpayutils#shippinginfo) using [ShippingInfo](/android-sdk/classes#shippinginfo) data class.
-
-**Example**:
-
-```jsx
-XpayUtils.ShippingInfo = ShippingInfo(
-  "EG", // country
-  "Cairo", // city
-  "Down Town", // state
-  "5", // apartment
-  "5", // building
-  "5", // floor
-  "Falki" // street
-);
-```
 
 ---
 
