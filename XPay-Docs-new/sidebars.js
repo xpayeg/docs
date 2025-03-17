@@ -15,6 +15,7 @@ module.exports = {
         "introduction",
         "authentication",
         "prepare-amount",
+        "create-community-API",
         "pay",
         "direct-order-api",
         "refund-api",
@@ -22,7 +23,7 @@ module.exports = {
         "dashboard-statistics-api",
         "transactions",
         "postman",
-        "woo-commerce"
+        "woo-commerce",
       ],
     },
     {
@@ -42,7 +43,7 @@ module.exports = {
       items: [
         "api-key",
         "api-payments",
-        "community-id"
+        "merchant-id"
       ],
     },
   ],

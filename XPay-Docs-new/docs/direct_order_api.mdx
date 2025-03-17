@@ -95,8 +95,10 @@ If successful, this method returns a response body with the following structure:
     },
     "data": {
         "success": true,
-        "Direct Order Link": "https://staging-iframe.xpay.app/i/community/xL4rPB7/direct-order/1BlbR48",
-        "message": "Direct order link created successfully. SMS and email notifications sent."
+        "merchant_id": "xL4rPB7",
+        "payment_id": "1BlbR48",
+        "payment_link": "https://staging-iframe.xpay.app/i/community/xL4rPB7/direct-order/1BlbR48",
+        "message": "Direct order created successfully. SMS and email notifications sent."
     },
     "count": null,
     "next": null,
@@ -106,7 +108,9 @@ If successful, this method returns a response body with the following structure:
 
 | Property name      | Value   | Description                     | Notes                                                                                                                     |
 | ------------------ | ------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
-| Direct Order Link  | string  | Direct Order Link               |                                                                                                                           |
+| merchant_id        | string  | Merchant's id                   | Same as the community_id which sent in the request.                                                                       |
+| payment_id         | string  | Direct order's unique id        |                                                                                                                           |
+| payment_link       | string  | Payment Link                    |                                                                                                                           |
 
 ## Example
 
@@ -121,7 +125,7 @@ values={[
 
 ```json
 {
-    "name": "DO created Via Api",
+    "name": "Monthly rent",
     "address": "123 Main St, City",
     "order_description": "Monthly rent payment", 
     "customer_title": "Mr.", 
@@ -194,8 +198,10 @@ values={[
     },
     "data": {
         "success": true,
-        "Direct Order Link": "https://staging-iframe.xpay.app/i/community/xL4rPB7/direct-order/1BlbR48",
-        "message": "Direct order link created successfully. SMS and email notifications sent."
+        "merchant_id": "xL4rPB7",
+        "payment_id": "1BlbR48",
+        "payment_link": "https://staging-iframe.xpay.app/i/community/xL4rPB7/direct-order/1BlbR48",
+        "message": "Direct order created successfully. SMS and email notifications sent."
     },
     "count": null,
     "next": null,
@@ -290,7 +296,10 @@ and if there is custom fields then it will be included in the request json body.
 The following is an example of the parametes sent to callback url:
 ```json
 {
+  "message": "SportingClub Monthly rent callback", // message describes the callback
   "member_id": null,
+  "payment_id": "W29gzjQ", // Direct order's unique id
+  "merchant_id": "xL4rPB7", // Merchant id
   "test label1": "",//custom field
   "total_amount": 99.99,
   "check example": true,//custom field

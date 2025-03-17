@@ -346,6 +346,8 @@ The following is an example of the request body sent to callback url in case of 
 ```json
 {
   "member_id": null,
+  "payment_id": "25", // Variable amount's unique id (similar to the one sent in request)
+  "merchant_id": "zogDmQW", // Merchant id  (similar to "community id" that sent in request)
   "test label1": "",//custom field
   "total_amount": 99.99,
   "check example": true,//custom field
@@ -361,6 +363,8 @@ The following is an example of the request body sent to callback url  in case of
 ```json
 {
   "member_id": null,
+  "payment_id": "25", // Variable amount's unique id (Similar to the one sent in the request)
+  "merchant_id": "zogDmQW", // Merchant id  (Same as the community_id sent in the request)
   "test label1": "",//custom field
   "total_amount": 99.99,
   "check example": true,//custom field
