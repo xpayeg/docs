@@ -1,0 +1,134 @@
+---
+id: validate-promocode
+title: Validate Promocode endpoint
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+
+This guide explains how to validate a promocode before applying it to a transaction. Before using this endpoint, make sure you have already created a promocode using the [Create Promocode](promo-code) section. The validation process ensures that the promocode exists, is still valid, and can be applied to the specified transaction amount.
+
+## REQUEST
+
+### testing server:
+
+```
+POST https://staging.xpay.app/api/promocodes/validate/
+```
+
+### production(Live) server:
+
+```
+GET https://community.xpay.app/api/promocodes/validate/
+```
+
+
+## Parameters
+This endpoint does not require any parameters.
+
+### Headers
+
+This endpoint does not require any headers.
+
+
+## Request body
+```json
+{
+    "name": "PROMOCODE_NAME",
+    "community_id": "YOUR_COMMUNITY_ID",
+    "phone_number": "+201XXXXXXXXX",
+    "amount": AMOUNT, // for example 100
+    "currency": "CURRENCY", // for example "EGP" or "USD"
+    "payment_for": "API_PAYMENT",
+    "variable_amount_id": "VARIABLE_AMOUNT_ID"
+}
+```
+
+### Required Properties
+
+| Property name      | Type    | Description                                    |
+| ----------------- | ------- | ---------------------------------------------- |
+| name              | string  | Promocode name                                 |
+| community_id      | string  | The ID of your community                      |
+| phone_number      | string  | Customer phone number                         |
+| amount            | number  | Transaction amount                            |
+| currency          | string  | Transaction currency (e.g., "EGP")            |
+| payment_for       | string  | Payment type                                  |
+| variable_amount_id| string  | Variable amount identifier                    |
+
+## Response
+
+If successful, this method returns a response body with the following structure:
+```json
+{
+    "status": {
+        "code": 200,
+        "message": "success",
+        "errors": []
+    },
+    "data": {
+        "value": 10.25,
+        "currency": "EGP",
+        "promocode_id": 1
+    },
+    "count": null,
+    "next": null,
+    "previous": null
+}
+```
+
+| Field           | Type    | Description                                   |
+| -------------- | ------- | ---------------------------------------------- |
+| status.code    | integer | HTTP status code                               |
+| status.message | string  | Response status message                        |
+| status.errors  | array   | List of errors if any                          |
+| data.value     | number  | Promocode value                                |
+| data.currency  | string  | Currency of the promocode value                |
+| data.promocode_id | integer | Unique identifier of the promocode          |
+
+## Example
+
+<Tabs
+  defaultValue="request"
+  values={[
+    { label: 'Request Body', value: 'request', },
+    { label: 'Response Body', value: 'response', }  ]
+}>
+<TabItem value="request">
+
+```json
+{
+    "name": "pc",
+    "community_id": "njQ2lx7",
+    "phone_number": "+201050453342",
+    "amount": 10.46,
+    "currency": "USD",
+    "payment_for": "API_PAYMENT",
+    "variable_amount_id": "34"
+}
+```
+
+</TabItem>
+
+<TabItem value="response">
+
+```json
+{
+    "status": {
+        "code": 200,
+        "message": "success",
+        "errors": []
+    },
+    "data": {
+        "value": 10.25,
+        "currency": "USD",
+        "promocode_id": 24
+    },
+    "count": null,
+    "next": null,
+    "previous": null
+}
+
+```
+</TabItem>
+</Tabs>
