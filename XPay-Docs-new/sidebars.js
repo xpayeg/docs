@@ -25,6 +25,7 @@ module.exports = {
         "transactions",
         "postman",
         "woo-commerce",
+        "deployment-status",
       ],
     },
     {
