@@ -96,6 +96,25 @@ If successful, this method returns a response body with the following structure:
 }
 ```
 
+If failed, you may receive a response body with the following structure:
+
+```json
+{
+  "status": {
+    "code": 400,
+    "message": string,
+    "errors": [
+      {"field_name": ["error message"]},
+      {"billing_data": {"nested_field": ["error message"]}}
+    ]
+  },
+  "data": {},
+  "count": null,
+  "next": null,
+  "previous": null
+}
+```
+
 | Property name      | Value   | Description                     | Notes                                                                                                                     |
 | ------------------ | ------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | iframe_url         | string  | iframe url                      | you can either embed that url in your website or redirect your user it so he/she can proceed with the payment process at. |
@@ -150,7 +169,7 @@ values={[
 </TabItem>
 <TabItem value="response">
 
-
+#### Example: Successful Payment
 ```json
 {
   "status": {
@@ -167,6 +186,32 @@ values={[
   "count": null,
   "next": null,
   "previous": null
+}
+```
+
+#### Example: Payment with Incorrect Billing Info
+```json
+{
+    "status": {
+        "code": 400,
+        "message": "",
+        "errors": [
+            {
+                "billing_data": {
+                    "name": [
+                        "Must be 2 words or more. Got 'invalidname'"
+                    ],
+                    "phone_number": [
+                        "Enter a valid phone number."
+                    ]
+                }
+            }
+        ]
+    },
+    "data": {},
+    "count": null,
+    "next": null,
+    "previous": null
 }
 ```
 
