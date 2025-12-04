@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkx_pay_docs_new=self.webpackChunkx_pay_docs_new||[]).push([[712],{7757:e=>{e.exports=JSON.parse('{"name":"docusaurus-theme-search-algolia","id":"default"}')}}]);
