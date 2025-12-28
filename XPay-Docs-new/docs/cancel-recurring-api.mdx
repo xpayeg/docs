@@ -1,0 +1,114 @@
+---
+id: cancel-recurring-api
+title: Cancel Recurring Payment API
+---
+
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import useBaseUrl from "@docusaurus/useBaseUrl";
+
+This guide explains how to cancel a recurring payment through an API call.
+
+## REQUEST
+
+### testing server:
+
+```
+GET https://staging.xpay.app/api/payments/cancel-recurring/{transaction_uuid}/
+```
+
+### production(Live) server:
+
+```
+GET https://community.xpay.app/api/payments/cancel-recurring/{transaction_uuid}/
+```
+
+## Parameters
+
+### URL Path Parameters
+
+#### Required Properties
+
+| Property name     | Value  | Description                                       | Notes                                           |
+| ----------------- | ------ | ------------------------------------------------- | ----------------------------------------------- |
+| transaction\_uuid | string | UUID that is unique to your recurring transaction | This identifies the recurring payment to cancel |
+
+### Authorization
+
+This method requires authorization, supply the header with a key value pair with that structure
+
+```json
+"x-api-key" : string
+```
+
+#### Required Properties
+
+| Property name | Value  | Description                      | Notes                             |
+| ------------- | ------ | -------------------------------- | --------------------------------- |
+| x-api-key     | string | API key linked to your community | [generate API key](api-key) |
+
+​
+
+## Request body
+
+This endpoint does not require a request body.
+
+## Response
+
+If successful, this method returns a response body with the following structure:
+
+```json
+{
+    "status": {
+        "code": 200,
+        "message": "success",
+        "errors": []
+    },
+    "data": {
+        "details": "successfully canceled your recurring payment"
+    },
+    "count": null,
+    "next": null,
+    "previous": null
+}
+```
+
+## Example
+
+<Tabs
+defaultValue="request"
+values={[
+{ label: 'Request Body', value: 'request', },
+{ label: 'Response Body', value: 'response', } ]
+}>
+<TabItem value="request">
+
+```
+GET https://staging.xpay.app/api/payments/cancel-recurring/a3d8fd1c-a919-4f4c-b1c1-2e3f6ad486d6/
+
+Headers:
+x-api-key: your-api-key-here
+```
+
+</TabItem>
+<TabItem value="response">
+
+```json
+{
+    "status": {
+        "code": 200,
+        "message": "success",
+        "errors": []
+    },
+    "data": {
+        "details": "successfully canceled your recurring payment"
+    },
+    "count": null,
+    "next": null,
+    "previous": null
+}
+```
+
+</TabItem>
+</Tabs>
+

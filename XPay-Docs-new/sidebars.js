@@ -20,6 +20,7 @@ module.exports = {
         "create-community-API",
         "direct-order-api",
         "refund-api",
+        "cancel-recurring-api",
         "capture-api",
         "dashboard-statistics-api",
         "transactions",
