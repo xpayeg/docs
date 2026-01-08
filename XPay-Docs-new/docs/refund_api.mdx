@@ -47,7 +47,7 @@ This method requires authorization, supply the header with a key value pair with
 | Property name    | Value  | Description                                       | Notes                                                                                                                                                                               |
 | ---------------- | ------ | ------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | transaction_uuid  | string | ID that is uniques to your transaction|                                                                                             |
-| amount            | float  | represents the amount to be refunded| If you sent part of the amount you will do partially refund , and if you sent all amount you will do fully refund.|
+| refund_amount            | float  | represents the amount to be refunded| If you sent part of the amount you will do partially refund , and if you sent all amount you will do fully refund.|
 
 :::danger
 Hardcoding the customer data in the production version of your app will raise a risk in the payment processor and the transaction will be declined
