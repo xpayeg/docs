@@ -6,14 +6,14 @@
 <meta name="generator" content="Docusaurus v2.0.0-alpha.69">
 <link rel="search" type="application/opensearchdescription+xml" title="XPAY" href="/docs/opensearch.xml"><title data-react-helmet="true">Transaction endpoint | XPAY</title><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="docsearch:language" content="en"><meta data-react-helmet="true" name="docsearch:version" content="current"><meta data-react-helmet="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-react-helmet="true" property="og:title" content="Transaction endpoint | XPAY"><meta data-react-helmet="true" name="description" content="After getting a response from Pay endpoint you can use this endpoint to fetch informations about the transaction such as status, transaction id , total amount paid, ETC..."><meta data-react-helmet="true" property="og:description" content="After getting a response from Pay endpoint you can use this endpoint to fetch informations about the transaction such as status, transaction id , total amount paid, ETC..."><meta data-react-helmet="true" property="og:url" content="https://xpayeg.github.io/docs/transactions"><link data-react-helmet="true" rel="shortcut icon" href="/docs/img/favicon.ico"><link data-react-helmet="true" rel="preconnect" href="https://BH4D9OD16A-dsn.algolia.net" crossorigin="anonymous"><link data-react-helmet="true" rel="canonical" href="https://xpayeg.github.io/docs/transactions"><link rel="stylesheet" href="/docs/styles.c85b5894.css">
 <link rel="preload" href="/docs/styles.447fcb0a.js" as="script">
-<link rel="preload" href="/docs/runtime~main.85182122.js" as="script">
+<link rel="preload" href="/docs/runtime~main.38e71262.js" as="script">
 <link rel="preload" href="/docs/main.dd9e1966.js" as="script">
 <link rel="preload" href="/docs/1.bdabe7bc.js" as="script">
 <link rel="preload" href="/docs/37.290eb701.js" as="script">
 <link rel="preload" href="/docs/40.231e14da.js" as="script">
 <link rel="preload" href="/docs/935f2afb.7301b878.js" as="script">
 <link rel="preload" href="/docs/36.e744720a.js" as="script">
-<link rel="preload" href="/docs/d72c6b0d.db4e8fcf.js" as="script">
+<link rel="preload" href="/docs/d72c6b0d.c194ee1b.js" as="script">
 </head>
 <body>
 <script>!function(){function t(t){document.documentElement.setAttribute("data-theme",t)}var e=function(){var t=null;try{t=localStorage.getItem("theme")}catch(t){}return t}();t(null!==e?e:"light")}()</script><div id="__docusaurus">
@@ -38,7 +38,16 @@
     &quot;payment_for&quot;: number, // in case the payment was for event, service, product or training.
     &quot;status&quot;: string,
     &quot;custom_fields_json&quot;: object,
-    &quot;total_amount_piasters&quot;: number
+    &quot;total_amount_piasters&quot;: number,
+    &quot;recurring&quot;: { // only present for recurring payments
+      &quot;parent_transaction&quot;: string, // UUID of the parent/initial transaction
+      &quot;recurring_count&quot;: integer, // Count of actually executed recurring transactions so far
+      &quot;transaction_order&quot;: integer, // Order number of this transaction in the recurring series (1, 2, 3, etc.)
+      &quot;type&quot;: string, // &quot;RECURRING&quot; for recurring payments
+      &quot;expiry_date&quot;: string, // Date when the recurring payment series expires (YYYY-MM-DD format)
+      &quot;minimum_days_between_payments&quot;: integer, // Minimum number of days between each recurring payment
+      &quot;active&quot;: boolean // Whether the recurring payment series is still active
+    }
   },
   &quot;count&quot;: integer,
   &quot;next&quot;: string,
@@ -46,7 +55,7 @@
 }
 </code></pre><h2 id="example">Example</h2><p>The following example uses Axios which is a Promise based HTTP client for the browser and node.js</p><a target="_blank" href="https://github.com/axios/axios">Axios Github repo</a><h4 id="installing">installing</h4><p>Using npm:</p><pre><code class="language-jsx">$ npm install axios
 </code></pre><p>Using jsDelivr CDN:</p><pre><code class="language-jsx">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js&quot;&gt;&lt;/script&gt;
-</code></pre><div><ul role="tablist" aria-orientation="horizontal" class="tabs"><li role="tab" tabindex="0" aria-selected="true" class="tabs__item tabItem_1w39 tabs__item--active">Request Body</li><li role="tab" tabindex="0" aria-selected="false" class="tabs__item tabItem_1w39">Response Body</li></ul><div class="margin-vert--md"><div role="tabpanel"><pre><code class="language-jsx">axios({
+</code></pre><div><ul role="tablist" aria-orientation="horizontal" class="tabs"><li role="tab" tabindex="0" aria-selected="true" class="tabs__item tabItem_1w39 tabs__item--active">Request Body</li><li role="tab" tabindex="0" aria-selected="false" class="tabs__item tabItem_1w39">Response Body</li><li role="tab" tabindex="0" aria-selected="false" class="tabs__item tabItem_1w39">Response Body (Recurring)</li></ul><div class="margin-vert--md"><div role="tabpanel"><pre><code class="language-jsx">axios({
   method: &quot;get&quot;,
   url:
     &quot;https://staging.xpay.app/api/v1/communities/JZ40KjN/transactions/2e1b68de-53f3-4228-a509-53560477a860/&quot;,
@@ -73,15 +82,37 @@
   &quot;total_amount_piasters&quot;: 1250,
   &quot;uuid&quot;: &quot;2e1b68de-53f3-4228-a509-53560477a860&quot;
 }
+</code></pre></div><div role="tabpanel" hidden=""><pre><code class="language-json">{
+  &quot;created&quot;: &quot;2025-01-20T14:30:15.123456+02:00&quot;,
+  &quot;custom_fields_json&quot;: null,
+  &quot;id&quot;: 2845,
+  &quot;member_id&quot;: &quot;98765&quot;,
+  &quot;payment_for&quot;: &quot;API_PAYMENT&quot;,
+  &quot;quantity&quot;: null,
+  &quot;status&quot;: &quot;SUCCESSFUL&quot;,
+  &quot;total_amount&quot;: &quot;150.00&quot;,
+  &quot;total_amount_currency&quot;: &quot;EGP&quot;,
+  &quot;total_amount_piasters&quot;: 15000,
+  &quot;uuid&quot;: &quot;8ac127e0-e046-4dc1-83a9-baf388b974a7&quot;,
+  &quot;recurring&quot;: {
+    &quot;parent_transaction&quot;: &quot;7bc028f1-f157-5ed2-94ba-cbg499c085b8&quot;,
+    &quot;recurring_count&quot;: 2,
+    &quot;transaction_order&quot;: 2,
+    &quot;type&quot;: &quot;RECURRING&quot;,
+    &quot;expiry_date&quot;: &quot;2026-01-23&quot;,
+    &quot;minimum_days_between_payments&quot;: 30,
+    &quot;active&quot;: true
+  }
+}
 </code></pre></div></div></div></div></article><div class="margin-vert--lg"><nav class="pagination-nav" aria-label="Blog list page navigation"><div class="pagination-nav__item"><a class="pagination-nav__link" href="/docs/dashboard-statistics-api"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">« Dashboard Statistics</div></a></div><div class="pagination-nav__item pagination-nav__item--next"><a class="pagination-nav__link" href="/docs/postman"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">Postman Collection »</div></a></div></nav></div></div></div><div class="col col--3"><div class="tableOfContents_3SO_ thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#url" class="table-of-contents__link">URL</a><ul><li><a href="#testing-server" class="table-of-contents__link">testing server:</a></li><li><a href="#productionlive-server" class="table-of-contents__link">production(Live) server:</a></li></ul></li><li><a href="#authentication" class="table-of-contents__link">Authentication</a></li><li><a href="#parameters" class="table-of-contents__link">Parameters</a><ul><li><a href="#path-parameters" class="table-of-contents__link">Path parameters</a></li></ul></li><li><a href="#request-body" class="table-of-contents__link">Request body</a></li><li><a href="#response-body" class="table-of-contents__link">Response body</a></li><li><a href="#example" class="table-of-contents__link">Example</a></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="row footer__links"><div class="col footer__col"><h4 class="footer__title">Community</h4><ul class="footer__items"><li class="footer__item"><a href="https://facebook.com/xpayeg" target="_blank" rel="noopener noreferrer" class="footer__link-item">Facebook</a></li><li class="footer__item"><a href="https://twitter.com/xpayeg" target="_blank" rel="noopener noreferrer" class="footer__link-item">Twitter</a></li><li class="footer__item"><a href="https://xpay.app" target="_blank" rel="noopener noreferrer" class="footer__link-item">Website</a></li></ul></div></div><div class="text--center"><div>Copyright © 2026 My Project, Inc. Built with Docusaurus.</div></div></div></footer></div>
 <script src="/docs/styles.447fcb0a.js"></script>
-<script src="/docs/runtime~main.85182122.js"></script>
+<script src="/docs/runtime~main.38e71262.js"></script>
 <script src="/docs/main.dd9e1966.js"></script>
 <script src="/docs/1.bdabe7bc.js"></script>
 <script src="/docs/37.290eb701.js"></script>
 <script src="/docs/40.231e14da.js"></script>
 <script src="/docs/935f2afb.7301b878.js"></script>
 <script src="/docs/36.e744720a.js"></script>
-<script src="/docs/d72c6b0d.db4e8fcf.js"></script>
+<script src="/docs/d72c6b0d.c194ee1b.js"></script>
 </body>
 </html>
