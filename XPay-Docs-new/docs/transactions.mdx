@@ -68,7 +68,16 @@ If successful, this method returns a response body with the following structure:
     "payment_for": number, // in case the payment was for event, service, product or training.
     "status": string,
     "custom_fields_json": object,
-    "total_amount_piasters": number
+    "total_amount_piasters": number,
+    "recurring": { // only present for recurring payments
+      "parent_transaction": string, // UUID of the parent/initial transaction
+      "recurring_count": integer, // Count of actually executed recurring transactions so far
+      "transaction_order": integer, // Order number of this transaction in the recurring series (1, 2, 3, etc.)
+      "type": string, // "RECURRING" for recurring payments
+      "expiry_date": string, // Date when the recurring payment series expires (YYYY-MM-DD format)
+      "minimum_days_between_payments": integer, // Minimum number of days between each recurring payment
+      "active": boolean // Whether the recurring payment series is still active
+    }
   },
   "count": integer,
   "next": string,
@@ -102,7 +111,8 @@ Using jsDelivr CDN:
   defaultValue="request"
   values={[
     { label: 'Request Body', value: 'request', },
-    { label: 'Response Body', value: 'response', }  ]
+    { label: 'Response Body', value: 'response', },
+    { label: 'Response Body (Recurring)', value: 'response-recurring', }  ]
 }>
 <TabItem value="request">
 
@@ -139,6 +149,34 @@ axios({
   "total_amount_currency": "EGP",
   "total_amount_piasters": 1250,
   "uuid": "2e1b68de-53f3-4228-a509-53560477a860"
+}
+```
+
+</TabItem>
+<TabItem value="response-recurring">
+
+```json
+{
+  "created": "2025-01-20T14:30:15.123456+02:00",
+  "custom_fields_json": null,
+  "id": 2845,
+  "member_id": "98765",
+  "payment_for": "API_PAYMENT",
+  "quantity": null,
+  "status": "SUCCESSFUL",
+  "total_amount": "150.00",
+  "total_amount_currency": "EGP",
+  "total_amount_piasters": 15000,
+  "uuid": "8ac127e0-e046-4dc1-83a9-baf388b974a7",
+  "recurring": {
+    "parent_transaction": "7bc028f1-f157-5ed2-94ba-cbg499c085b8",
+    "recurring_count": 2,
+    "transaction_order": 2,
+    "type": "RECURRING",
+    "expiry_date": "2026-01-23",
+    "minimum_days_between_payments": 30,
+    "active": true
+  }
 }
 ```
 
