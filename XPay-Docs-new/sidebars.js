@@ -56,6 +56,7 @@ module.exports = {
       items: [
         "api-key",
         "api-payments",
+        "apple-pay-integration",
         "merchant-id"
       ],
     },

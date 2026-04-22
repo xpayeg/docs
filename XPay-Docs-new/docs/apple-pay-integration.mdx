@@ -1,0 +1,44 @@
+---
+id: apple-pay-integration
+title: Apple Pay setup
+---
+
+Apple Pay appears in checkout after the **XPay team activates** it—contact them to request it.
+
+**If you redirect customers to XPay checkout** (payment link, hosted page, or checkout URL from your API), you **only need that activation**—you can skip the rest of this page. No Apple Developer or Dashboard Apple Pay setup is required on your side.
+
+---
+
+## Embedded checkout on your domain
+
+If checkout runs **on your own domain** (embedded), Apple requires domain verification and certificates. After Apple Pay is enabled for you:
+
+1. Open [Apple Pay settings](https://community.xpay.app/admin/api_integrations/apple-pay-settings/) and follow the steps for your **merchant** or **community**.  
+2. You need an **Apple Developer Program** account, an **Apple Merchant ID**, and a way to host Apple’s file under `/.well-known/` on that domain.  
+3. Use XPay’s CSRs in Apple’s portal to create **Merchant Identity** and **Payment Processing** certificates, then **upload both** to XPay.  
+4. Save **Merchant Identifier** and **Domain** in the Dashboard exactly as in Apple Developer (domain only—no `https://` or path).
+
+The verification file must be reachable at:
+
+`https://<your-domain>/.well-known/apple-developer-merchantid-domain-association`
+
+---
+
+## APIs
+
+- **Direct Order API** — `"apple"` in `payment_methods`.  
+- **Variable-amount pay** — `pay_using`: `"apple"`.  
+
+Use the **checkout URL** from the response as for other methods.
+
+---
+
+## Testing
+
+Apple Pay is **not supported on XPay test environments**. Use **production** after setup is complete, or contact **XPay support** if you need guidance.
+
+---
+
+## Need help?
+
+Contact XPay with: **hosted vs embedded**, **merchant or community name**, and **domain** (if embedded).
