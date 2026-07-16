@@ -7,31 +7,23 @@ import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import useBaseUrl from "@docusaurus/useBaseUrl";
 
-This guide explains how to cancel a recurring payment through an API call.
+This guide explains how to cancel a recurring payment through an API call. Canceling stops all future charges in the recurring series; charges that have already been made are unaffected.
 
 ## REQUEST
 
 ### testing server:
 
 ```
-GET https://staging.xpay.app/api/payments/cancel-recurring/{transaction_uuid}/
+POST https://staging.xpay.app/api/payments/cancel-recurring-payment/
 ```
 
 ### production(Live) server:
 
 ```
-GET https://community.xpay.app/api/payments/cancel-recurring/{transaction_uuid}/
+POST https://community.xpay.app/api/payments/cancel-recurring-payment/
 ```
 
 ## Parameters
-
-### URL Path Parameters
-
-#### Required Properties
-
-| Property name     | Value  | Description                                       | Notes                                           |
-| ----------------- | ------ | ------------------------------------------------- | ----------------------------------------------- |
-| transaction\_uuid | string | UUID that is unique to your recurring transaction | This identifies the recurring payment to cancel |
 
 ### Authorization
 
@@ -43,15 +35,19 @@ This method requires authorization, supply the header with a key value pair with
 
 #### Required Properties
 
-| Property name | Value  | Description                      | Notes                             |
-| ------------- | ------ | -------------------------------- | --------------------------------- |
+| Property name | Value  | Description                      | Notes                       |
+| ------------- | ------ | -------------------------------- | --------------------------- |
 | x-api-key     | string | API key linked to your community | [generate API key](api-key) |
 
 ​
 
 ## Request body
 
-This endpoint does not require a request body.
+### Required Properties
+
+| Property name     | Value  | Description                                       | Notes                                           |
+| ----------------- | ------ | ------------------------------------------------- | ----------------------------------------------- |
+| transaction\_uuid | string | UUID that is unique to your recurring transaction | This identifies the recurring payment to cancel |
 
 ## Response
 
@@ -65,7 +61,7 @@ If successful, this method returns a response body with the following structure:
         "errors": []
     },
     "data": {
-        "details": "successfully canceled your recurring payment"
+        "message": "Recurring payment was successfully cancelled."
     },
     "count": null,
     "next": null,
@@ -84,10 +80,17 @@ values={[
 <TabItem value="request">
 
 ```
-GET https://staging.xpay.app/api/payments/cancel-recurring/a3d8fd1c-a919-4f4c-b1c1-2e3f6ad486d6/
+POST https://staging.xpay.app/api/payments/cancel-recurring-payment/
 
 Headers:
 x-api-key: your-api-key-here
+Content-Type: application/json
+```
+
+```json
+{
+    "transaction_uuid": "a3d8fd1c-a919-4f4c-b1c1-2e3f6ad486d6"
+}
 ```
 
 </TabItem>
@@ -101,7 +104,7 @@ x-api-key: your-api-key-here
         "errors": []
     },
     "data": {
-        "details": "successfully canceled your recurring payment"
+        "message": "Recurring payment was successfully cancelled."
     },
     "count": null,
     "next": null,
@@ -111,4 +114,3 @@ x-api-key: your-api-key-here
 
 </TabItem>
 </Tabs>
-
