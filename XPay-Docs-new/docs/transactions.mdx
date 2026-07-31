@@ -72,7 +72,7 @@ If successful, this method returns a response body with the following structure:
     "recurring": { // only present for recurring payments
       "parent_transaction": string, // UUID of the parent/initial transaction
       "recurring_count": integer, // Count of actually executed recurring transactions so far
-      "transaction_order": integer, // Order number of this transaction in the recurring series (1, 2, 3, etc.)
+      "transaction_order": integer, // Position of this transaction among the successful charges (1, 2, 3, etc.); returns 0 for a failed attempt
       "type": string, // "RECURRING" for recurring payments
       "expiry_date": string, // Date when the recurring payment series expires (YYYY-MM-DD format)
       "minimum_days_between_payments": integer, // Minimum number of days between each recurring payment

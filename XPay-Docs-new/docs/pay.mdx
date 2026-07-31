@@ -429,4 +429,19 @@ The following is an example of the request body sent to callback url  in case of
  `Note`:
 callback we be sent in case of success and failure of the transaction
 
+`Note (recurring payments)`:
+For recurring payments, the callback body additionally includes a `recurring` object:
+
+| Property name      | Value   | Description                                                                 |
+| ------------------ | ------- | --------------------------------------------------------------------------- |
+| is_sub_payment     | boolean | `true` for an automatic renewal charge, `false` for the initial payment     |
+| parent_transaction | string  | UUID of the parent subscription (use it to cancel the recurring payment)    |
+
+```json
+"recurring": {
+  "is_sub_payment": true,
+  "parent_transaction": "7bc028f1-f157-5ed2-94ba-cbg499c085b8"
+}
+```
+
 
